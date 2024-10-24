@@ -1,0 +1,12 @@
+{
+    "login": {
+    "title": "Connexion",
+    "emailLabel": "Adresse e-mail",
+    "emailPlaceholder": "Entrez votre e-mail",
+    "passwordLabel": "Mot de passe",
+    "passwordPlaceholder": "Entrez votre mot de passe",
+    "forgotPassword": "Mot de passe oublié ?",
+    "signInBtn": "Se connecter"
+}
+
+}

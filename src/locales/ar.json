@@ -1,0 +1,12 @@
+{
+    "login": {
+    "title": "تسجيل الدخول",
+    "emailLabel": "عنوان البريد الإلكتروني",
+    "emailPlaceholder": "أدخل بريدك الإلكتروني",
+    "passwordLabel": "كلمة المرور",
+    "passwordPlaceholder": "أدخل كلمة المرور الخاصة بك",
+    "forgotPassword": "هل نسيت كلمة المرور؟",
+    "signInBtn": "تسجيل الدخول"
+}
+
+}
