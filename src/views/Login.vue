@@ -1,6 +1,6 @@
 <template>
   <div
-    class="container d-flex justify-content-center align-items-center vh-100"
+    class="container cont-parent d-flex justify-content-center m-auto align-items-center"
   >
     <div class="card p-4 shadow w-100" style="max-width: 400px">
       <h4 class="text-center mb-4">{{ t("login.title") }}</h4>
@@ -43,58 +43,34 @@
     </div>
   </div>
   <div class="div">
-    <SuccessModal
-      :title="dataModal.title"
-      :msg="dataModal.msg"
-      valid="Ok"
-      :icon="dataModal.icon"
-    />
+    <SuccessModal />
   </div>
 </template>
 
 <script setup>
 import { useI18n } from "vue-i18n";
 import SuccessModal from "@/components/MessageModal.vue";
-import { Modal } from "bootstrap/dist/js/bootstrap.bundle.min";
-import { storeAuth } from "@/stores/store";
-import { ref } from "vue";
-
-import successfull from "@/assets/icons/successfull.svg";
-import denied from "@/assets/icons/warning.svg";
+import { storeAuth } from "@/stores/storeAuth";
 import router from "@/router";
+import { globalyStore } from "@/stores/storeGlobaly";
 
 const { t } = useI18n();
 const storeLogin = storeAuth();
-
-const dataModal = ref({
-  title: t("login.title"),
-  icon: null,
-  msg: null,
-});
-
+const storeGlobaly = globalyStore();
 const login = async () => {
   try {
     await storeLogin.login();
-    dataModal.value.icon = successfull;
-    dataModal.value.msg = "Connexion réussie";
-    const modal = new Modal(document.getElementById("successModal"));
-    modal.show();
+    await storeGlobaly.MessageModalSuccess("Connexion réussie", "Connexion");
+
     router.push("/home");
   } catch (error) {
-    dataModal.value.icon = denied;
-    dataModal.value.msg = "Erreur de connexion";
-    const modal = new Modal(document.getElementById("successModal"));
-    modal.show();
+    await storeGlobaly.MessageModalDenied("Erreur de connexion", "Connexion");
   }
 };
-// const openModal = () => {
-//   const modal = new Modal(document.getElementById("successModal"));
-//   modal.show();
-// };
 </script>
 
 <style scoped>
-.vh-100 {
-  height: 100vh;
+.cont-parent {
+  height: 90vh;
 }
 </style>

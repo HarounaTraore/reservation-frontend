@@ -1,12 +1,27 @@
 {
     "login": {
-    "title": "Connexion",
-    "emailLabel": "Adresse e-mail",
-    "emailPlaceholder": "Entrez votre e-mail",
-    "passwordLabel": "Mot de passe",
-    "passwordPlaceholder": "Entrez votre mot de passe",
-    "forgotPassword": "Mot de passe oublié ?",
-    "signInBtn": "Se connecter"
-}
-
+        "title": "Connexion",
+        "emailLabel": "Adresse e-mail",
+        "emailPlaceholder": "Entrez votre e-mail",
+        "passwordLabel": "Mot de passe",
+        "passwordPlaceholder": "Entrez votre mot de passe",
+        "forgotPassword": "Mot de passe oublié ?",
+        "signInBtn": "Se connecter"
+    },
+    "modal": {
+        "title": "Formulaire de Salle",
+        "name": "Nom",
+        "capacity": "Capacité",
+        "status": "Statut",
+        "chooseStatus": "Choisir le Statut",
+        "reserved": "Réservée",
+        "notReserved": "Non Réservée",
+        "equipment": "Équipements",
+        "equipmentPlaceholder": "Liste des équipements",
+        "close": "Fermer",
+        "save": "Enregistrer",
+        "openForm": "Ouvrir le formulaire",
+        "namePlaceholder": "Nom de la Salle",
+        "capacityPlaceholder": "Capacité de la Salle"
+    }
 }
