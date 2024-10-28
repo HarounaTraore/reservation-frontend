@@ -7,6 +7,10 @@ import NotFound from "@/views/NotFound.vue";
 import RoomList from "@/views/rooms/RoomList.vue";
 import RoomShow from "@/views/rooms/RoomShow.vue";
 import RoomEdit from "@/views/rooms/RoomEdit.vue";
+import CustomerManagement from "@/views/customers/CustomerManagement.vue";
+import CustomerAdd from "@/views/customers/CustomerAdd.vue";
+import CustomerShow from "@/views/customers/CustomerShow.vue";
+import CustomerEdit from "@/views/customers/CustomerEdit.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -45,6 +49,26 @@ const router = createRouter({
       path: "/room/edit/:id",
       name: "edit-room",
       component: RoomEdit,
+    },
+    {
+      path: "/customer",
+      name: "customer",
+      component: CustomerManagement,
+    },
+    {
+      path: "/customer/add",
+      name: "add-customer",
+      component: CustomerAdd,
+    },
+    {
+      path: "/customer/show",
+      name: "show-customer",
+      component: CustomerShow,
+    },
+    {
+      path: "/customer/edit/:id",
+      name: "edit-customer",
+      component: CustomerEdit,
     },
     { path: "/:pathMatch(.*)*", component: NotFound },
   ],

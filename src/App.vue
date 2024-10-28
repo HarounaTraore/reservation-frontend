@@ -48,25 +48,26 @@ const toggleSidebar = () => {
       </div>
 
       <BtnSideBar
-        btn-active="mt-3 p-auto"
+        btn-active="mt-3 text-truncate p-auto"
         icon="'fa fa-solid fa-chart-line  p-0"
         color="#FD0D8F"
         title="Dash Bord"
         :hiden-title="!isSidebarCollapsed"
       />
       <BtnSideBar
-        btn-active="mt-3 p-auto"
+        btn-active="mt-3 text-truncate p-auto"
         color="#6f42c1"
-        icon="'bi bi-building p-0"
+        icon="'bi  bi-building p-0"
         title="Gestion des Salles"
         :hiden-title="!isSidebarCollapsed"
         @click="router.push({name: 'room'})"
       />
       <BtnSideBar
-        btn-active="mt-3 p-auto"
+        btn-active="mt-3 text-truncate p-auto"
         icon="fa-solid fa-users-line   p-0"
         title="Gestion des Cients"
         :hiden-title="!isSidebarCollapsed"
+        @click="router.push({name: 'customer'})"
       />
       <BtnSideBar
         btn-active="mt-3 p-auto"
