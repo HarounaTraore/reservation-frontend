@@ -11,7 +11,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title fw-bold w-100 text-center">
-            Ajouter Un Client
+            Affichage
           </h5>
           <button
             type="button"

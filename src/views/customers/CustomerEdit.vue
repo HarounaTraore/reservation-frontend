@@ -1,6 +1,7 @@
 <template>
   <!-- Modal -->
   <div
+  v-if="showModal"
     class="modal fade"
     id="exampleModal"
     tabindex="-1"
@@ -11,7 +12,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title fw-bold w-100 text-center">
-            Ajouter Un Client
+            Modification
           </h5>
           <button
             type="button"
@@ -110,6 +111,7 @@ import router from "@/router";
 import { storeCustomer } from "@/stores/storeCustomer";
 const { t } = useI18n();
 
+const showModal = ref(true)
 const storeGlobaly = globalyStore();
 const route = useRoute();
 const store = storeCustomer();
@@ -145,7 +147,7 @@ const editCustomer = async () => {
     store.customer.name = "";
     store.customer.address = "";
     store.customer.phone = "";
-
+    showModal.value = false
     router.push({ name: "customer" });
   } catch (error) {
     await storeGlobaly.MessageModalDenied(

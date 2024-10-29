@@ -16,7 +16,7 @@ export const globalyStore = defineStore("globalyStore", () => {
     modal.show();
   }
   async function MessageModalDenied(msg, title) {
-    dataModal.value.icon = 'fa-solid fa-circle-exclamation text-danger'
+    dataModal.value.icon = 'fa-solid fa-triangle-exclamation text-danger'
     dataModal.value.msg = msg;
     dataModal.value.title = title;
     const modal = new Modal(document.getElementById("successModal"));

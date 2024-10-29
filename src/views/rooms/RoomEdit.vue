@@ -121,7 +121,7 @@
           <button
             v-if="!isDisabled"
             type="button"
-            @click="updateRoom, router.push({ name: 'list-room' })"
+            @click="updateRoom"
             class="btn btn-primary"
             data-bs-dismiss="modal"
           >
@@ -167,6 +167,7 @@ const updateRoom = async () => {
     store.room.capacity = "";
     store.room.equipment = "";
     store.room.status = "";
+    router.push({ name: 'list-room' })
   } catch (error) {
     await storeGlobaly.MessageModalDenied(
       "Erreur lors de la modification",

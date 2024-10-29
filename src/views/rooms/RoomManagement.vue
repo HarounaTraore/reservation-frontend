@@ -84,6 +84,10 @@ onMounted(() => {
 </script>
   
   <style scoped>
+   .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
 .nav-link.active {
   background-color: #e9ecef;
   font-weight: bold;
@@ -94,6 +98,7 @@ onMounted(() => {
   overflow-y: inherit;
   border-radius: 0.75rem;
   box-shadow: 0 0.125rem 1rem rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease;
 }
 
 .card-body {

@@ -9,83 +9,20 @@ const store = storeAuth();
 const { t } = useI18n();
 const { locale } = useI18n();
 const isSidebarCollapsed = ref(false);
-const router = useRouter()
+const router = useRouter();
 
 const changeLanguage = (event) => {
   locale.value = event.target.value;
 };
-const toggleSidebar = () => {
-  isSidebarCollapsed.value = !isSidebarCollapsed.value;
-};
+
 </script>
 
 <template>
   <div class="container-fluid p-0 m-0 d-flex">
-    <div
-      v-if="store.userActif?.name"
-      :class="[
-        'sticky-top',
-        'sid-bar',
-        'p-2',
-        'border-end',
-        'bg-white',
-        'd-flex',
-        'flex-column',
-        { collapsed: isSidebarCollapsed },
-      ]"
-    >
-      <div class="d-flex align-items-center">
-        <img
-          src="../public/user-profil.svg"
-          alt="User"
-          class="rounded-circle mt-2 me-2"
-          :width="!isSidebarCollapsed ? 30 : 40"
-          :style="isSidebarCollapsed ? 'margin: auto' : 0"
-        />
-        <span class="fw-bold" v-if="!isSidebarCollapsed">{{
-          store.userActif?.name
-        }}</span>
-      </div>
-
-      <BtnSideBar
-        btn-active="mt-3 text-truncate p-auto"
-        icon="'fa fa-solid fa-chart-line  p-0"
-        color="#FD0D8F"
-        title="Dash Bord"
-        :hiden-title="!isSidebarCollapsed"
-      />
-      <BtnSideBar
-        btn-active="mt-3 text-truncate p-auto"
-        color="#6f42c1"
-        icon="'bi  bi-building p-0"
-        title="Gestion des Salles"
-        :hiden-title="!isSidebarCollapsed"
-        @click="router.push({name: 'room'})"
-      />
-      <BtnSideBar
-        btn-active="mt-3 text-truncate p-auto"
-        icon="fa-solid fa-users-line   p-0"
-        title="Gestion des Cients"
-        :hiden-title="!isSidebarCollapsed"
-        @click="router.push({name: 'customer'})"
-      />
-      <BtnSideBar
-        btn-active="mt-3 p-auto"
-        icon="'fa fa-solid fa-users  d-flex justify-content-between p-0"
-        title="Réservations"
-        :hiden-title="!isSidebarCollapsed"
-      />
-      <BtnSideBar
-        btn-active="mt-3 p-auto"
-        icon="'fa fa-solid fa-users d-flex justify-content-between p-0"
-        title="Utilisateurs"
-        :hiden-title="!isSidebarCollapsed"
-      />
-    </div>
-
     <div class="body w-100">
       <header
-        class="sticky-top border-bottom bg-white border-1 container-fluid d-flex justify-content-between m-0 align-items-center"
+        
+  class="header border-bottom bg-white border-1 container-fluid d-flex justify-content-between m-0 align-items-center"
       >
         <nav
           class="container-fluid w-100 align-items-center p-0 m-0 d-flex justify-content-between"
@@ -106,11 +43,11 @@ const toggleSidebar = () => {
             >
           </div>
 
-          <div class="right d-flex  ">
+          <div class="right d-flex">
             <select
               name="language"
               id="language"
-              class="form-select  border border-0 m-lg-4"
+              class="form-select border border-0 m-lg-4"
               @change="changeLanguage"
             >
               <option value="en">EN</option>
@@ -128,13 +65,12 @@ const toggleSidebar = () => {
   </div>
 </template>
 
+
 <style scoped>
-.sid-bar {
-  transition: width 0.5s;
-  height: 100vh;
-  width: 250px;
-}
-.sid-bar.collapsed {
-  width: 80px;
+.header {
+  height: 60px; 
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 </style>

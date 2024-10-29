@@ -122,7 +122,7 @@
           <button
             v-if="!isDisabled"
             type="button"
-            @click="createNewRoom, router.push({ name: 'list-room' })"
+            @click="createNewRoom"
             class="btn btn-primary"
           >
             {{ $t("modal.save") }}
@@ -158,6 +158,7 @@ const createNewRoom = async () => {
     store.room.capacity = "";
     store.room.equipment = "";
     store.room.status = "";
+    router.push({ name: 'list-room' })
   } catch (error) {
     await storeGlobaly.MessageModalDenied(
       "Erreur lors de la creation",

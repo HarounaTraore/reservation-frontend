@@ -33,7 +33,7 @@ export const storeRoom = defineStore("room", () => {
   };
   const addRoom = async () => {
     try {
-      await axios.post(
+      const result = await axios.post(
         "http://127.0.0.1:3000/api/room",
         {
           name: room.value.name,
@@ -44,6 +44,9 @@ export const storeRoom = defineStore("room", () => {
         { headers: { Authorization: `Bearer ${savedUserActif.token}` } }
       );
       await loadingData();
+      console.log(result);
+
+      return result;
     } catch (error) {
       throw error;
     }
@@ -100,14 +103,14 @@ export const storeRoom = defineStore("room", () => {
     }
   };
 
-  const reserDataRoom = ()=>{
-    room.value.id = ""
-    room.value.name = ""
-    room.value.capacity = ""
-    room.value.equipment = ""
-    room.value.status = ""
-    room.value.userId = ""
-  }
+  const reserDataRoom = () => {
+    room.value.id = "";
+    room.value.name = "";
+    room.value.capacity = "";
+    room.value.equipment = "";
+    room.value.status = "";
+    room.value.userId = "";
+  };
   return {
     rooms,
     room,

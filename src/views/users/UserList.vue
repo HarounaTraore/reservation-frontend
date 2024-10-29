@@ -2,10 +2,10 @@
   <div class="container mt-3 ms-2 w-auto d-flex justify-content-end mb-2">
     <button
       class="btn btn-primary me-3 fw-bold"
-      @click="router.push({ name: 'add-customer' })"
+      @click="router.push({ name: 'add-user' })"
     >
       <i class="fa fa-plus me-1"></i>
-      Nouveau Client
+      Nouveau Utilisateur
     </button>
   </div>
   <table class="table table-striped table-bordered m-auto">
@@ -19,24 +19,24 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-if="store.customers.length === 0">
+      <tr v-if="store.users.length === 0">
         <td colspan="4" class="text-danger text-center fw-bold">
           No Client registered
         </td>
       </tr>
-      <tr v-else v-for="(customer, index) in store.customers" :key="index">
-        <td class="text-center">{{ customer?.id }}</td>
-        <td>{{ customer.name }}</td>
-        <td class="responsive-hide">{{ customer.address }}</td>
+      <tr v-else v-for="(user, index) in store.users" :key="index">
+        <td class="text-center">{{ user?.id }}</td>
+        <td>{{ user.name }}</td>
+        <td class="responsive-hide">{{ user.address }}</td>
         <td class="responsive-hide">
-          {{ customer.phone }}
+          {{ user.phone }}
         </td>
         <td class="text-center">
           <button
             class="btn-sm btn btn-outline-primary ms-2"
             @click="
-              store.findCustomer(customer.id),
-                router.push({ name: 'show-customer' })
+              store.finduser(user.id),
+                router.push({ name: 'show-user' })
             "
           >
             <i class="fas fa-eye"></i>
@@ -44,17 +44,17 @@
           <button
             class="btn-sm btn btn-outline-secondary ms-2"
             @click="
-              store.findCustomer(customer.id),
+              store.finduser(user.id),
                 router.push({
-                  name: 'edit-customer',
-                  params: { id: customer.id },
+                  name: 'edit-user',
+                  params: { id: user.id },
                 })
             "
           >
             <i class="fas fa-edit"></i>
           </button>
           <button
-            @click="destroyCustomer(customer.id)"
+            @click="destroyuser(user.id)"
             class="btn-sm btn btn-outline-danger ms-2"
           >
             <i class="fa fa-trash"></i>
@@ -63,27 +63,27 @@
       </tr>
     </tbody>
   </table>
-  <customerModal />
+  <userModal />
   <MessageModal valid=" OK" />
 </template>
-  
-  <script setup>
+    
+    <script setup>
 import MessageModal from "@/components/MessageModal.vue";
 import router from "@/router";
-import { storeCustomer } from "@/stores/storeCustomer";
 import { globalyStore } from "@/stores/storeGlobaly";
+import { storeUser } from "@/stores/storeUser";
 import { onMounted } from "vue";
-const store = storeCustomer();
+
+const store = storeUser();
 const storeGlobaly = globalyStore();
 onMounted(async () => {
   await store.loadingData();
 });
 
-
-const destroyCustomer = async (id) => {
+const destroyuser = async (id) => {
   try {
     if (confirm("Etes-vous sur de vouloir supprimer ce clients ?"))
-      await store.deleteCustomer(id);
+      await store.deleteuser(id);
     await storeGlobaly.MessageModalSuccess(
       "Client Supprimé Avec Succès",
       "Suppression"
@@ -97,8 +97,8 @@ const destroyCustomer = async (id) => {
   }
 };
 </script>
-  
-  <style scoped>
+    
+    <style scoped>
 @media (max-width: 650px) {
   .responsive-hide {
     transition: width 0.5s;
