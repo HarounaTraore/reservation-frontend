@@ -92,7 +92,7 @@ export const storeCustomer = defineStore("customer", () => {
       );
       await loadingData();
       console.log(result);
-      
+
       return result;
     } catch (error) {
       throw error;
@@ -100,12 +100,11 @@ export const storeCustomer = defineStore("customer", () => {
   };
 
   const reserDataCustomer = () => {
-    customer.value.id = "";
     customer.value.name = "";
-    customer.value.capacity = "";
-    customer.value.equipment = "";
-    customer.value.status = "";
+    customer.value.address = "";
+    customer.value.id = "";
     customer.value.userId = "";
+    customer.value.phone = "";
   };
   return {
     customer,
@@ -115,5 +114,6 @@ export const storeCustomer = defineStore("customer", () => {
     findCustomer,
     updateCustomer,
     deleteCustomer,
+    reserDataCustomer,
   };
 });

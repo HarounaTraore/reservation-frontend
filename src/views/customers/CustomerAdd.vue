@@ -69,7 +69,9 @@
                     required
                   />
                 </div>
-                <p v-if="phoneError" class="text-danger fs-6">{{ phoneError }}</p>
+                <p v-if="phoneError" class="text-danger fs-6">
+                  {{ phoneError }}
+                </p>
               </div>
             </div>
           </div>
@@ -79,11 +81,15 @@
               class="btn btn-secondary"
               data-bs-dismiss="modal"
               @click="router.push({ name: 'customer' })"
-             
             >
               {{ $t("modal.close") }}
             </button>
-            <button type="submit"  :disabled="phoneError" class="btn btn-primary">
+            <button
+              type="submit"
+              data-bs-dismiss="modal"
+              :disabled="phoneError"
+              class="btn btn-primary"
+            >
               {{ $t("modal.save") }}
             </button>
           </div>
@@ -115,16 +121,15 @@ onMounted(() => {
   modal.show();
 });
 
-const phoneError = ref("");
+const phoneError = ref('');
 
-// Fonction de validation
 const validatePhone = () => {
   const regex = /^[234]\d{7}$/;
   if (!regex.test(customer.phone)) {
     phoneError.value =
       "Le numéro de téléphone doit comporter 8 chiffres et commencer par 2, 3 ou 4.";
   } else {
-    phoneError.value = "";
+    phoneError.value = false;
   }
 };
 

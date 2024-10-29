@@ -1,7 +1,7 @@
 <template>
   <!-- Modal -->
   <div
-  v-if="showModal"
+    v-if="showModal"
     class="modal fade"
     id="exampleModal"
     tabindex="-1"
@@ -11,9 +11,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title fw-bold w-100 text-center">
-            Modification
-          </h5>
+          <h5 class="modal-title fw-bold w-100 text-center">Modification</h5>
           <button
             type="button"
             class="btn-close"
@@ -89,6 +87,7 @@
               type="submit"
               :disabled="phoneError"
               class="btn btn-primary"
+              data-bs-dismiss="modal"
             >
               {{ $t("modal.save") }}
             </button>
@@ -111,7 +110,7 @@ import router from "@/router";
 import { storeCustomer } from "@/stores/storeCustomer";
 const { t } = useI18n();
 
-const showModal = ref(true)
+const showModal = ref(true);
 const storeGlobaly = globalyStore();
 const route = useRoute();
 const store = storeCustomer();
@@ -122,8 +121,7 @@ onMounted(() => {
   modal.show();
 });
 
-const phoneError = ref("");
-
+const phoneError = ref(false);
 
 const validatePhone = () => {
   const regex = /^[234]\d{7}$/;
@@ -135,7 +133,7 @@ const validatePhone = () => {
   }
 };
 
-const id = Number(route.params.id); 
+const id = Number(route.params.id);
 
 const editCustomer = async () => {
   try {
@@ -147,7 +145,6 @@ const editCustomer = async () => {
     store.customer.name = "";
     store.customer.address = "";
     store.customer.phone = "";
-    showModal.value = false
     router.push({ name: "customer" });
   } catch (error) {
     await storeGlobaly.MessageModalDenied(

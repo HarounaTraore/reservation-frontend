@@ -2,7 +2,7 @@
   <div class="container mt-3 ms-2 w-auto d-flex justify-content-end mb-2">
     <button
       class="btn btn-primary me-3 fw-bold"
-      @click="router.push({ name: 'add-customer' })"
+      @click=" router.push({ name: 'add-customer' }, store.reserDataCustomer())"
     >
       <i class="fa fa-plus me-1"></i>
       Nouveau Client
@@ -69,16 +69,17 @@
   
   <script setup>
 import MessageModal from "@/components/MessageModal.vue";
-import router from "@/router";
+
 import { storeCustomer } from "@/stores/storeCustomer";
 import { globalyStore } from "@/stores/storeGlobaly";
 import { onMounted } from "vue";
+import { useRouter,  } from "vue-router";
 const store = storeCustomer();
 const storeGlobaly = globalyStore();
 onMounted(async () => {
   await store.loadingData();
 });
-
+const router = useRouter()
 
 const destroyCustomer = async (id) => {
   try {
