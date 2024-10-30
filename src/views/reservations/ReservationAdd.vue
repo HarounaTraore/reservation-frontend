@@ -17,7 +17,7 @@
             type="button"
             class="btn-close"
             data-bs-dismiss="modal"
-            @click="router.push({ name: 'reservations' })"
+            @click="router.push({ name: 'list-reservation' })"
             aria-label="Close"
           ></button>
         </div>
@@ -47,24 +47,26 @@
                 </div>
 
                 <div class="input-group flex-nowrap mb-3">
-                  <label class="input-group-text">Salle</label>
-                  <select
-                    v-model="reservation.roomId"
-                    class="form-select bg-opacity-50"
-                    required
-                  >
-                    <option value="" disabled selected>
-                      Sélectionner la salle
-                    </option>
-                    <option
-                      v-for="room in storeRoom().rooms"
-                      :key="room.id"
-                      :value="room.id"
-                    >
-                      {{ room.name }}
-                    </option>
-                  </select>
-                </div>
+  <label class="input-group-text">Salle</label>
+  <select
+    v-model="reservation.roomId"
+    class="form-select bg-opacity-50"
+    required
+  >
+    <option value="" disabled>
+      Sélectionner la salle
+    </option>
+    <option
+      v-for="room in storeRoom().rooms"
+      :key="room.id"
+      :v-if="room?.status != 'Non Réservée'"
+      :value="room.id"
+    >
+      {{ room.name }}
+    </option>
+  </select>
+</div>
+
 
                 <div class="d-flex justify-content-between mb-3">
                   <div class="input-group me-2 flex-nowrap">
@@ -119,14 +121,15 @@
           <div class="modal-footer">
             <button
               type="button"
-              class="btn btn-secondary w-100"
+              class="btn btn-secondary"
               data-bs-dismiss="modal"
-              @click="router.push({ name: 'reservations' })"
+              @click="router.push({ name: 'list-reservation' })"
             >
               {{ $t("modal.close") }}
             </button>
-            <button type="submit" class="btn btn-primary w-100">
+            <button type="submit" data-bs-dismiss="modal" class="btn btn-primary ">
               {{ $t("modal.save") }}
+              
             </button>
           </div>
         </form>
@@ -145,6 +148,7 @@ import router from "@/router";
 import { storeReservation } from "@/stores/storeReservation";
 import { storeCustomer } from "@/stores/storeCustomer";
 import { storeRoom } from "@/stores/storeRoom";
+import { globalyStore } from "@/stores/storeGlobaly";
 
 const { t } = useI18n();
 const dateError = ref("");
@@ -163,15 +167,22 @@ const validateDates = () => {
   const end = new Date(`${reservation.dateEnd}T${reservation.timeEnd}`);
   dateError.value = start >= end ? "La date de fin doit être après la date de début." : "";
 };
-
+const storeGlobaly =  globalyStore()
 const addReservation = async () => {
   validateDates();
   if (dateError.value) return;
   try {
     await store.addReservation();
-    router.push({ name: "reservations" });
-    await SuccessModal.valid("Réservation ajoutée avec succès !");
+    await storeGlobaly.MessageModalSuccess(
+      "Réservation effectuée Avec Succès",
+      "Ajout De Réservation"
+    )
+    router.push({ name: 'list-reservation' })
   } catch (error) {
+    await storeGlobaly.MessageModalDenied(
+      " Erreur de Réservation",
+      "Ajout De Réservation"
+    )
     console.log(error.message);
   }
 };

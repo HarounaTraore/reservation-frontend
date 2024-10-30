@@ -25,6 +25,7 @@
           <div class="modal-body">
             <div class="d-flex flex-column align-items-center">
               <div class="w-100">
+                <!-- Sélection du client -->
                 <div class="input-group flex-nowrap mb-3">
                   <label class="input-group-text">Client</label>
                   <select
@@ -33,19 +34,14 @@
                     class="form-select bg-opacity-50"
                     required
                   >
-                    <option value=" " disabled selected>
-                      Sélectionner le Client
-                    </option>
-                    <option
-                      v-for="customer in storeCustomer().customers"
-                      :key="customer.id"
-                      :value="customer.id"
-                    >
+                    <option value="" disabled selected>Sélectionner le Client</option>
+                    <option v-for="customer in storeCustomer().customers" :key="customer.id" :value="customer.id">
                       {{ customer.name }}
                     </option>
                   </select>
                 </div>
 
+                <!-- Sélection de la salle -->
                 <div class="input-group flex-nowrap mb-3">
                   <label class="input-group-text">Salle</label>
                   <select
@@ -53,25 +49,19 @@
                     class="form-select bg-opacity-50"
                     required
                   >
-                    <option value="" disabled selected>
-                      Sélectionner la salle
-                    </option>
-                    <option
-                      v-for="room in storeRoom().rooms"
-                      :key="room.id"
-                      :value="room.id"
-                    >
+                    <option value="" disabled selected>Sélectionner la salle</option>
+                    <option v-for="room in storeRoom().rooms" :key="room.id" :value="room.id">
                       {{ room.name }}
                     </option>
                   </select>
                 </div>
 
+                <!-- Date et heure de début -->
                 <div class="d-flex justify-content-between mb-3">
                   <div class="input-group me-2 flex-nowrap">
                     <label class="input-group-text">Date Début</label>
                     <input
                       type="date"
-                      id="dateStart"
                       v-model="reservation.dateStart"
                       class="form-control bg-opacity-50"
                       required
@@ -88,12 +78,12 @@
                   </div>
                 </div>
 
+                <!-- Date et heure de fin -->
                 <div class="d-flex justify-content-between mb-3">
                   <div class="input-group me-2 flex-nowrap">
                     <label class="input-group-text">Date Fin</label>
                     <input
                       type="date"
-                      id="dateEnd"
                       v-model="reservation.dateEnd"
                       class="form-control bg-opacity-50"
                       required
@@ -110,6 +100,7 @@
                   </div>
                 </div>
 
+                <!-- Message d'erreur de validation des dates -->
                 <div v-if="dateError" class="text-danger fs-6">
                   {{ dateError }}
                 </div>
@@ -119,13 +110,13 @@
           <div class="modal-footer">
             <button
               type="button"
-              class="btn btn-secondary w-100"
+              class="btn btn-secondary "
               data-bs-dismiss="modal"
-              @click="router.push({ name: 'reservations' })"
+              @click="router.push({ name: 'list-reservation' })"
             >
               {{ $t("modal.close") }}
             </button>
-            <button type="submit" class="btn btn-primary w-100">
+            <button type="submit" class="btn btn-primary">
               {{ $t("modal.save") }}
             </button>
           </div>
@@ -146,6 +137,7 @@ import { storeReservation } from "@/stores/storeReservation";
 import { storeCustomer } from "@/stores/storeCustomer";
 import { storeRoom } from "@/stores/storeRoom";
 import { useRoute, useRouter } from "vue-router";
+import { globalyStore } from "@/stores/storeGlobaly";
 
 const { t } = useI18n();
 const dateError = ref("");
@@ -156,26 +148,34 @@ const route = useRoute();
 onMounted(async () => {
   await storeCustomer().loadingData();
   await storeRoom().loadingData();
-  // const reservationId = Number(route.params.id);
-  // await store.findReservation(reservationId);
   const modal = new Modal(document.getElementById("reservationModal"));
   modal.show();
 });
 
+// Validation des dates
 const validateDates = () => {
   const start = new Date(`${reservation.dateStart}T${reservation.timeStart}`);
   const end = new Date(`${reservation.dateEnd}T${reservation.timeEnd}`);
   dateError.value = start >= end ? "La date de fin doit être après la date de début." : "";
 };
-const id = useRoute().params.id
+const storeGlobaly = globalyStore()
+const id = Number(useRoute().params.id);
 const editReservation = async () => {
   validateDates();
   if (dateError.value) return;
   try {
     await store.updateReservation(id);
+    await storeGlobaly.MessageModalSuccess(
+      "Modification effectuée Avec Succès",
+      "Modification De Réservation"
+    )
     router.push({ name: "list-reservation" });
-    await SuccessModal.valid("Réservation mise à jour avec succès !");
+    
   } catch (error) {
+    await storeGlobaly.MessageModalDenied(
+      " Erreur de Réservation",
+      "Modification De Réservation"
+    )
     console.log(error.message);
   }
 };

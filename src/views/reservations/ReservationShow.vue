@@ -41,12 +41,12 @@
                     <input
                       type="text"
                       disabled
-                      v-model="reservation.userId"
+                      v-model="reservation.userName"
                       class="form-control bg-opacity-50"
                       required
                     />
                     <label class="input-group-text text-truncate"
-                      >Utilisateur</label
+                      >Créer par</label
                     >
                   </div>
                 </div>
@@ -83,7 +83,7 @@
                     <input
                       type="text"
                       disabled
-                      :value="formatDateTime(reservation.dateStart)"
+                      :value="reservation.dateStart"
                       class="form-control bg-opacity-50"
                       required
                     />
@@ -92,7 +92,7 @@
                     <input
                       type="text"
                       disabled
-                      :value="formatDateTime(reservation.dateStart, 'HH:mm')"
+                      :value="reservation.timeStart"
                       class="form-control bg-opacity-50"
                       required
                     />
@@ -107,7 +107,7 @@
                     <input
                       type="text"
                       disabled
-                      :value="formatDateTime(reservation.dateEnd)"
+                      :value="reservation.dateEnd"
                       class="form-control bg-opacity-50"
                       required
                     />
@@ -116,7 +116,7 @@
                     <input
                       type="text"
                       disabled
-                      :value="formatDateTime(reservation.dateEnd, 'HH:mm')"
+                      :value="reservation.timeEnd"
                       class="form-control bg-opacity-50"
                       required
                     />

@@ -12,8 +12,10 @@
     <thead>
       <tr>
         <th scope="col" class="text-center">#</th>
-        <th scope="col" class="text-center text-truncate">Date de Début</th>
-        <th scope="col" class="text-center text-truncate">Date de Fin</th>
+        <th scope="col" class="text-center text-truncate">Dates de Début</th>
+        <th scope="col" class="text-center text-truncate">Dates de Fin</th>
+        <th scope="col" class="responsive-hide text-truncate">Salles</th>
+        <th scope="col" class=" responsive-hide text-truncate">Clients</th>
         <th scope="col" class="text-center">Actions</th>
       </tr>
     </thead>
@@ -31,6 +33,8 @@
         <td class="text-center">{{ reservation?.id }}</td>
         <td class="text-center">{{ formatDateTime(reservation.dateStart) }}</td>
         <td class="text-center">{{ formatDateTime(reservation.dateEnd) }}</td>
+        <td class="responsive-hide" >{{reservation.room.name }}</td>
+        <td class="responsive-hide" >{{reservation.customer.name }}</td>
         <td class="text-center">
           <button
             class="btn-sm btn btn-outline-primary ms-2"
@@ -43,13 +47,7 @@
           </button>
           <button
             class="btn-sm btn btn-outline-secondary ms-2"
-            @click="
-              store.findReservation(reservation.id),
-                router.push({
-                  name: 'edit-reservation',
-                  params: { id: reservation.id },
-                })
-            "
+            @click="editReservation(reservation.id)"
           >
             <i class="fas fa-edit"></i>
           </button>
@@ -69,14 +67,20 @@
   
   <script setup>
 import MessageModal from "@/components/MessageModal.vue";
-import router from "@/router";
-import { storeReservation } from "@/stores/storeReservation"; 
+import { storeReservation } from "@/stores/storeReservation";
 import { globalyStore } from "@/stores/storeGlobaly";
 import { onMounted } from "vue";
 import { useDateTimeFormatter } from "./useDateForatter";
+import { useRouter } from "vue-router";
 const { formatDateTime } = useDateTimeFormatter();
 const store = storeReservation();
 const storeGlobaly = globalyStore();
+const router = useRouter();
+
+const editReservation = async (id) => {
+  await store.findReservation(id);
+  router.push({ name: "edit-reservation", params: { id } });
+};
 
 onMounted(async () => {
   await store.loadingData();

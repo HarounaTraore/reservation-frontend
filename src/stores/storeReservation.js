@@ -1,14 +1,17 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 import { ref } from "vue";
+import { useDateTimeFormatter } from "@/views/reservations/useDateForatter";
 
 export const storeReservation = defineStore("reservation", () => {
   const savedUserActif = JSON.parse(localStorage.getItem("userActif"));
-
+  const { formatDateTime } = useDateTimeFormatter();
   const reservation = ref({
+    dateReservation: "",
     dateStart: "",
     dateEnd: "",
-    userId: null,
+    userName: "",
+
     roomId: null,
     customerId: null,
     timeStart: "",
@@ -23,7 +26,8 @@ export const storeReservation = defineStore("reservation", () => {
         headers: { Authorization: `Bearer ${savedUserActif.token}` },
       });
       const result = data.data.result;
-      reservations.value = [...result];
+      reservations.value = [
+        ...result];
     } catch (error) {
       throw error;
     }
@@ -85,12 +89,18 @@ export const storeReservation = defineStore("reservation", () => {
           headers: { Authorization: `Bearer ${savedUserActif.token}` },
         }
       );
+
       reservation.value.id = result.data.result.id;
-      reservation.value.dateStart = result.data.result.dateStart;
-      reservation.value.dateEnd = result.data.result.dateEnd;
-      reservation.value.userId = result.data.result.userId;
+      reservation.value.dateStart = formatDateTime(result.data.result.dateStart);
+      reservation.value.dateReservation = formatDateTime(result.data.result.dateReservation);
+      reservation.value.timeStart = formatDateTime(result.data.result.dateStart, "HH:mm");
+      reservation.value.dateEnd = formatDateTime(result.data.result.dateEnd);
+      reservation.value.timeEnd = formatDateTime(result.data.result.dateEnd, "HH:mm");
+      reservation.value.userName = result.data.result.user.name;
       reservation.value.roomId = result.data.result.room.name;
       reservation.value.customerId = result.data.result.customer.name;
+      console.log("CUSTOMER ID",reservation.customerId);
+      
       console.log("RESERVATION:", reservation.value);
 
       await loadingData();
