@@ -62,7 +62,7 @@ const login = async () => {
     await storeLogin.login();
     await storeGlobaly.MessageModalSuccess("Connexion réussie", "Connexion");
 
-    router.push({ name: "home" });
+    router.push("reservation/");
   } catch (error) {
     await storeGlobaly.MessageModalDenied("Erreur de connexion", "Connexion");
   }

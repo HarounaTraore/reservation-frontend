@@ -17,6 +17,10 @@ import ReservationList from "@/views/reservations/ReservationList.vue";
 import ReservationShow from "@/views/reservations/ReservationShow.vue";
 import ReservationEdit from "@/views/reservations/ReservationEdit.vue";
 import ReservationAdd from "@/views/reservations/ReservationAdd.vue";
+import ReservationManagenemt from "@/views/reservations/ReservationManagenemt.vue";
+import UserAdd from "@/views/users/UserAdd.vue";
+import UserEdit from "@/views/users/UserEdit.vue";
+import UserShow from "@/views/users/UserShow.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,11 +30,11 @@ const router = createRouter({
       name: "login",
       component: Login,
     },
-  {
-    path: "/dash",
-    name: "dash",
-    component: DashBorrd
-  },
+    {
+      path: "/dash",
+      name: "dash",
+      component: DashBorrd,
+    },
     {
       path: "/dashbord",
       name: "home",
@@ -87,6 +91,21 @@ const router = createRouter({
           component: UserList,
         },
         {
+          path: "/user/add",
+          name: "add-user",
+          component: UserAdd,
+        },
+        {
+          path: "/user/edit/:id",
+          name: "edit-user",
+          component: UserEdit,
+        },
+        {
+          path: "/user/sow",
+          name: "show-user",
+          component: UserShow,
+        },
+        {
           path: "/reservation/list",
           name: "list-reservation",
           component: ReservationList,
@@ -106,12 +125,16 @@ const router = createRouter({
           name: "add-reservation",
           component: ReservationAdd,
         },
+        {
+          path: "/reservation",
+          name: "reservation",
+          component: ReservationManagenemt,
+        },
       ],
     },
 
     { path: "/:pathMatch(.*)*", component: NotFound },
   ],
-
 });
 
 export default router;

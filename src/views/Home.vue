@@ -49,7 +49,6 @@ function setActiveButton(button) {
         <span class="fw-bold" v-if="!isSidebarCollapsed">{{ store.userActif?.name }}</span>
       </div>
 
-      <!-- Boutons de la sidebar -->
       <BtnSideBar
         btn-active="mt-3 text-truncate p-auto"
         icon="'fa fa-solid fa-chart-line p-0"

@@ -47,26 +47,23 @@
                 </div>
 
                 <div class="input-group flex-nowrap mb-3">
-  <label class="input-group-text">Salle</label>
-  <select
-    v-model="reservation.roomId"
-    class="form-select bg-opacity-50"
-    required
-  >
-    <option value="" disabled>
-      Sélectionner la salle
-    </option>
-    <option
-      v-for="room in storeRoom().rooms"
-      :key="room.id"
-      :v-if="room?.status != 'Non Réservée'"
-      :value="room.id"
-    >
-      {{ room.name }}
-    </option>
-  </select>
-</div>
-
+                  <label class="input-group-text">Salle</label>
+                  <select
+                    v-model="reservation.roomId"
+                    class="form-select bg-opacity-50"
+                    required
+                  >
+                    <option value="" disabled>Sélectionner la salle</option>
+                    <option
+                      v-for="room in storeRoom().rooms"
+                      :key="room.id"
+                      :v-if="roomsNotReserved"
+                      :value="room.id"
+                    >
+                      {{ room.name }}
+                    </option>
+                  </select>
+                </div>
 
                 <div class="d-flex justify-content-between mb-3">
                   <div class="input-group me-2 flex-nowrap">
@@ -127,9 +124,12 @@
             >
               {{ $t("modal.close") }}
             </button>
-            <button type="submit" data-bs-dismiss="modal" class="btn btn-primary ">
+            <button
+              type="submit"
+              data-bs-dismiss="modal"
+              class="btn btn-primary"
+            >
               {{ $t("modal.save") }}
-              
             </button>
           </div>
         </form>
@@ -143,7 +143,7 @@
 import SuccessModal from "@/components/MessageModal.vue";
 import { useI18n } from "vue-i18n";
 import { Modal } from "bootstrap/dist/js/bootstrap.bundle.min";
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import router from "@/router";
 import { storeReservation } from "@/stores/storeReservation";
 import { storeCustomer } from "@/stores/storeCustomer";
@@ -162,12 +162,18 @@ onMounted(async () => {
   modal.show();
 });
 
+const roomsNotReserved = computed(() =>
+  storeRoom().rooms.filter((item) => item.status !== "Non Réservée")
+);
+
+
 const validateDates = () => {
   const start = new Date(`${reservation.dateStart}T${reservation.timeStart}`);
   const end = new Date(`${reservation.dateEnd}T${reservation.timeEnd}`);
-  dateError.value = start >= end ? "La date de fin doit être après la date de début." : "";
+  dateError.value =
+    start >= end ? "La date de fin doit être après la date de début." : "";
 };
-const storeGlobaly =  globalyStore()
+const storeGlobaly = globalyStore();
 const addReservation = async () => {
   validateDates();
   if (dateError.value) return;
@@ -176,13 +182,13 @@ const addReservation = async () => {
     await storeGlobaly.MessageModalSuccess(
       "Réservation effectuée Avec Succès",
       "Ajout De Réservation"
-    )
-    router.push({ name: 'list-reservation' })
+    );
+    router.push({ name: "list-reservation" });
   } catch (error) {
     await storeGlobaly.MessageModalDenied(
       " Erreur de Réservation",
       "Ajout De Réservation"
-    )
+    );
     console.log(error.message);
   }
 };

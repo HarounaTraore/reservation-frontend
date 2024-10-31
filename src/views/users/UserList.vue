@@ -2,7 +2,7 @@
   <div class="container mt-3 ms-2 w-auto d-flex justify-content-end mb-2">
     <button
       class="btn btn-primary me-3 fw-bold"
-      @click="router.push({ name: 'add-user' })"
+      @click="store.resetDataUser(), router.push({ name: 'add-user' })"
     >
       <i class="fa fa-plus me-1"></i>
       Nouveau Utilisateur
@@ -34,17 +34,14 @@
         <td class="text-center">
           <button
             class="btn-sm btn btn-outline-primary ms-2"
-            @click="
-              store.finduser(user.id),
-                router.push({ name: 'show-user' })
-            "
+            @click="store.findUser(user.id), router.push({ name: 'show-user' })"
           >
             <i class="fas fa-eye"></i>
           </button>
           <button
             class="btn-sm btn btn-outline-secondary ms-2"
             @click="
-              store.finduser(user.id),
+              store.findUser(user.id),
                 router.push({
                   name: 'edit-user',
                   params: { id: user.id },
@@ -54,7 +51,7 @@
             <i class="fas fa-edit"></i>
           </button>
           <button
-            @click="destroyuser(user.id)"
+            @click="destroyUser(user.id)"
             class="btn-sm btn btn-outline-danger ms-2"
           >
             <i class="fa fa-trash"></i>
@@ -80,10 +77,10 @@ onMounted(async () => {
   await store.loadingData();
 });
 
-const destroyuser = async (id) => {
+const destroyUser = async (id) => {
   try {
     if (confirm("Etes-vous sur de vouloir supprimer ce clients ?"))
-      await store.deleteuser(id);
+      await store.deleteUser(id);
     await storeGlobaly.MessageModalSuccess(
       "Client Supprimé Avec Succès",
       "Suppression"
