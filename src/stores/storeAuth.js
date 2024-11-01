@@ -6,6 +6,8 @@ export const storeAuth = defineStore("login", () => {
   const user = ref({
     email: "",
     password: "",
+    codeOtp: "",
+    newPassword: "",
   });
   const savedUserActif = JSON.parse(localStorage.getItem("userActif"));
 
@@ -40,12 +42,24 @@ export const storeAuth = defineStore("login", () => {
     try {
       const result = await axios.post(
         "http://127.0.0.1:3000/api/forgot-password",
-        {email: user.value.email}
+        { email: user.value.email }
       );
       return result;
     } catch (error) {
       throw error;
     }
   };
-  return { login, user, userActif, forgotPwd };
+  const resetPwd = async () => {
+    try {
+      await axios.post("http://127.0.0.1:3000/api/reset-password", {
+        email: user.value.email,
+        conde: user.value.codeOtp,
+        newPassword: user.value.newPassword,
+      });
+      return true;
+    } catch (error) {
+      throw error;
+    }
+  };
+  return { login, user, userActif, forgotPwd, resetPwd };
 });
