@@ -38,14 +38,14 @@ const loadReservations = async () => {
 
 onMounted(loadReservations);
 
-const handleDateClick = (info) => {
-  Swal.fire({
-    title: "Vous avez cliqué sur une date!",
-    text: `Date sélectionnée : ${info.dateStr}`,
-    icon: "info",
-    confirmButtonText: "Ok",
-  });
-};
+// const handleDateClick = (info) => {
+//   Swal.fire({
+//     title: "Vous avez cliqué sur une date!",
+//     text: `Date sélectionnée : ${info.dateStr}`,
+//     icon: "info",
+//     confirmButtonText: "Ok",
+//   });
+// };
 
 const handleEventClick = (info) => {
   const timeOptions = { hour: "2-digit", minute: "2-digit" };

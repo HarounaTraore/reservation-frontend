@@ -11,7 +11,13 @@ const routeActif = computed(() => route.path);
 const store = storeAuth();
 const { t } = useI18n();
 const isNavbarCollapsed = ref(false);
-
+const logOut = async () => {
+  const conf = confirm("Etes-vous sur de vouloir vous deconnecter ?");
+  if (conf) {
+    localStorage.removeItem("userActif");
+    router.push({ name: "login" });
+  }
+};
 const toggleNavbar = () => {
   isNavbarCollapsed.value = !isNavbarCollapsed.value;
 };
@@ -24,15 +30,13 @@ function setActiveButton(button) {
 
 <template>
   <div class="container-fluid p-0">
-    <!-- Navbar -->
-    <nav class="navbar d-flex align-items-center justify-content-between bg-white px-4 py-2 shadow-sm border-bottom">
-      <!-- Left Section: Toggle Button for Sidebar -->
-
+    <nav
+      class="navbar d-flex align-items-center justify-content-between bg-white px-4 py-2 shadow-sm border-bottom"
+    >
       <button @click="toggleNavbar" class="btn btn-toggle-navbar me-3">
-        <i :class="isNavbarCollapsed ? 'fa fa-bars' : 'fa fa-times'"></i>
+        <i :class="isNavbarCollapsed ? 'fa fa-times' : 'fa fa-bars'"></i>
       </button>
 
-      <!-- Navigation Buttons on Desktop -->
       <div class="nav-buttons d-none d-md-flex align-items-center">
         <BtnSideBar
           btn-active="mx-3"
@@ -40,7 +44,12 @@ function setActiveButton(button) {
           title="Dashboard"
           :hiden-title="isNavbarCollapsed"
           :class="{ active: activeButton === 'dashboard' }"
-          @click="() => { setActiveButton('dashboard'); router.push({ name: 'dashboard' }) }"
+          @click="
+            () => {
+              setActiveButton('dashboard');
+              router.push({ name: 'dashboard' });
+            }
+          "
         />
         <BtnSideBar
           btn-active="mx-3"
@@ -48,7 +57,12 @@ function setActiveButton(button) {
           title="Salles"
           :hiden-title="isNavbarCollapsed"
           :class="{ active: activeButton === 'room' }"
-          @click="() => { setActiveButton('room'); router.push({ name: 'room' }) }"
+          @click="
+            () => {
+              setActiveButton('room');
+              router.push({ name: 'room' });
+            }
+          "
         />
         <BtnSideBar
           btn-active="mx-3"
@@ -56,7 +70,12 @@ function setActiveButton(button) {
           title="Clients"
           :hiden-title="isNavbarCollapsed"
           :class="{ active: activeButton === 'customer' }"
-          @click="() => { setActiveButton('customer'); router.push({ name: 'customer' }) }"
+          @click="
+            () => {
+              setActiveButton('customer');
+              router.push({ name: 'customer' });
+            }
+          "
         />
         <BtnSideBar
           btn-active="mx-3"
@@ -64,7 +83,12 @@ function setActiveButton(button) {
           title="Réservations"
           :hiden-title="isNavbarCollapsed"
           :class="{ active: activeButton === 'reservation' }"
-          @click="() => { setActiveButton('reservation'); router.push({ name: 'list-reservation' }) }"
+          @click="
+            () => {
+              setActiveButton('reservation');
+              router.push({ name: 'list-reservation' });
+            }
+          "
         />
         <BtnSideBar
           btn-active="mx-3"
@@ -72,63 +96,96 @@ function setActiveButton(button) {
           title="Utilisateurs"
           :hiden-title="isNavbarCollapsed"
           :class="{ active: activeButton === 'user' }"
-          @click="() => { setActiveButton('user'); router.push({ name: 'user' }) }"
+          @click="
+            () => {
+              setActiveButton('user');
+              router.push({ name: 'user' });
+            }
+          "
         />
       </div>
 
-      <!-- Right Section: Profile Image and Username -->
       <div class="d-flex align-items-center">
         <img
           src="../../public/user-profil.svg"
           alt="User Profile"
           class="rounded-circle me-2"
-          width="40"
+          width="30"
         />
-        <span class="fw-bold user-name d-none d-md-inline">{{ store.userActif?.name }}</span>
-        
+        <span class="fw-bold user-name d-none d-md-inline">{{
+          store.userActif?.name
+        }}</span>
+        <button class="btn" @click="logOut">
+          <i class="fa-solid fa-right-from-bracket"></i>
+        </button>
       </div>
     </nav>
-
-    <!-- Collapsed Navigation Buttons on Mobile -->
-    <div v-if="isNavbarCollapsed" class="nav-buttons-mobile bg-white p-3 d-md-none">
+    <div
+      v-if="isNavbarCollapsed"
+      class="nav-buttons-mobile bg-white p-3 d-md-none"
+    >
       <BtnSideBar
         btn-active="my-2"
         icon="fas fa-home"
         title="Dashboard"
         :class="{ active: activeButton === 'dashboard' }"
-        @click="() => { setActiveButton('dashboard'); router.push({ name: 'dashboard' }) }"
+        @click="
+          () => {
+            setActiveButton('dashboard');
+            router.push({ name: 'dashboard' });
+          }
+        "
       />
       <BtnSideBar
         btn-active="my-2"
         icon="fas fa-building"
         title="Salles"
         :class="{ active: activeButton === 'room' }"
-        @click="() => { setActiveButton('room'); router.push({ name: 'room' }) }"
+        @click="
+          () => {
+            setActiveButton('room');
+            router.push({ name: 'room' });
+          }
+        "
       />
       <BtnSideBar
         btn-active="my-2"
         icon="fas fa-users"
         title="Clients"
         :class="{ active: activeButton === 'customer' }"
-        @click="() => { setActiveButton('customer'); router.push({ name: 'customer' }) }"
+        @click="
+          () => {
+            setActiveButton('customer');
+            router.push({ name: 'customer' });
+          }
+        "
       />
       <BtnSideBar
         btn-active="my-2"
         icon="fas fa-calendar-check"
         title="Réservations"
         :class="{ active: activeButton === 'reservation' }"
-        @click="() => { setActiveButton('reservation'); router.push({ name: 'list-reservation' }) }"
+        @click="
+          () => {
+            setActiveButton('reservation');
+            router.push({ name: 'list-reservation' });
+          }
+        "
       />
       <BtnSideBar
         btn-active="my-2"
         icon="fas fa-user-cog"
         title="Utilisateurs"
         :class="{ active: activeButton === 'user' }"
-        @click="() => { setActiveButton('user'); router.push({ name: 'user' }) }"
+        @click="
+          () => {
+            setActiveButton('user');
+            router.push({ name: 'user' });
+          }
+        "
       />
     </div>
 
-    <!-- Main Content -->
     <div class="body-content">
       <div class="container">
         <h5 class="mb-0 fw-bold">{{ routeActif }}</h5>
