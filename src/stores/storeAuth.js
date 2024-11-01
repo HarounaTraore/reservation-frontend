@@ -36,5 +36,16 @@ export const storeAuth = defineStore("login", () => {
       throw error;
     }
   };
-  return { login, user, userActif };
+  const forgotPwd = async () => {
+    try {
+      const result = await axios.post(
+        "http://127.0.0.1:3000/api/forgot-password",
+        {email: user.value.email}
+      );
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  };
+  return { login, user, userActif, forgotPwd };
 });

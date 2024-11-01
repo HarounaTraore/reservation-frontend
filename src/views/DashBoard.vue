@@ -2,12 +2,30 @@
 import { onMounted, ref } from "vue";
 import FullCalendar from "@fullcalendar/vue3";
 import dayGridPlugin from "@fullcalendar/daygrid";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import interactionPlugin from "@fullcalendar/interaction";
 import { storeReservation } from "@/stores/storeReservation";
 import frLocale from "@fullcalendar/core/locales/fr";
 import Swal from "sweetalert2";
+import router from "@/router";
 
 const store = storeReservation();
-const calendarOptions = ref({});
+const calendarOptions = ref({
+  plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
+  initialView: window.innerWidth < 768 ? "timeGridDay" : "timeGridWeek",
+  locale: frLocale,
+  weekends: true,
+  height: "auto",
+  events: [],
+  dateClick: (info) => handleDateClick(info),
+  eventClick: (info) => handleEventClick(info),
+  slotDuration: "01:00:00",
+  headerToolbar: {
+    left: "prev,next today",
+    center: "title",
+    right: "dayGridMonth,timeGridWeek,timeGridDay"
+  }
+});
 
 const loadReservations = async () => {
   await store.loadingData();
@@ -31,7 +49,6 @@ const handleDateClick = (info) => {
 
 const handleEventClick = (info) => {
   const timeOptions = { hour: "2-digit", minute: "2-digit" };
-
   Swal.fire({
     title: "Détails de l'événement",
     text: `Événement de ${info.event.start.toLocaleDateString()} ${info.event.start.toLocaleTimeString(
@@ -45,43 +62,42 @@ const handleEventClick = (info) => {
     confirmButtonText: "Ok",
   });
 };
-
-calendarOptions.value = {
-  plugins: [dayGridPlugin],
-  initialView: window.innerWidth < 768 ? "dayGridWeek" : "dayGridMonth",
-  weekends: true,
-  locale: frLocale,
-  events: [],
-  dateClick: handleDateClick,
-  eventClick: handleEventClick,
-  height: "auto",
-  contentHeight: 50,
-  with: "auto",
-  contentWidth: "auto",
-
-};
 </script>
 
 <template>
   <div class="container">
-    <h1 class="text-center my-3">Application de démonstration</h1>
-    <div class="calendar-container">
+    <div class="d-flex justify-content-between align-items-center my-3">
+      <h3 class="text-center mb-0">Tableau de bord</h3>
+      <button
+        class="btn btn-primary fw-bold"
+        @click="router.push({ name: 'list-reservation' })"
+      >
+        Liste des réservations
+      </button>
+    </div>
+    <div class="calendar-container mt-3">
       <FullCalendar :options="calendarOptions" />
     </div>
   </div>
 </template>
 
 <style>
+.container {
+  max-width: 90%;
+  margin: auto;
+}
+
 .calendar-container {
   max-width: 100%;
 }
+
 .fc .fc-event {
   cursor: pointer !important;
 }
+
 @media (max-width: 768px) {
   .calendar-container {
     padding: 10px;
   }
 }
 </style>
-

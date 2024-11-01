@@ -1,4 +1,15 @@
 <template>
+          <div class="added w-100 d-flex justify-content-end mb-3">
+          <button
+            class="btn btn-primary fw-bold"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+            @click="store.reserDataRoom"
+          >
+            <i class="fa fa-plus me-1"></i>
+            Nouvelle Salle
+          </button>
+        </div>
   <table class="table table-striped table-bordered m-auto">
     <thead>
       <tr>

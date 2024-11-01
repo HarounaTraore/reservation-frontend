@@ -12,34 +12,44 @@ import CustomerAdd from "@/views/customers/CustomerAdd.vue";
 import CustomerShow from "@/views/customers/CustomerShow.vue";
 import CustomerEdit from "@/views/customers/CustomerEdit.vue";
 import UserList from "@/views/users/UserList.vue";
-import DashBorrd from "@/views/DashBorrd.vue";
+import DashBorrd from "@/views/DashBoard.vue";
 import ReservationList from "@/views/reservations/ReservationList.vue";
 import ReservationShow from "@/views/reservations/ReservationShow.vue";
 import ReservationEdit from "@/views/reservations/ReservationEdit.vue";
 import ReservationAdd from "@/views/reservations/ReservationAdd.vue";
-import ReservationManagenemt from "@/views/reservations/ReservationManagenemt.vue";
 import UserAdd from "@/views/users/UserAdd.vue";
 import UserEdit from "@/views/users/UserEdit.vue";
 import UserShow from "@/views/users/UserShow.vue";
+import ForgotPwd from "@/views/ForgotPwd.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: "/",
+      redirect: "/login",
+    },
+    {
+      path: "/login",
       name: "login",
       component: Login,
     },
     {
-      path: "/dash",
-      name: "dash",
-      component: DashBorrd,
+      path: "/forgot-pwd",
+      name: "forgot-pwd",
+      component: ForgotPwd,
     },
+
     {
-      path: "/dashbord",
+      path: "/home",
       name: "home",
       component: Home,
       children: [
+        {
+          path: "/dashboard",
+          name: "dash",
+          component: DashBorrd,
+        },
         {
           path: "/room",
           name: "room",
@@ -49,6 +59,11 @@ const router = createRouter({
           path: "/room/add",
           name: "add-room",
           component: AddRoom,
+        },
+        {
+          path: "/dashboard",
+          name: "dashboard",
+          component: DashBorrd,
         },
         {
           path: "/room/list",
@@ -101,7 +116,7 @@ const router = createRouter({
           component: UserEdit,
         },
         {
-          path: "/user/sow",
+          path: "/user/show",
           name: "show-user",
           component: UserShow,
         },
@@ -110,11 +125,13 @@ const router = createRouter({
           name: "list-reservation",
           component: ReservationList,
         },
+
         {
           path: "/reservation/show",
           name: "show-reservation",
           component: ReservationShow,
         },
+
         {
           path: "/reservation/edit/:id",
           name: "edit-reservation",
@@ -124,11 +141,6 @@ const router = createRouter({
           path: "/reservation/add",
           name: "add-reservation",
           component: ReservationAdd,
-        },
-        {
-          path: "/reservation",
-          name: "reservation",
-          component: ReservationManagenemt,
         },
       ],
     },

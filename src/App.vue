@@ -20,7 +20,7 @@ const changeLanguage = (event) => {
 <template>
   <div class="container-fluid p-0 m-0 d-flex">
     <div class="body w-100">
-      <header
+      <!-- <header
         
   class="header border-bottom bg-white border-1 container-fluid d-flex justify-content-between m-0 align-items-center"
       >
@@ -56,7 +56,7 @@ const changeLanguage = (event) => {
             </select>
           </div>
         </nav>
-      </header>
+      </header> -->
 
       <div class="body overflow-y-auto container-fluid m-auto p-0">
         <RouterView />

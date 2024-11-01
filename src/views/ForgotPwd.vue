@@ -3,8 +3,8 @@
     class="container cont-parent d-flex justify-content-center m-auto align-items-center"
   >
     <div class="card p-4 shadow w-100" style="max-width: 400px">
-      <h4 class="text-center mb-4">{{ t("login.title") }}</h4>
-      <form @submit.prevent="login">
+      <h4 class="text-center mb-4">Réinitialisation</h4>
+      <form @submit.prevent="forget">
         <div class="mb-3">
           <label for="email" class="form-label">{{
             t("login.emailLabel")
@@ -18,7 +18,7 @@
             required
           />
         </div>
-        <div class="mb-3">
+        <!-- <div class="mb-3">
           <label for="password" class="form-label">{{
             t("login.passwordLabel")
           }}</label>
@@ -30,15 +30,9 @@
             :placeholder="t('login.passwordPlaceholder')"
             required
           />
-        </div>
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <router-link :to="{name: 'forgot-pwd'}" class="text-decoration-none">{{
-            t("login.forgotPassword")
-          }}</router-link>
-        </div>
-        <button type="submit" class="btn btn-primary w-100">
-          {{ t("login.signInBtn") }}
-        </button>
+        </div> -->
+
+        <button type="submit" class="btn btn-primary w-100">Envoyer</button>
       </form>
     </div>
   </div>
@@ -53,18 +47,27 @@ import SuccessModal from "@/components/MessageModal.vue";
 import { storeAuth } from "@/stores/storeAuth";
 import router from "@/router";
 import { globalyStore } from "@/stores/storeGlobaly";
-
 const { t } = useI18n();
 const storeLogin = storeAuth();
 const storeGlobaly = globalyStore();
-const login = async () => {
+const forget = async () => {
   try {
-    await storeLogin.login();
-    await storeGlobaly.MessageModalSuccess("Connexion réussie", "Connexion");
+    const result = await storeLogin.forgotPwd();
+    console.log("FORGOT", result);
+    
+    if (result) {
+      await storeGlobaly.MessageModalSuccess(
+        "Code de Réinitiation de mot de passe a été en voyer veuillez verifier votre email.",
+        "Envoie d'Email"
+      );
 
-    router.push({ name: "dash" });
+      router.push({ name: "login" });
+    }
   } catch (error) {
-    await storeGlobaly.MessageModalDenied("Erreur de connexion", "Connexion");
+    await storeGlobaly.MessageModalDenied(
+      "Cet Email n'est pas associé à un compte.",
+      "Réinitialisation"
+    );
   }
 };
 </script>

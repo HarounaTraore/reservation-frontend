@@ -2,9 +2,9 @@
   <div class="container-fluid">
     <div class="row h-100 flex-column flex-md-row">
       <div class="p-4 pt-1">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-          <h5 class="mb-0 fw-bold">{{ routeActif }}</h5>
-        </div>
+        <div
+          class="d-flex justify-content-between align-items-center mb-4"
+        ></div>
 
         <div class="added w-100 d-flex justify-content-end mb-3">
           <button
@@ -73,7 +73,6 @@ const route = useRoute();
 const router = useRouter();
 const store = storeRoom();
 
-const routeActif = route.path;
 const rooms = computed(() => {
   return store.rooms;
 });
@@ -84,10 +83,10 @@ onMounted(() => {
 </script>
   
   <style scoped>
-   .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  }
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
 .nav-link.active {
   background-color: #e9ecef;
   font-weight: bold;
