@@ -5,24 +5,24 @@
       @click="router.push({ name: 'add-reservation' })"
     >
       <i class="fa fa-plus me-1"></i>
-      Nouvelle Réservation
+      {{ $t("reservationList.newReservation") }}
     </button>
   </div>
   <table class="table table-striped table-bordered m-auto">
     <thead>
       <tr>
         <th scope="col" class="text-center">#</th>
-        <th scope="col" class="text-center text-truncate">Dates de Début</th>
-        <th scope="col" class="text-center text-truncate">Dates de Fin</th>
-        <th scope="col" class="responsive-hide text-truncate">Salles</th>
-        <th scope="col" class=" responsive-hide text-truncate">Clients</th>
-        <th scope="col" class="text-center">Actions</th>
+        <th scope="col" class="text-center text-truncate">{{ $t("reservationList.startDate") }}</th>
+        <th scope="col" class="text-center text-truncate">{{ $t("reservationList.endDate") }}</th>
+        <th scope="col" class="responsive-hide text-truncate">{{ $t("reservationList.room") }}</th>
+        <th scope="col" class="responsive-hide text-truncate">{{ $t("reservationList.client") }}</th>
+        <th scope="col" class="text-center">{{ $t("reservationList.actions") }}</th>
       </tr>
     </thead>
     <tbody>
       <tr v-if="store.reservations.length === 0">
         <td colspan="7" class="text-danger text-center fw-bold">
-          Aucune réservation enregistrée
+          {{ $t("reservationList.noReservation") }}
         </td>
       </tr>
       <tr
@@ -62,16 +62,17 @@
     </tbody>
   </table>
   <customerModal />
-  <MessageModal valid=" OK" />
+  <MessageModal valid="OK" />
 </template>
-  
-  <script setup>
+
+<script setup>
 import MessageModal from "@/components/MessageModal.vue";
 import { storeReservation } from "@/stores/storeReservation";
 import { globalyStore } from "@/stores/storeGlobaly";
 import { onMounted } from "vue";
 import { useDateTimeFormatter } from "./useDateForatter";
 import { useRouter } from "vue-router";
+
 const { formatDateTime } = useDateTimeFormatter();
 const store = storeReservation();
 const storeGlobaly = globalyStore();
@@ -88,24 +89,24 @@ onMounted(async () => {
 
 const destroyReservation = async (id) => {
   try {
-    if (confirm("Etes-vous sûr de vouloir supprimer cette réservation ?")) {
+    if (confirm($t("reservationList.confirmDelete"))) {
       await store.deleteReservation(id);
       await storeGlobaly.MessageModalSuccess(
-        "Réservation Supprimée Avec Succès",
-        "Suppression"
+        $t("reservationList.deleteSuccess"),
+        $t("reservationList.deleteTitle")
       );
     }
   } catch (error) {
     await storeGlobaly.MessageModalDenied(
-      "Erreur de suppression : cette réservation est liée à un client ou à une salle.",
-      "Suppression Réservation"
+      $t("reservationList.deleteError"),
+      $t("reservationList.deleteTitle")
     );
     console.log(error.message);
   }
 };
 </script>
-  
-  <style scoped>
+
+<style scoped>
 @media (max-width: 650px) {
   .responsive-hide {
     transition: width 0.5s;
@@ -113,4 +114,3 @@ const destroyReservation = async (id) => {
   }
 }
 </style>
-  

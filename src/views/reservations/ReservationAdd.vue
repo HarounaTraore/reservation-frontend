@@ -11,7 +11,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title fw-bold w-100 text-center">
-            Ajouter Une Réservation
+            {{ $t("reservationAdd.title") }}
           </h5>
           <button
             type="button"
@@ -26,15 +26,15 @@
             <div class="d-flex flex-column align-items-center">
               <div class="w-100">
                 <div class="input-group flex-nowrap mb-3">
-                  <label class="input-group-text">Client</label>
+                  <label class="input-group-text">{{ $t("reservationAdd.client") }}</label>
                   <select
                     id="customerId"
                     v-model="reservation.customerId"
                     class="form-select bg-opacity-50"
                     required
                   >
-                    <option value=" " disabled selected>
-                      Sélectionner le Client
+                    <option value="" disabled selected>
+                      {{ $t("reservationAdd.selectClient") }}
                     </option>
                     <option
                       v-for="customer in storeCustomer().customers"
@@ -47,17 +47,17 @@
                 </div>
 
                 <div class="input-group flex-nowrap mb-3">
-                  <label class="input-group-text">Salle</label>
+                  <label class="input-group-text">{{ $t("reservationAdd.room") }}</label>
                   <select
                     v-model="reservation.roomId"
                     class="form-select bg-opacity-50"
                     required
                   >
-                    <option value="" disabled>Sélectionner la salle</option>
+                    <option value="" disabled>{{ $t("reservationAdd.selectRoom") }}</option>
                     <option
                       v-for="room in storeRoom().rooms"
                       :key="room.id"
-                      :v-if="roomsNotReserved"
+                      :disabled="room.status =='Réservée'"
                       :value="room.id"
                     >
                       {{ room.name }}
@@ -67,7 +67,7 @@
 
                 <div class="d-flex justify-content-between mb-3">
                   <div class="input-group me-2 flex-nowrap">
-                    <label class="input-group-text">Date Début</label>
+                    <label class="input-group-text">{{ $t("reservationAdd.startDate") }}</label>
                     <input
                       type="date"
                       id="dateStart"
@@ -83,13 +83,13 @@
                       class="form-control bg-opacity-50"
                       required
                     />
-                    <label class="input-group-text">Heure Début</label>
+                    <label class="input-group-text">{{ $t("reservationAdd.startTime") }}</label>
                   </div>
                 </div>
 
                 <div class="d-flex justify-content-between mb-3">
                   <div class="input-group me-2 flex-nowrap">
-                    <label class="input-group-text">Date Fin</label>
+                    <label class="input-group-text">{{ $t("reservationAdd.endDate") }}</label>
                     <input
                       type="date"
                       id="dateEnd"
@@ -105,7 +105,7 @@
                       class="form-control bg-opacity-50"
                       required
                     />
-                    <label class="input-group-text">Heure Fin</label>
+                    <label class="input-group-text">{{ $t("reservationAdd.endTime") }}</label>
                   </div>
                 </div>
 
@@ -166,13 +166,13 @@ const roomsNotReserved = computed(() =>
   storeRoom().rooms.filter((item) => item.status !== "Non Réservée")
 );
 
-
 const validateDates = () => {
   const start = new Date(`${reservation.dateStart}T${reservation.timeStart}`);
   const end = new Date(`${reservation.dateEnd}T${reservation.timeEnd}`);
   dateError.value =
-    start >= end ? "La date de fin doit être après la date de début." : "";
+    start >= end ? t("reservationAdd.dateError") : "";
 };
+
 const storeGlobaly = globalyStore();
 const addReservation = async () => {
   validateDates();
@@ -180,14 +180,14 @@ const addReservation = async () => {
   try {
     await store.addReservation();
     await storeGlobaly.MessageModalSuccess(
-      "Réservation effectuée Avec Succès",
-      "Ajout De Réservation"
+      t("reservationAdd.successMessage"),
+      t("reservationAdd.successTitle")
     );
     router.push({ name: "list-reservation" });
   } catch (error) {
     await storeGlobaly.MessageModalDenied(
-      " Erreur de Réservation",
-      "Ajout De Réservation"
+      t("reservationAdd.errorMessage"),
+      t("reservationAdd.errorTitle")
     );
     console.log(error.message);
   }

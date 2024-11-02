@@ -91,5 +91,69 @@
         "enterClientAddress": "Entrer l'adresse du client",
         "enterClientPhone": "Entrer le numéro de téléphone du client",
         "phoneError": "Le numéro de téléphone doit comporter 8 chiffres et commencer par 2, 3 ou 4."
+    },
+    "reservationList": {
+        "newReservation": "Nouvelle Réservation",
+        "startDate": "Date de Début",
+        "endDate": "Date de Fin",
+        "room": "Salle",
+        "client": "Client",
+        "actions": "Actions",
+        "noReservation": "Aucune réservation enregistrée",
+        "confirmDelete": "Êtes-vous sûr de vouloir supprimer cette réservation ?",
+        "deleteSuccess": "Réservation supprimée avec succès",
+        "deleteTitle": "Suppression",
+        "deleteError": "Erreur de suppression : cette réservation est liée à un client ou une salle."
+    },
+    "reservationAdd": {
+        "title": "Ajouter Une Réservation",
+        "client": "Client",
+        "selectClient": "Sélectionner le Client",
+        "room": "Salle",
+        "selectRoom": "Sélectionner la Salle",
+        "startDate": "Date Début",
+        "startTime": "Heure Début",
+        "endDate": "Date Fin",
+        "endTime": "Heure Fin",
+        "dateError": "La date de fin doit être après la date de début.",
+        "successMessage": "Réservation effectuée avec succès",
+        "successTitle": "Ajout de Réservation",
+        "errorMessage": "Erreur de Réservation",
+        "errorTitle": "Ajout de Réservation",
+        "modal": {
+            "close": "Fermer",
+            "save": "Enregistrer"
+        }
+    },
+    "reservationEdit": {
+        "modalTitle": "Modifier la Réservation",
+        "selectClient": "Sélectionner le Client",
+        "selectRoom": "Sélectionner la salle",
+        "dateStart": "Date Début",
+        "timeStart": "Heure Début",
+        "dateEnd": "Date Fin",
+        "timeEnd": "Heure Fin",
+        "validationError": "La date de fin doit être après la date de début.",
+        "modal": {
+            "close": "Fermer",
+            "save": "Enregistrer"
+        },
+        "successMessage": "Modification effectuée avec succès",
+        "successTitle": "Modification De Réservation",
+        "errorMessage": "Erreur de Réservation",
+        "errorTitle": "Modification De Réservation"
+    },
+    "reservationShow": {
+        "modalTitle": "Détails de la Réservation",
+        "id": "ID",
+        "createdBy": "Créer par",
+        "room": "Salle",
+        "client": "Client",
+        "startDate": "Date Début",
+        "startTime": "Heure Début",
+        "endDate": "Date Fin",
+        "endTime": "Heure Fin",
+        "reservationDate": "Date de Réservation",
+        "modalClose": "Fermer"
     }
 }

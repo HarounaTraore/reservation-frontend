@@ -91,5 +91,56 @@
         "enterClientAddress": "أدخل عنوان العميل",
         "enterClientPhone": "أدخل رقم هاتف العميل",
         "phoneError": "يجب أن يتكون رقم الهاتف من 8 أرقام ويبدأ بالرقم 2 أو 3 أو 4."
+    },
+    "reservationList": {
+        "newReservation": "حجز جديد",
+        "startDate": "تاريخ البداية",
+        "endDate": "تاريخ النهاية",
+        "room": "قاعة",
+        "client": "عميل",
+        "actions": "الإجراءات",
+        "noReservation": "لا توجد حجوزات مسجلة",
+        "confirmDelete": "هل أنت متأكد من رغبتك في حذف هذا الحجز؟",
+        "deleteSuccess": "تم حذف الحجز بنجاح",
+        "deleteTitle": "الحذف",
+        "deleteError": "خطأ في الحذف: هذا الحجز مرتبط بعميل أو قاعة."
+    },
+    "reservationAdd": {
+        "title": "إضافة حجز",
+        "client": "عميل",
+        "selectClient": "اختر العميل",
+        "room": "قاعة",
+        "selectRoom": "اختر القاعة",
+        "startDate": "تاريخ البداية",
+        "startTime": "وقت البداية",
+        "endDate": "تاريخ النهاية",
+        "endTime": "وقت النهاية",
+        "dateError": "يجب أن يكون تاريخ النهاية بعد تاريخ البداية.",
+        "successMessage": "تم الحجز بنجاح",
+        "successTitle": "إضافة حجز",
+        "errorMessage": "خطأ في الحجز",
+        "errorTitle": "إضافة حجز",
+        "modal": {
+            "close": "إغلاق",
+            "save": "حفظ"
+        }
+    },
+    "reservationEdit": {
+        "modalTitle": "تعديل الحجز",
+        "selectClient": "اختر العميل",
+        "selectRoom": "اختر القاعة",
+        "dateStart": "تاريخ البداية",
+        "timeStart": "وقت البداية",
+        "dateEnd": "تاريخ النهاية",
+        "timeEnd": "وقت النهاية",
+        "validationError": "يجب أن يكون تاريخ النهاية بعد تاريخ البداية.",
+        "modal": {
+            "close": "إغلاق",
+            "save": "حفظ"
+        },
+        "successMessage": "تم التعديل بنجاح",
+        "successTitle": "تعديل الحجز",
+        "errorMessage": "خطأ في الحجز",
+        "errorTitle": "تعديل الحجز"
     }
 }

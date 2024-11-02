@@ -1,5 +1,4 @@
 <template>
-  <!-- Modal -->
   <div
     class="modal fade"
     id="reservationModal"
@@ -11,7 +10,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title fw-bold w-100 text-center">
-            Modifier la Réservation
+            {{ $t("reservationEdit.modalTitle") }}
           </h5>
           <button
             type="button"
@@ -25,41 +24,38 @@
           <div class="modal-body">
             <div class="d-flex flex-column align-items-center">
               <div class="w-100">
-                <!-- Sélection du client -->
                 <div class="input-group flex-nowrap mb-3">
-                  <label class="input-group-text">Client</label>
+                  <label class="input-group-text">{{ $t("reservationEdit.selectClient") }}</label>
                   <select
                     id="customerId"
                     v-model="reservation.customerId"
                     class="form-select bg-opacity-50"
                     required
                   >
-                    <option value="" disabled selected>Sélectionner le Client</option>
+                    <option value="" disabled selected>{{ $t("reservationEdit.selectClient") }}</option>
                     <option v-for="customer in storeCustomer().customers" :key="customer.id" :value="customer.id">
                       {{ customer.name }}
                     </option>
                   </select>
                 </div>
 
-                <!-- Sélection de la salle -->
                 <div class="input-group flex-nowrap mb-3">
-                  <label class="input-group-text">Salle</label>
+                  <label class="input-group-text">{{ $t("reservationEdit.selectRoom") }}</label>
                   <select
                     v-model="reservation.roomId"
                     class="form-select bg-opacity-50"
                     required
                   >
-                    <option value="" disabled selected>Sélectionner la salle</option>
+                    <option value="" disabled selected>{{ $t("reservationEdit.selectRoom") }}</option>
                     <option v-for="room in storeRoom().rooms" :key="room.id" :value="room.id">
                       {{ room.name }}
                     </option>
                   </select>
                 </div>
 
-                <!-- Date et heure de début -->
                 <div class="d-flex justify-content-between mb-3">
                   <div class="input-group me-2 flex-nowrap">
-                    <label class="input-group-text">Date Début</label>
+                    <label class="input-group-text">{{ $t("reservationEdit.dateStart") }}</label>
                     <input
                       type="date"
                       v-model="reservation.dateStart"
@@ -74,14 +70,13 @@
                       class="form-control bg-opacity-50"
                       required
                     />
-                    <label class="input-group-text">Heure Début</label>
+                    <label class="input-group-text">{{ $t("reservationEdit.timeStart") }}</label>
                   </div>
                 </div>
 
-                <!-- Date et heure de fin -->
                 <div class="d-flex justify-content-between mb-3">
                   <div class="input-group me-2 flex-nowrap">
-                    <label class="input-group-text">Date Fin</label>
+                    <label class="input-group-text">{{ $t("reservationEdit.dateEnd") }}</label>
                     <input
                       type="date"
                       v-model="reservation.dateEnd"
@@ -96,13 +91,12 @@
                       class="form-control bg-opacity-50"
                       required
                     />
-                    <label class="input-group-text">Heure Fin</label>
+                    <label class="input-group-text">{{ $t("reservationEdit.timeEnd") }}</label>
                   </div>
                 </div>
 
-                <!-- Message d'erreur de validation des dates -->
                 <div v-if="dateError" class="text-danger fs-6">
-                  {{ dateError }}
+                  {{ $t("reservationEdit.validationError") }}
                 </div>
               </div>
             </div>
@@ -110,14 +104,14 @@
           <div class="modal-footer">
             <button
               type="button"
-              class="btn btn-secondary "
+              class="btn btn-secondary"
               data-bs-dismiss="modal"
               @click="router.push({ name: 'list-reservation' })"
             >
-              {{ $t("modal.close") }}
+              {{ $t("reservationEdit.modal.close") }}
             </button>
             <button type="submit" class="btn btn-primary">
-              {{ $t("modal.save") }}
+              {{ $t("reservationEdit.modal.save") }}
             </button>
           </div>
         </form>
@@ -152,30 +146,30 @@ onMounted(async () => {
   modal.show();
 });
 
-// Validation des dates
 const validateDates = () => {
   const start = new Date(`${reservation.dateStart}T${reservation.timeStart}`);
   const end = new Date(`${reservation.dateEnd}T${reservation.timeEnd}`);
-  dateError.value = start >= end ? "La date de fin doit être après la date de début." : "";
+  dateError.value = start >= end ? t("reservationEdit.validationError") : "";
 };
-const storeGlobaly = globalyStore()
-const id = Number(useRoute().params.id);
+
+const storeGlobaly = globalyStore();
+const id = Number(route.params.id);
+
 const editReservation = async () => {
   validateDates();
   if (dateError.value) return;
   try {
     await store.updateReservation(id);
     await storeGlobaly.MessageModalSuccess(
-      "Modification effectuée Avec Succès",
-      "Modification De Réservation"
-    )
+      t("reservationEdit.successMessage"),
+      t("reservationEdit.successTitle")
+    );
     router.push({ name: "list-reservation" });
-    
   } catch (error) {
     await storeGlobaly.MessageModalDenied(
-      " Erreur de Réservation",
-      "Modification De Réservation"
-    )
+      t("reservationEdit.errorMessage"),
+      t("reservationEdit.errorTitle")
+    );
     console.log(error.message);
   }
 };

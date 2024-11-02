@@ -91,5 +91,69 @@
         "enterClientAddress": "Enter client address",
         "enterClientPhone": "Enter client phone number",
         "phoneError": "The phone number must be 8 digits and start with 2, 3, or 4."
+    },
+    "reservationList": {
+        "newReservation": "New Reservation",
+        "startDate": "Start Date",
+        "endDate": "End Date",
+        "room": "Room",
+        "client": "Client",
+        "actions": "Actions",
+        "noReservation": "No reservations recorded",
+        "confirmDelete": "Are you sure you want to delete this reservation?",
+        "deleteSuccess": "Reservation successfully deleted",
+        "deleteTitle": "Delete",
+        "deleteError": "Deletion error: this reservation is linked to a client or a room."
+    },
+    "reservationAdd": {
+        "title": "Add a Reservation",
+        "client": "Client",
+        "selectClient": "Select Client",
+        "room": "Room",
+        "selectRoom": "Select Room",
+        "startDate": "Start Date",
+        "startTime": "Start Time",
+        "endDate": "End Date",
+        "endTime": "End Time",
+        "dateError": "The end date must be after the start date.",
+        "successMessage": "Reservation successfully made",
+        "successTitle": "Reservation Added",
+        "errorMessage": "Reservation Error",
+        "errorTitle": "Adding Reservation",
+        "modal": {
+            "close": "Close",
+            "save": "Save"
+        }
+    },
+    "reservationEdit": {
+        "modalTitle": "Edit Reservation",
+        "selectClient": "Select Client",
+        "selectRoom": "Select Room",
+        "dateStart": "Start Date",
+        "timeStart": "Start Time",
+        "dateEnd": "End Date",
+        "timeEnd": "End Time",
+        "validationError": "End date must be after start date.",
+        "modal": {
+            "close": "Close",
+            "save": "Save"
+        },
+        "successMessage": "Modification successfully completed",
+        "successTitle": "Reservation Modification",
+        "errorMessage": "Reservation Error",
+        "errorTitle": "Reservation Modification"
+    },
+    "reservationShow": {
+        "modalTitle": "Reservation Details",
+        "id": "ID",
+        "createdBy": "Created By",
+        "room": "Room",
+        "client": "Client",
+        "startDate": "Start Date",
+        "startTime": "Start Time",
+        "endDate": "End Date",
+        "endTime": "End Time",
+        "reservationDate": "Reservation Date",
+        "modalClose": "Close"
     }
 }

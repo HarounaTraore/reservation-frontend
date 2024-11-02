@@ -11,7 +11,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title fw-bold w-100 text-center">
-            Détails de la Réservation
+            {{ $t("reservationShow.modalTitle") }}
           </h5>
           <button
             type="button"
@@ -27,7 +27,7 @@
               <div class="w-100">
                 <div class="d-flex justify-content-between flex-nowrap">
                   <div class="input-group w-auto me-2 flex-nowrap">
-                    <label class="input-group-text">ID</label>
+                    <label class="input-group-text">{{ $t("reservationShow.id") }}</label>
                     <input
                       type="text"
                       disabled
@@ -45,14 +45,13 @@
                       class="form-control bg-opacity-50"
                       required
                     />
-                    <label class="input-group-text text-truncate"
-                      >Créer par</label
-                    >
+                    <label class="input-group-text">{{ $t("reservationShow.createdBy") }}</label>
                   </div>
                 </div>
+
                 <div class="d-flex d-nowrap justify-content-between">
                   <div class="input-group me-2 flex-nowrap">
-                    <label class="input-group-text">Salle</label>
+                    <label class="input-group-text">{{ $t("reservationShow.room") }}</label>
                     <input
                       type="text"
                       disabled
@@ -70,16 +69,13 @@
                       class="form-control bg-opacity-50"
                       required
                     />
-                    <label for="customerId" class="input-group-text"
-                      >Client</label
-                    >
+                    <label for="customerId" class="input-group-text">{{ $t("reservationShow.client") }}</label>
                   </div>
                 </div>
+
                 <div class="d-flex d-nowrap justify-content-between">
                   <div class="input-group w-auto me-2 flex-nowrap">
-                    <label class="input-group-text"
-                      >Date Début</label
-                    >
+                    <label class="input-group-text">{{ $t("reservationShow.startDate") }}</label>
                     <input
                       type="text"
                       disabled
@@ -96,14 +92,13 @@
                       class="form-control bg-opacity-50"
                       required
                     />
-                    <label for="dateStart" class="input-group-text"
-                      >Heure</label
-                    >
+                    <label for="dateStart" class="input-group-text">{{ $t("reservationShow.startTime") }}</label>
                   </div>
                 </div>
+
                 <div class="d-flex flex-nowrap justify-content-between">
                   <div class="input-group w-75 me-2 flex-nowrap">
-                    <label class="input-group-text">Date Fin</label>
+                    <label class="input-group-text">{{ $t("reservationShow.endDate") }}</label>
                     <input
                       type="text"
                       disabled
@@ -120,12 +115,12 @@
                       class="form-control bg-opacity-50"
                       required
                     />
-                    <label for="dateEnd" class="input-group-text">Heure</label>
+                    <label for="dateEnd" class="input-group-text">{{ $t("reservationShow.endTime") }}</label>
                   </div>
                 </div>
 
                 <div class="input-group w-auto me-2 flex-nowrap">
-                  <label class="input-group-text">Date de Réservation</label>
+                  <label class="input-group-text">{{ $t("reservationShow.reservationDate") }}</label>
                   <input
                     type="text"
                     disabled
@@ -144,7 +139,7 @@
               data-bs-dismiss="modal"
               @click="router.push({ name: 'list-reservation' })"
             >
-              {{ $t("modal.close") }}
+              {{ $t("reservationShow.modalClose") }}
             </button>
           </div>
         </form>
@@ -153,8 +148,8 @@
   </div>
   <SuccessModal valid="Ok" />
 </template>
-      
-  <script setup>
+
+<script setup>
 import SuccessModal from "@/components/MessageModal.vue";
 import { useI18n } from "vue-i18n";
 import { Modal } from "bootstrap/dist/js/bootstrap.bundle.min";
@@ -162,6 +157,7 @@ import { onMounted } from "vue";
 import router from "@/router";
 import { storeReservation } from "@/stores/storeReservation";
 import { useDateTimeFormatter } from "./useDateForatter";
+
 const { formatDateTime } = useDateTimeFormatter();
 const store = storeReservation();
 const reservation = store.reservation;
@@ -171,8 +167,8 @@ onMounted(() => {
   modal.show();
 });
 </script>
-      
-  <style scoped>
+
+<style scoped>
 .height {
   height: 80vh;
 }
@@ -180,4 +176,3 @@ onMounted(() => {
   margin-top: 25px;
 }
 </style>
-  
