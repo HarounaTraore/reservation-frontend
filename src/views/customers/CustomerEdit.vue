@@ -11,7 +11,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title fw-bold w-100 text-center">Modification</h5>
+          <h5 class="modal-title fw-bold w-100 text-center">{{ $t("customerEdit.title") }}</h5>
           <button
             type="button"
             class="btn-close"
@@ -25,13 +25,13 @@
             <div class="d-flex flex-column align-items-center">
               <div class="w-100">
                 <div class="input-group flex-nowrap">
-                  <label for="name" class="input-group-text">Nom</label>
+                  <label for="name" class="input-group-text">{{ $t("customerEdit.name") }}</label>
                   <input
                     type="text"
                     id="name"
                     v-model="customer.name"
                     class="form-control bg-opacity-50"
-                    placeholder="Entrer le nom du client"
+                    :placeholder="$t('customerEdit.enterClientName')"
                     aria-label="name"
                     required
                   />
@@ -41,15 +41,15 @@
                   <div class="col-12">
                     <div class="input-group">
                       <label for="address" class="input-group-text">
-                        Address
+                        {{ $t("customerEdit.address") }}
                       </label>
                       <input
                         type="text"
                         v-model="customer.address"
                         id="address"
                         class="form-control bg-opacity-50"
-                        placeholder="Entrer l'adresse du client"
-                        aria-label="Entrer l'adresse du client"
+                        :placeholder="$t('customerEdit.enterClientAddress')"
+                        aria-label="address"
                         required
                       />
                     </div>
@@ -57,19 +57,19 @@
                 </div>
 
                 <div class="input-group flex-nowrap">
-                  <label for="phone" class="input-group-text">Phone</label>
+                  <label for="phone" class="input-group-text">{{ $t("customerEdit.phone") }}</label>
                   <input
                     name="phone"
                     v-model="customer.phone"
                     @input="validatePhone"
                     class="form-control bg-opacity-50"
                     id="phone"
-                    placeholder="Entrer le numero telephon du client"
+                    :placeholder="$t('customerEdit.enterClientPhone')"
                     required
                   />
                 </div>
                 <p v-if="phoneError" class="text-danger fs-6">
-                  {{ phoneError }}
+                  {{ $t("customerEdit.phoneError") }}
                 </p>
               </div>
             </div>
@@ -81,7 +81,7 @@
               data-bs-dismiss="modal"
               @click="router.push({ name: 'customer' })"
             >
-              {{ $t("modal.close") }}
+              {{ $t("customerEdit.close") }}
             </button>
             <button
               type="submit"
@@ -89,7 +89,7 @@
               class="btn btn-primary"
               data-bs-dismiss="modal"
             >
-              {{ $t("modal.save") }}
+              {{ $t("customerEdit.save") }}
             </button>
           </div>
         </form>
@@ -98,7 +98,7 @@
   </div>
   <SuccessModal valid="Ok" />
 </template>
-  
+
   <script setup>
 import SuccessModal from "@/components/MessageModal.vue";
 import { useI18n } from "vue-i18n";

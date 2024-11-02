@@ -8,6 +8,16 @@
         "forgotPassword": "Mot de passe oublié ?",
         "signInBtn": "Se connecter"
     },
+    "home": {
+        "navbar": {
+            "dashboard": "T.bord",
+            "rooms": "Salles",
+            "clients": "Clients",
+            "reservations": "Réservations",
+            "users": "Utilisateurs",
+            "logoutConfirm": "Êtes-vous sûr de vouloir vous déconnecter ?"
+        }
+    },
     "modal": {
         "title": "Formulaire de Salle",
         "name": "Nom",
@@ -23,5 +33,63 @@
         "openForm": "Ouvrir le formulaire",
         "namePlaceholder": "Nom de la Salle",
         "capacityPlaceholder": "Capacité de la Salle"
+    },
+    "customerList": {
+        "newCustomer": "Nouveau Client",
+        "name": "Nom",
+        "address": "Adresse",
+        "phone": "Téléphone",
+        "actions": "Actions",
+        "noClient": "Aucun client enregistré",
+        "deleteConfirm": "Êtes-vous sûr de vouloir supprimer ce client ?",
+        "deleteSuccess": "Client supprimé avec succès",
+        "deleteError": "Erreur de suppression : ce client est lié à des réservations",
+        "delete": "Suppression"
+    },
+    "addCustomer": {
+        "modal": {
+            "title": "Ajouter Un Client",
+            "close": "Fermer",
+            "save": "Enregistrer"
+        },
+        "form": {
+            "nameLabel": "Nom",
+            "namePlaceholder": "Entrer le nom du client",
+            "addressLabel": "Adresse",
+            "addressPlaceholder": "Entrer l'adresse du client",
+            "phoneLabel": "Téléphone",
+            "phonePlaceholder": "Entrer le numéro de téléphone du client",
+            "phoneError": "Le numéro de téléphone doit comporter 8 chiffres et commencer par 2, 3 ou 4."
+        },
+        "messages": {
+            "success": "Client Ajouté Avec Succès",
+            "creationTitle": "Création",
+            "error": "Erreur lors de la Création",
+            "errorTitle": "Création Client"
+        }
+    },
+    "customerShow": {
+        "title": "Affichage",
+        "id": "ID",
+        "user": "Utilisateur",
+        "name": "Nom",
+        "address": "Adresse",
+        "phone": "Téléphone",
+        "close": "Fermer",
+        "enterClientName": "Entrer le nom du client",
+        "enterClientAddress": "Entrer l'adresse du client",
+        "enterClientPhone": "Entrer le numéro de téléphone du client"
+    },
+    "customerEdit": {
+        "title": "Modification",
+        "name": "Nom",
+        "address": "Adresse",
+        "phone": "Téléphone",
+        "close": "Fermer",
+        "save": "Enregistrer",
+        "enterClientName": "Entrer le nom du client",
+        "enterClientAddress": "Entrer l'adresse du client",
+        "enterClientPhone": "Entrer le numéro de téléphone du client",
+        "phoneError": "Le numéro de téléphone doit comporter 8 chiffres et commencer par 2, 3 ou 4."
     }
 }

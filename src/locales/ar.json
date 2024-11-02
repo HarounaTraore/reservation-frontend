@@ -8,6 +8,16 @@
         "forgotPassword": "هل نسيت كلمة المرور؟",
         "signInBtn": "تسجيل الدخول"
     },
+    "home": {
+        "navbar": {
+            "dashboard": "لوحة القيادة",
+            "rooms": "الغرف",
+            "clients": "العملاء",
+            "reservations": "الحجوزات",
+            "users": "المستخدمون",
+            "logoutConfirm": "هل أنت متأكد أنك تريد تسجيل الخروج؟"
+        }
+    },
     "modal": {
         "title": "نموذج القاعة",
         "name": "الاسم",
@@ -23,5 +33,63 @@
         "openForm": "فتح النموذج",
         "namePlaceholder": "اسم القاعة",
         "capacityPlaceholder": "سعة القاعة"
+    },
+    "customerList": {
+        "newCustomer": "عميل جديد",
+        "name": "الاسم",
+        "address": "العنوان",
+        "phone": "الهاتف",
+        "actions": "إجراءات",
+        "noClient": "لم يتم تسجيل أي عميل",
+        "deleteConfirm": "هل أنت متأكد أنك تريد حذف هذا العميل؟",
+        "deleteSuccess": "تم حذف العميل بنجاح",
+        "deleteError": "خطأ في الحذف: هذا العميل مرتبط بحجوزات",
+        "delete": "حذف"
+    },
+    "addCustomer": {
+        "modal": {
+            "title": "إضافة عميل",
+            "close": "إغلاق",
+            "save": "حفظ"
+        },
+        "form": {
+            "nameLabel": "الاسم",
+            "namePlaceholder": "أدخل اسم العميل",
+            "addressLabel": "العنوان",
+            "addressPlaceholder": "أدخل عنوان العميل",
+            "phoneLabel": "الهاتف",
+            "phonePlaceholder": "أدخل رقم هاتف العميل",
+            "phoneError": "يجب أن يتكون رقم الهاتف من 8 أرقام ويبدأ بـ 2 أو 3 أو 4."
+        },
+        "messages": {
+            "success": "تم إضافة العميل بنجاح",
+            "creationTitle": "إنشاء",
+            "error": "خطأ أثناء الإنشاء",
+            "errorTitle": "إنشاء العميل"
+        }
+    },
+    "customerShow": {
+        "title": "عرض",
+        "id": "الرقم التعريفي",
+        "user": "المستخدم",
+        "name": "الاسم",
+        "address": "العنوان",
+        "phone": "الهاتف",
+        "close": "إغلاق",
+        "enterClientName": "أدخل اسم العميل",
+        "enterClientAddress": "أدخل عنوان العميل",
+        "enterClientPhone": "أدخل رقم هاتف العميل"
+    },
+    "customerEdit": {
+        "title": "تعديل",
+        "name": "الاسم",
+        "address": "العنوان",
+        "phone": "الهاتف",
+        "close": "إغلاق",
+        "save": "حفظ",
+        "enterClientName": "أدخل اسم العميل",
+        "enterClientAddress": "أدخل عنوان العميل",
+        "enterClientPhone": "أدخل رقم هاتف العميل",
+        "phoneError": "يجب أن يتكون رقم الهاتف من 8 أرقام ويبدأ بالرقم 2 أو 3 أو 4."
     }
 }

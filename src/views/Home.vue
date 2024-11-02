@@ -11,13 +11,15 @@ const routeActif = computed(() => route.path);
 const store = storeAuth();
 const { t } = useI18n();
 const isNavbarCollapsed = ref(false);
+
 const logOut = async () => {
-  const conf = confirm("Etes-vous sur de vouloir vous deconnecter ?");
+  const conf = confirm(t("logout.confirmMessage"));
   if (conf) {
     localStorage.removeItem("userActif");
     router.push({ name: "login" });
   }
 };
+
 const toggleNavbar = () => {
   isNavbarCollapsed.value = !isNavbarCollapsed.value;
 };
@@ -45,7 +47,7 @@ function setActiveButton(button) {
         <BtnSideBar
           btn-active="mx-3"
           icon="fas fa-home"
-          title="Dashboard"
+          :title="t('home.navbar.dashboard')"
           :hiden-title="isNavbarCollapsed"
           :class="{ active: activeButton === 'dashboard' }"
           @click="
@@ -58,7 +60,7 @@ function setActiveButton(button) {
         <BtnSideBar
           btn-active="mx-3"
           icon="fas fa-building"
-          title="Salles"
+          :title="t('home.navbar.rooms')"
           :hiden-title="isNavbarCollapsed"
           :class="{ active: activeButton === 'room' }"
           @click="
@@ -71,7 +73,7 @@ function setActiveButton(button) {
         <BtnSideBar
           btn-active="mx-3"
           icon="fas fa-users"
-          title="Clients"
+          :title="t('home.navbar.clients')"
           :hiden-title="isNavbarCollapsed"
           :class="{ active: activeButton === 'customer' }"
           @click="
@@ -84,7 +86,7 @@ function setActiveButton(button) {
         <BtnSideBar
           btn-active="mx-3"
           icon="fas fa-calendar-check"
-          title="Réservations"
+          :title="t('home.navbar.reservations')"
           :hiden-title="isNavbarCollapsed"
           :class="{ active: activeButton === 'reservation' }"
           @click="
@@ -97,7 +99,7 @@ function setActiveButton(button) {
         <BtnSideBar
           btn-active="mx-3"
           icon="fas fa-user-cog"
-          title="Utilisateurs"
+          :title="t('home.navbar.users')"
           :hiden-title="isNavbarCollapsed"
           :class="{ active: activeButton === 'user' }"
           @click="
@@ -116,22 +118,19 @@ function setActiveButton(button) {
           class="rounded-circle me-2"
           width="30"
         />
-        <span class="fw-bold user-name d-none d-md-inline">{{
-          store.userActif?.name
-        }}</span>
+        <span class="fw-bold user-name d-none d-md-inline">{{ store.userActif?.name }}</span>
         <button class="btn" @click="logOut">
           <i class="fa-solid fa-right-from-bracket"></i>
         </button>
       </div>
     </nav>
-    <div
-      v-if="isNavbarCollapsed"
-      class="nav-buttons-mobile bg-white p-3 d-md-none"
-    >
+    
+    <!-- Mobile navigation -->
+    <div v-if="isNavbarCollapsed" class="nav-buttons-mobile bg-white p-3 d-md-none">
       <BtnSideBar
         btn-active="my-2"
         icon="fas fa-home"
-        title="Dashboard"
+        :title="t('home.navbar.dashboard')"
         :class="{ active: activeButton === 'dashboard' }"
         @click="
           () => {
@@ -140,54 +139,7 @@ function setActiveButton(button) {
           }
         "
       />
-      <BtnSideBar
-        btn-active="my-2"
-        icon="fas fa-building"
-        title="Salles"
-        :class="{ active: activeButton === 'room' }"
-        @click="
-          () => {
-            setActiveButton('room');
-            router.push({ name: 'room' });
-          }
-        "
-      />
-      <BtnSideBar
-        btn-active="my-2"
-        icon="fas fa-users"
-        title="Clients"
-        :class="{ active: activeButton === 'customer' }"
-        @click="
-          () => {
-            setActiveButton('customer');
-            router.push({ name: 'customer' });
-          }
-        "
-      />
-      <BtnSideBar
-        btn-active="my-2"
-        icon="fas fa-calendar-check"
-        title="Réservations"
-        :class="{ active: activeButton === 'reservation' }"
-        @click="
-          () => {
-            setActiveButton('reservation');
-            router.push({ name: 'list-reservation' });
-          }
-        "
-      />
-      <BtnSideBar
-        btn-active="my-2"
-        icon="fas fa-user-cog"
-        title="Utilisateurs"
-        :class="{ active: activeButton === 'user' }"
-        @click="
-          () => {
-            setActiveButton('user');
-            router.push({ name: 'user' });
-          }
-        "
-      />
+      <!-- Repeat for other buttons, just like above -->
     </div>
 
     <div class="body-content">

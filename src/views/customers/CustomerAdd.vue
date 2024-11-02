@@ -11,7 +11,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title fw-bold w-100 text-center">
-            Ajouter Un Client
+            {{ $t("addCustomer.modal.title") }}
           </h5>
           <button
             type="button"
@@ -26,13 +26,13 @@
             <div class="d-flex flex-column align-items-center">
               <div class="w-100">
                 <div class="input-group flex-nowrap">
-                  <label for="name" class="input-group-text">Nom</label>
+                  <label for="name" class="input-group-text">{{ $t("addCustomer.form.nameLabel") }}</label>
                   <input
                     type="text"
                     id="name"
                     v-model="customer.name"
                     class="form-control bg-opacity-50"
-                    placeholder="Entrer le nom du client"
+                    :placeholder="$t('addCustomer.form.namePlaceholder')"
                     aria-label="name"
                     required
                   />
@@ -42,15 +42,15 @@
                   <div class="col-12">
                     <div class="input-group">
                       <label for="address" class="input-group-text">
-                        Address
+                        {{ $t("addCustomer.form.addressLabel") }}
                       </label>
                       <input
                         type="text"
                         v-model="customer.address"
                         id="address"
                         class="form-control bg-opacity-50"
-                        placeholder="Entrer l'adresse du client"
-                        aria-label="Entrer l'adresse du client"
+                        :placeholder="$t('addCustomer.form.addressPlaceholder')"
+                        aria-label="address"
                         required
                       />
                     </div>
@@ -58,31 +58,31 @@
                 </div>
 
                 <div class="input-group flex-nowrap">
-                  <label for="phone" class="input-group-text">Phone</label>
+                  <label for="phone" class="input-group-text">{{ $t("addCustomer.form.phoneLabel") }}</label>
                   <input
                     name="phone"
                     v-model="customer.phone"
                     @input="validatePhone"
                     class="form-control bg-opacity-50"
                     id="phone"
-                    placeholder="Entrer le numero telephon du client"
+                    :placeholder="$t('addCustomer.form.phonePlaceholder')"
                     required
                   />
                 </div>
                 <p v-if="phoneError" class="text-danger fs-6">
-                  {{ phoneError }}
+                  {{ $t("addCustomer.form.phoneError") }}
                 </p>
               </div>
             </div>
           </div>
           <div class="modal-footer">
             <button
-              type="submit"
+              type="button"
               class="btn btn-secondary"
               data-bs-dismiss="modal"
               @click="router.push({ name: 'customer' })"
             >
-              {{ $t("modal.close") }}
+              {{ $t("addCustomer.modal.close") }}
             </button>
             <button
               type="submit"
@@ -90,7 +90,7 @@
               :disabled="phoneError"
               class="btn btn-primary"
             >
-              {{ $t("modal.save") }}
+              {{ $t("addCustomer.modal.save") }}
             </button>
           </div>
         </form>
@@ -99,8 +99,8 @@
   </div>
   <SuccessModal valid="Ok" />
 </template>
-  
-  <script setup>
+
+<script setup>
 import SuccessModal from "@/components/MessageModal.vue";
 import { useI18n } from "vue-i18n";
 import { globalyStore } from "@/stores/storeGlobaly";
@@ -109,8 +109,8 @@ import { Modal } from "bootstrap/dist/js/bootstrap.bundle.min";
 import { onMounted, ref } from "vue";
 import router from "@/router";
 import { storeCustomer } from "@/stores/storeCustomer";
-const { t } = useI18n();
 
+const { t } = useI18n();
 const storeGlobaly = globalyStore();
 const route = useRoute();
 const store = storeCustomer();
@@ -126,31 +126,29 @@ const phoneError = ref('');
 const validatePhone = () => {
   const regex = /^[234]\d{7}$/;
   if (!regex.test(customer.phone)) {
-    phoneError.value =
-      "Le numéro de téléphone doit comporter 8 chiffres et commencer par 2, 3 ou 4.";
+    phoneError.value = t("addCustomer.form.phoneError");
   } else {
     phoneError.value = false;
   }
 };
 
-const id = Number(route.params.id); //FOR MODICATION
+const id = Number(route.params.id); //FOR MODIFICATION
 
 const newCustomer = async () => {
   try {
     await store.addCustomer();
     await storeGlobaly.MessageModalSuccess(
-      "Client Ajouté Avec Succès",
-      "Création"
+      t("addCustomer.messages.success"),
+      t("addCustomer.messages.creationTitle")
     );
     store.customer.name = "";
     store.customer.address = "";
     store.customer.phone = "";
-
     router.push({ name: "customer" });
   } catch (error) {
     await storeGlobaly.MessageModalDenied(
-      "Erreur lors de la Création",
-      "Creation Client"
+      t("addCustomer.messages.error"),
+      t("addCustomer.messages.errorTitle")
     );
     console.log(error.message);
   }
@@ -165,8 +163,8 @@ defineProps({
   },
 });
 </script>
-  
-  <style scoped>
+
+<style scoped>
 .height {
   height: 80vh;
 }

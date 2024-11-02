@@ -1,28 +1,95 @@
 {
-    "login":{
+    "login": {
         "title": "Sign In",
-        "emailLabel":"Email address",
+        "emailLabel": "Email address",
         "emailPlaceholder": "Enter your email",
         "passwordLabel": "Password",
         "passwordPlaceholder": "Enter your password",
         "forgotPassword": "Forgot password?",
         "signInBtn": "Sign In"
     },
+    "home": {
+        "navbar": {
+            "dashboard": "Dashboard",
+            "rooms": "Rooms",
+            "clients": "Clients",
+            "reservations": "Reservations",
+            "users": "Users",
+            "logoutConfirm": "Are you sure you want to log out?"
+        }
+    },
     "modal": {
-    "title": "Room Form",
-    "name": "Name",
-    "capacity": "Capacity",
-    "status": "Status",
-    "chooseStatus": "Choose Status",
-    "reserved": "Reserved",
-    "notReserved": "Not Reserved",
-    "equipment": "Equipment",
-    "equipmentPlaceholder": "List of Equipment",
-    "close": "Close",
-    "save": "Save",
-    "openForm": "Open Form",
-    "namePlaceholder": "Room Name",
-    "capacityPlaceholder": "Room Capacity"
-}
-
+        "title": "Room Form",
+        "name": "Name",
+        "capacity": "Capacity",
+        "status": "Status",
+        "chooseStatus": "Choose Status",
+        "reserved": "Reserved",
+        "notReserved": "Not Reserved",
+        "equipment": "Equipment",
+        "equipmentPlaceholder": "List of Equipment",
+        "close": "Close",
+        "save": "Save",
+        "openForm": "Open Form",
+        "namePlaceholder": "Room Name",
+        "capacityPlaceholder": "Room Capacity"
+    },
+    "customerList": {
+        "newCustomer": "New Customer",
+        "name": "Name",
+        "address": "Address",
+        "phone": "Phone",
+        "actions": "Actions",
+        "noClient": "No Client registered",
+        "deleteConfirm": "Are you sure you want to delete this client?",
+        "deleteSuccess": "Client deleted successfully",
+        "deleteError": "Deletion error: this client is linked to reservations",
+        "delete": "Delete"
+    },
+    "addCustomer": {
+        "modal": {
+            "title": "Add a Client",
+            "close": "Close",
+            "save": "Save"
+        },
+        "form": {
+            "nameLabel": "Name",
+            "namePlaceholder": "Enter the client's name",
+            "addressLabel": "Address",
+            "addressPlaceholder": "Enter the client's address",
+            "phoneLabel": "Phone",
+            "phonePlaceholder": "Enter the client's phone number",
+            "phoneError": "The phone number must be 8 digits and start with 2, 3, or 4."
+        },
+        "messages": {
+            "success": "Client Successfully Added",
+            "creationTitle": "Creation",
+            "error": "Error During Creation",
+            "errorTitle": "Client Creation"
+        }
+    },
+    "customerShow": {
+        "title": "Display",
+        "id": "ID",
+        "user": "User",
+        "name": "Name",
+        "address": "Address",
+        "phone": "Phone",
+        "close": "Close",
+        "enterClientName": "Enter client name",
+        "enterClientAddress": "Enter client address",
+        "enterClientPhone": "Enter client phone number"
+    },
+    "customerEdit": {
+        "title": "Edit",
+        "name": "Name",
+        "address": "Address",
+        "phone": "Phone",
+        "close": "Close",
+        "save": "Save",
+        "enterClientName": "Enter client name",
+        "enterClientAddress": "Enter client address",
+        "enterClientPhone": "Enter client phone number",
+        "phoneError": "The phone number must be 8 digits and start with 2, 3, or 4."
+    }
 }
