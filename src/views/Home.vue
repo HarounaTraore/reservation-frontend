@@ -22,6 +22,10 @@ const toggleNavbar = () => {
   isNavbarCollapsed.value = !isNavbarCollapsed.value;
 };
 
+const savedUserActif = computed(() =>
+  JSON.parse(localStorage.getItem("userActif"))
+);
+
 const activeButton = ref("");
 function setActiveButton(button) {
   activeButton.value = button;
@@ -29,7 +33,7 @@ function setActiveButton(button) {
 </script>
 
 <template>
-  <div class="container-fluid p-0">
+  <div class="container-fluid p-0" v-if="savedUserActif">
     <nav
       class="navbar d-flex align-items-center justify-content-between bg-white px-4 py-2 shadow-sm border-bottom"
     >

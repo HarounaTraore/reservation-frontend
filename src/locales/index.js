@@ -4,8 +4,8 @@ import en from "./en.json";
 import ar from "./ar.json";
 
 const i18n = createI18n({
-  // locale: "fr",
-  fallbackLocale: "en", 
+  locale: "fr",
+  fallbackLocale: "fr", 
   messages: {
     en, 
     fr, 

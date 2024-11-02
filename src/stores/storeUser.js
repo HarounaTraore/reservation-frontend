@@ -60,7 +60,6 @@ export const storeUser = defineStore("user", () => {
       user.value.email = result.data.result.email;
       user.value.address = result.data.result.address;
       user.value.phone = result.data.result.phone;
-      user.value.password = result.data.result.password;
       user.value.status = result.data.result.status;
       user.value.role = result.data.result.role;
       console.log(user.value);
@@ -81,6 +80,7 @@ export const storeUser = defineStore("user", () => {
           address: user.value.address,
           phone: user.value.phone,
           password: user.value.password,
+          status: !!user.value.status,
           role: user.value.role,
         },
         { headers: { Authorization: `Bearer ${savedUserActif.token}` } }
