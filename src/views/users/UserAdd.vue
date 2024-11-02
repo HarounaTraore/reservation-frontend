@@ -1,63 +1,54 @@
 <template>
   <div class="container">
-    <h2 class="text-center mt-4 fw-bold">Ajouter un Utilisateur</h2>
+    <h2 class="text-center mt-4 fw-bold">{{ $t("userAdd.title") }}</h2>
     <form @submit.prevent="addUser" class="mt-3">
-
       <div class="input-group mb-3" :class="isDisabled ? 'col-6' : 'col-12'">
-        <label for="name" class="input-group-text">{{
-          $t("modal.name")
-        }}</label>
+        <label for="name" class="input-group-text">{{ $t("userAdd.name") }}</label>
         <input
           type="text"
           v-model="user.name"
           id="name"
           class="form-control bg-opacity-50"
-          :placeholder="$t('modal.namePlaceholder')"
+          :placeholder="$t('userAdd.namePlaceholder')"
           aria-label="Nom de l'utilisateur"
           required
         />
       </div>
 
       <div class="input-group mb-3" :class="isDisabled ? 'col-6' : 'col-12'">
-        <label for="email" class="input-group-text">{{
-          $t("modal.email")
-        }}</label>
+        <label for="email" class="input-group-text">{{ $t("userAdd.email") }}</label>
         <input
           type="email"
           v-model="user.email"
           id="email"
           class="form-control bg-opacity-50"
-          :placeholder="$t('modal.emailPlaceholder')"
+          :placeholder="$t('userAdd.emailPlaceholder')"
           aria-label="Email de l'utilisateur"
           required
         />
       </div>
 
       <div class="input-group mb-3" :class="isDisabled ? 'col-6' : 'col-12'">
-        <label for="address" class="input-group-text">{{
-          $t("modal.address")
-        }}</label>
+        <label for="address" class="input-group-text">{{ $t("userAdd.address") }}</label>
         <input
           type="text"
           v-model="user.address"
           id="address"
           class="form-control bg-opacity-50"
-          :placeholder="$t('modal.addressPlaceholder')"
+          :placeholder="$t('userAdd.addressPlaceholder')"
           aria-label="Adresse de l'utilisateur"
           required
         />
       </div>
 
       <div class="input-group mb-3" :class="isDisabled ? 'col-6' : 'col-12'">
-        <label for="phone" class="input-group-text">{{
-          $t("modal.phone")
-        }}</label>
+        <label for="phone" class="input-group-text">{{ $t("userAdd.phone") }}</label>
         <input
           type="text"
           v-model="user.phone"
           id="phone"
           class="form-control bg-opacity-50"
-          :placeholder="$t('modal.phonePlaceholder')"
+          :placeholder="$t('userAdd.phonePlaceholder')"
           @input="validatePhone"
           aria-label="Téléphone de l'utilisateur"
           required
@@ -65,44 +56,39 @@
         <p v-if="phoneError" class="text-danger">{{ phoneError }}</p>
       </div>
 
-      <div class="input-group col-12 mb-3" >
-        <label for="password" class="input-group-text">{{
-          $t("modal.password")
-        }}</label>
+      <div class="input-group col-12 mb-3">
+        <label for="password" class="input-group-text">{{ $t("userAdd.password") }}</label>
         <input
           type="password"
           v-model="user.password"
           id="password"
           class="form-control bg-opacity-50"
-          :placeholder="$t('modal.passwordPlaceholder')"
+          :placeholder="$t('userAdd.passwordPlaceholder')"
           aria-label="Mot de passe"
           required
         />
       </div>
 
-      <div class="input-group col-12 mb-3" >
-        <label for="role" class="input-group-text">{{
-          $t("modal.role")
-        }}</label>
+      <div class="input-group col-12 mb-3">
+        <label for="role" class="input-group-text">{{ $t("userAdd.role") }}</label>
         <select
           v-model="user.role"
           id="role"
           class="form-select"
           required
         >
-          <option value="">{{ $t("modal.selectRole") }}</option>
-          <option value="Admin">{{ $t("modal.admin") }}</option>
-          <option value="Manager">{{ $t("modal.manager") }}</option>
-
+          <option value="">{{ $t("userAdd.selectRole") }}</option>
+          <option value="Admin">{{ $t("userAdd.admin") }}</option>
+          <option value="Manager">{{ $t("userAdd.manager") }}</option>
         </select>
       </div>
 
       <div class="d-flex justify-content-between">
         <button type="submit" class="btn btn-primary" :disabled="phoneError">
-          Ajouter l'Utilisateur
+          {{ $t("userAdd.submit") }}
         </button>
         <button type="button" class="btn btn-secondary" @click="cancel">
-          Annuler
+          {{ $t("userAdd.cancel") }}
         </button>
       </div>
     </form>
@@ -131,14 +117,10 @@ const validatePhone = () => {
 const addUser = async () => {
   try {
     await store.addUser();
-
-    globalyStore().MessageModalSuccess("Utilisateur ajouté avec succès", "Création");
+    globalyStore().MessageModalSuccess($t("userAdd.successMessage"), "Création");
     router.push({ name: "user" });
   } catch (error) {
-    globalyStore().MessageModalDenied(
-      "Erreur lors de la création",
-      "Création utilisateur"
-    );
+    globalyStore().MessageModalDenied($t("userAdd.errorMessage"), "Création utilisateur");
     console.error(error.message);
   }
 };

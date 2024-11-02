@@ -1,77 +1,67 @@
 <template>
   <div class="container">
-    <h2 class="text-center mt-4 fw-bold">Affichage d'un Utilisateur</h2>
+    <h2 class="text-center mt-4 fw-bold">{{ $t("userShow.title") }}</h2>
     <form class="mt-3">
       <div class="input-group mb-3 col-12">
-        <label for="name" class="input-group-text">{{
-          $t("modal.name")
-        }}</label>
+        <label for="name" class="input-group-text">{{ $t("userShow.name") }}</label>
         <input
           type="text"
           v-model="user.name"
           id="name"
           disabled
           class="form-control bg-opacity-50"
-          :placeholder="$t('modal.namePlaceholder')"
+          :placeholder="$t('userShow.namePlaceholder')"
           aria-label="Nom de l'utilisateur"
           required
         />
       </div>
 
       <div class="input-group mb-3 col-12">
-        <label for="email" class="input-group-text">{{
-          $t("modal.email")
-        }}</label>
+        <label for="email" class="input-group-text">{{ $t("userShow.email") }}</label>
         <input
           type="email"
           v-model="user.email"
           id="email"
           disabled
           class="form-control bg-opacity-50"
-          :placeholder="$t('modal.emailPlaceholder')"
+          :placeholder="$t('userShow.emailPlaceholder')"
           aria-label="Email de l'utilisateur"
           required
         />
       </div>
 
       <div class="input-group mb-3 col-12">
-        <label for="address" class="input-group-text">{{
-          $t("modal.address")
-        }}</label>
+        <label for="address" class="input-group-text">{{ $t("userShow.address") }}</label>
         <input
           type="text"
           v-model="user.address"
           id="address"
           disabled
           class="form-control bg-opacity-50"
-          :placeholder="$t('modal.addressPlaceholder')"
+          :placeholder="$t('userShow.addressPlaceholder')"
           aria-label="Adresse de l'utilisateur"
           required
         />
       </div>
 
       <div class="input-group mb-3 col-12">
-        <label for="phone" class="input-group-text">{{
-          $t("modal.phone")
-        }}</label>
+        <label for="phone" class="input-group-text">{{ $t("userShow.phone") }}</label>
         <input
           type="text"
           v-model="user.phone"
           disabled
           id="phone"
           class="form-control bg-opacity-50"
-          :placeholder="$t('modal.phonePlaceholder')"
+          :placeholder="$t('userShow.phonePlaceholder')"
           @input="validatePhone"
           aria-label="Téléphone de l'utilisateur"
           required
         />
-        <p v-if="phoneError" class="text-danger">{{ phoneError }}</p>
+        <p v-if="phoneError" class="text-danger">{{ $t("userShow.phoneError") }}</p>
       </div>
 
       <div class="input-group col-12 mb-3">
-        <label for="role" class="input-group-text">{{
-          $t("modal.role")
-        }}</label>
+        <label for="role" class="input-group-text">{{ $t("userShow.role") }}</label>
         <select
           disabled
           v-model="user.role"
@@ -79,9 +69,9 @@
           class="form-select"
           required
         >
-          <option value="">{{ $t("modal.selectRole") }}</option>
-          <option value="Admin">{{ $t("modal.admin") }}</option>
-          <option value="Manager">{{ $t("modal.manager") }}</option>
+          <option value="">{{ $t("userShow.selectRole") }}</option>
+          <option value="Admin">{{ $t("userShow.admin") }}</option>
+          <option value="Manager">{{ $t("userShow.manager") }}</option>
         </select>
       </div>
 
@@ -89,9 +79,9 @@
         <button
           type="button"
           class="btn w-100 btn-secondary"
-          @click="router.push({ name: 'user' })"
+          @click="cancel"
         >
-          Fermer
+          {{ $t("userShow.close") }}
         </button>
       </div>
     </form>

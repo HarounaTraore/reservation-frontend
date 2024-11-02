@@ -3,65 +3,63 @@
     class="container cont-parent d-flex justify-content-center m-auto align-items-center"
   >
     <div class="card p-4 shadow w-100" style="max-width: 400px">
-      <h4 class="text-center mb-4">Réinitialisation</h4>
+      <h4 class="text-center mb-4">{{ t('forgotPwd.title') }}</h4>
       <form v-if="!reset" @submit.prevent="forget">
         <div class="mb-3">
           <label for="email" class="form-label">{{
-            t("login.emailLabel")
+            t("forgotPwd.emailLabel")
           }}</label>
           <input
             type="email"
             v-model="storeLogin.user.email"
             id="email"
             class="form-control"
-            :placeholder="t('login.emailPlaceholder')"
+            :placeholder="t('forgotPwd.emailPlaceholder')"
             required
           />
         </div>
 
-        <button type="submit" class="btn btn-primary w-100">Envoyer</button>
+        <button type="submit" class="btn btn-primary w-100">{{ t('forgotPwd.sendButton') }}</button>
       </form>
 
       <form v-else @submit.prevent="resetPwd">
         <div class="mb-3">
           <label for="email" class="form-label">{{
-            t("login.emailLabel")
+            t("forgotPwd.emailLabel")
           }}</label>
           <input
             type="email"
             v-model="storeLogin.user.email"
             id="email"
             class="form-control"
-            :placeholder="t('login.emailPlaceholder')"
+            :placeholder="t('forgotPwd.emailPlaceholder')"
             required
           />
         </div>
 
         <div class="mb-3">
-          <label for="otp" class="form-label">Code</label>
+          <label for="otp" class="form-label">{{ t('forgotPwd.otpLabel') }}</label>
           <input
             type="text"
             id="otp"
             v-model="storeLogin.user.codeOtp"
             class="form-control"
-            placeholder="Code de Réinitialisation "
+            :placeholder="t('forgotPwd.otpPlaceholder')"
             required
           />
         </div>
         <div class="mb-3">
-          <label for="newPassword" class="form-label"
-            >Nouveau mot de passe</label
-          >
+          <label for="newPassword" class="form-label">{{ t('forgotPwd.newPasswordLabel') }}</label>
           <input
             type="password"
             id="newPassword"
             v-model="storeLogin.user.newPassword"
             class="form-control"
-            placeholder="Nouveau Mot de Passe"
+            :placeholder="t('forgotPwd.newPasswordPlaceholder')"
             required
           />
         </div>
-        <button type="submit" class="btn btn-primary w-100">Envoyer</button>
+        <button type="submit" class="btn btn-primary w-100">{{ t('forgotPwd.sendButton') }}</button>
       </form>
     </div>
   </div>
@@ -88,15 +86,15 @@ const forget = async () => {
 
     if (result) {
       await storeGlobaly.MessageModalSuccess(
-        "Code de Réinitiation de mot de passe a été en voyer veuillez verifier votre email.",
-        "Envoie d'Email"
+        t('forgotPwd.forgotSuccessMessage'),
+        t('forgotPwd.emailSendTitle')
       );
       reset.value = true;
     }
   } catch (error) {
     await storeGlobaly.MessageModalDenied(
-      "Cet Email n'est pas associé à un compte.",
-      "Réinitialisation"
+      t('forgotPwd.emailNotAssociated'),
+      t('forgotPwd.resetTitle')
     );
   }
 };
@@ -104,16 +102,16 @@ const resetPwd = async () => {
   try {
     const result = await storeLogin.resetPwd();
     if (result) {
+      await storeGlobaly.MessageModalSuccess(
+        t('forgotPwd.passwordResetSuccess'),
+        t('forgotPwd.resetTitle')
+      );
+      router.push({ name: "login" });
     }
-    await storeGlobaly.MessageModalSuccess(
-      "Votre mot de passe est réinitialisé.",
-      "Réinitialisation"
-    );
-    router.push({ name: "login" });
   } catch (error) {
     await storeGlobaly.MessageModalDenied(
-      "Erreur de Réinitialisation veuillez réssayer.",
-      "Réinitialisation"
+      t('forgotPwd.resetErrorMessage'),
+      t('forgotPwd.resetTitle')
     );
   }
 };
