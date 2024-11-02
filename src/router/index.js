@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import Login from "@/views/Login.vue";
 import Home from "@/views/Home.vue";
 import RoomManagement from "@/views/rooms/RoomManagement.vue";
-import AddRoom from "@/views/rooms/RoomModal.vue";
+import AddRoom from "@/views/rooms/RoomAdd.vue";
 import NotFound from "@/views/NotFound.vue";
 import RoomList from "@/views/rooms/RoomList.vue";
 import RoomShow from "@/views/rooms/RoomShow.vue";

@@ -11,7 +11,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title fw-bold w-100 text-center">
-            {{ $t("modal.title") }}
+            {{ $t("roomAdd.title") }}
           </h5>
           <button
             type="button"
@@ -27,7 +27,7 @@
               <div class="w-100">
                 <div class="input-group flex-nowrap">
                   <label for="name" class="input-group-text">{{
-                    $t("modal.name")
+                    $t("roomAdd.name")
                   }}</label>
                   <input
                     type="text"
@@ -35,7 +35,7 @@
                     id="name"
                     v-model="room.name"
                     class="form-control bg-opacity-50"
-                    :placeholder="$t('modal.namePlaceholder')"
+                    :placeholder="$t('roomAdd.namePlaceholder')"
                     aria-label="name"
                   />
                 </div>
@@ -50,7 +50,7 @@
                       :class="isDisabled ? 'col-6' : 'col-12'"
                     >
                       <label for="capacity" class="input-group-text">
-                        {{ $t("modal.capacity") }}
+                        {{ $t("roomAdd.capacity") }}
                       </label>
                       <input
                         type="number"
@@ -58,7 +58,7 @@
                         v-model="room.capacity"
                         id="capacity"
                         class="form-control bg-opacity-50"
-                        :placeholder="$t('modal.capacityPlaceholder')"
+                        :placeholder="$t('roomAdd.capacityPlaceholder')"
                         aria-label="Capacité de la salle"
                       />
                     </div>
@@ -67,7 +67,7 @@
                   <div class="col-12">
                     <div class="input-group">
                       <label for="statut" class="input-group-text">{{
-                        $t("modal.status")
+                        $t("roomAdd.status")
                       }}</label>
                       <select
                         class="form-select bg-opacity-50"
@@ -76,13 +76,13 @@
                         :disabled="isDisabled"
                       >
                         <option value="" disabled selected>
-                          {{ $t("modal.chooseStatus") }}
+                          {{ $t("roomAdd.chooseStatus") }}
                         </option>
                         <option value="Réservée">
-                          {{ $t("modal.reserved") }}
+                          {{ $t("roomAdd.reserved") }}
                         </option>
                         <option value="Non Réservée">
-                          {{ $t("modal.notReserved") }}
+                          {{ $t("roomAdd.notReserved") }}
                         </option>
                       </select>
                     </div>
@@ -91,7 +91,7 @@
 
                 <div class="input-group flex-nowrap">
                   <label for="equipment" class="input-group-text">{{
-                    $t("modal.equipment")
+                    $t("roomAdd.equipment")
                   }}</label>
                   <textarea
                     :disabled="isDisabled"
@@ -99,7 +99,7 @@
                     v-model="room.equipment"
                     class="form-control bg-opacity-50"
                     id="equipment"
-                    :placeholder="$t('modal.equipmentPlaceholder')"
+                    :placeholder="$t('roomAdd.equipmentPlaceholder')"
                   ></textarea>
                 </div>
               </div>
@@ -117,7 +117,7 @@
             data-bs-dismiss="modal"
             @click="actionClose, router.push({ name: 'list-room' })"
           >
-            {{ $t("modal.close") }}
+            {{ $t("roomAdd.close") }}
           </button>
           <button
             v-if="!isDisabled"
@@ -125,7 +125,7 @@
             @click="createNewRoom"
             class="btn btn-primary"
           >
-            {{ $t("modal.save") }}
+            {{ $t("roomAdd.save") }}
           </button>
         </div>
       </div>

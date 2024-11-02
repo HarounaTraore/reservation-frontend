@@ -1,29 +1,30 @@
 <template>
-          <div class="added w-100 d-flex justify-content-end mb-3">
-          <button
-            class="btn btn-primary fw-bold"
-            data-bs-toggle="modal"
-            data-bs-target="#exampleModal"
-            @click="store.reserDataRoom"
-          >
-            <i class="fa fa-plus me-1"></i>
-            Nouvelle Salle
-          </button>
-        </div>
+  <div class="added w-100 d-flex justify-content-end mb-3">
+    <button
+      class="btn btn-primary fw-bold"
+      data-bs-toggle="modal"
+      data-bs-target="#exampleModal"
+      @click="store.reserDataRoom"
+    >
+      <i class="fa fa-plus me-1"></i>
+      {{ $t("roomList.addRoom") }}
+    </button>
+  </div>
+
   <table class="table table-striped table-bordered m-auto">
     <thead>
       <tr>
-        <th scope="col" class="text-center">#</th>
-        <th scope="col" class="text-center">name</th>
-        <th scope="col" class="text-center responsive-hide">capacity</th>
-        <th scope="col" class="text-center responsive-hide">status</th>
-        <th scope="col" class="text-center">Actions</th>
+        <th scope="col" class="text-center">{{ $t("roomList.table.id") }}</th>
+        <th scope="col" class="text-center">{{ $t("roomList.table.name") }}</th>
+        <th scope="col" class="text-center responsive-hide">{{ $t("roomList.table.capacity") }}</th>
+        <th scope="col" class="text-center responsive-hide">{{ $t("roomList.table.status") }}</th>
+        <th scope="col" class="text-center">{{ $t("roomList.table.actions") }}</th>
       </tr>
     </thead>
     <tbody>
       <tr v-if="store.rooms.length === 0">
-        <td colspan="4" class="text-danger text-center fw-bold">
-          No Client registered
+        <td colspan="5" class="text-danger text-center fw-bold">
+          {{ $t("roomList.noRooms") }}
         </td>
       </tr>
       <tr v-else v-for="(room, index) in store.rooms" :key="index">
@@ -32,7 +33,7 @@
         <td class="text-center responsive-hide">{{ room.capacity }}</td>
         <td
           class="text-center fw-bold responsive-hide"
-          :class="room.status === 'Réservée' ? 'text-danger' : 'text-success'"
+          :class="room.status === $t('roomList.statusReserved') ? 'text-danger' : 'text-success'"
         >
           {{ room.status }}
         </td>
@@ -47,7 +48,7 @@
             class="btn-sm btn btn-outline-secondary ms-2"
             @click="
               store.findRoom(room.id),
-                router.push({ name: 'edit-room', params: { id: room.id } })
+              router.push({ name: 'edit-room', params: { id: room.id } })
             "
           >
             <i class="fas fa-edit"></i>
@@ -63,7 +64,7 @@
     </tbody>
   </table>
   <RoomModal />
-  <MessageModal valid=" OK" />
+  <MessageModal valid="OK" />
 </template>
 
 <script setup>
@@ -71,29 +72,33 @@ import MessageModal from "@/components/MessageModal.vue";
 import { globalyStore } from "@/stores/storeGlobaly";
 import { storeRoom } from "@/stores/storeRoom";
 import { onMounted } from "vue";
-import RoomModal from "./RoomModal.vue";
+import RoomModal from "./RoomAdd.vue";
 import { useRouter } from "vue-router";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
+
 const store = storeRoom();
 const router = useRouter();
+
 onMounted(async () => {
   await store.loadingData();
 });
 
 const storeGlobaly = globalyStore();
 const deleteRoom = async (id) => {
-  if (confirm("Etes vous sur de vouloir supprimer ?")) {
+  if (confirm(t("roomList.deleteConfirm"))) {
     try {
       await store.deleteRoom(id);
       await storeGlobaly.MessageModalSuccess(
-        "Salle supprimer avec succès",
-        "Supression"
+        t("roomList.deleteSuccess"),
+        t("roomList.deleteErrorTitle")
       );
     } catch (error) {
       await storeGlobaly.MessageModalDenied(
-        "Cette salle est ratacher à des reservation",
-        "Erreur de supression"
+        t("roomList.deleteError"),
+        t("roomList.deleteErrorTitle")
       );
-      console.log(error);
     }
   }
 };
@@ -102,7 +107,6 @@ const deleteRoom = async (id) => {
 <style scoped>
 @media (max-width: 650px) {
   .responsive-hide {
-    transition: width 0.5s;
     display: none;
   }
 }

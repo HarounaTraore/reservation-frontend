@@ -155,5 +155,61 @@
         "endTime": "Heure Fin",
         "reservationDate": "Date de Réservation",
         "modalClose": "Fermer"
+    },
+    "roomList": {
+        "addRoom": "Nouvelle Salle",
+        "noRooms": "Aucune salle enregistrée",
+        "table": {
+            "id": "#",
+            "name": "Nom",
+            "capacity": "Capacité",
+            "status": "Statut",
+            "actions": "Actions"
+        },
+        "statusReserved": "Réservée",
+        "statusAvailable": "Disponible",
+        "deleteConfirm": "Êtes-vous sûr de vouloir supprimer cette salle ?",
+        "deleteSuccess": "Salle supprimée avec succès",
+        "deleteError": "Impossible de supprimer la salle, elle est associée à des réservations.",
+        "deleteErrorTitle": "Erreur de suppression"
+    },
+    "roomManagement": {
+        "title": "Gestion des Salles",
+        "addRoom": "Ajouter une Nouvelle Salle",
+        "allRooms": "Toutes les Salles",
+        "reservedRooms": "Salles Réservées",
+        "notReservedRooms": "Salles Non Réservées",
+        "roomCount": "Nombre de Salles",
+        "addRoomButton": "Ajouter une Nouvelle Salle"
+    },
+    "roomAdd": {
+        "title": "Ajouter une Salle",
+        "name": "Nom de la salle",
+        "namePlaceholder": "Entrez le nom de la salle",
+        "capacity": "Capacité",
+        "capacityPlaceholder": "Entrez la capacité",
+        "status": "Statut",
+        "chooseStatus": "Choisir un statut",
+        "reserved": "Réservée",
+        "notReserved": "Non Réservée",
+        "equipment": "Équipement",
+        "equipmentPlaceholder": "Énumérez les équipements",
+        "close": "Fermer",
+        "save": "Enregistrer"
+    },
+    "roomEdit": {
+        "title": "Modifier la Salle",
+        "name": "Nom",
+        "namePlaceholder": "Entrez le nom de la salle",
+        "capacity": "Capacité",
+        "capacityPlaceholder": "Entrez la capacité de la salle",
+        "status": "Statut",
+        "chooseStatus": "Choisissez un statut",
+        "reserved": "Réservée",
+        "notReserved": "Non Réservée",
+        "equipment": "Équipement",
+        "equipmentPlaceholder": "Entrez l'équipement disponible",
+        "close": "Fermer",
+        "save": "Sauvegarder"
     }
 }

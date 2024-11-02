@@ -7,7 +7,7 @@
 
 <script setup>
 import { onMounted } from "vue";
-import RoomModal from "./RoomModal.vue";
+import RoomModal from "./RoomAdd.vue";
 import { Modal } from "bootstrap/dist/js/bootstrap.bundle.min";
 import { useRouter } from "vue-router";
 onMounted(() => {

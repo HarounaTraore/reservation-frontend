@@ -2,9 +2,9 @@
   <div class="container-fluid">
     <div class="row h-100 flex-column flex-md-row">
       <div class="p-4 pt-1">
-        <div
-          class="d-flex justify-content-between align-items-center mb-4"
-        ></div>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h1>{{ $t("roomManagement.title") }}</h1>
+        </div>
 
         <div class="added w-100 d-flex justify-content-end mb-3">
           <button
@@ -14,7 +14,7 @@
             @click="store.reserDataRoom"
           >
             <i class="fa fa-plus me-1"></i>
-            Nouvelle Salle
+            {{ $t("roomManagement.addRoom") }}
           </button>
         </div>
         <div class="row">
@@ -26,7 +26,7 @@
               <div class="card text-center">
                 <div class="card-body">
                   <i class="bi bi-building"></i>
-                  <h6 class="mt-2">Toutes les Salles</h6>
+                  <h6 class="mt-2">{{ $t("roomManagement.allRooms") }}</h6>
                   <p class="display-6">{{ rooms.length }}</p>
                 </div>
               </div>
@@ -38,7 +38,7 @@
               <div class="card text-center">
                 <div class="card-body">
                   <i class="bi bi-people"></i>
-                  <h6 class="mt-2">Salles Réservées</h6>
+                  <h6 class="mt-2">{{ $t("roomManagement.reservedRooms") }}</h6>
                   <p class="display-6">{{ store.roomsReserved.length }}</p>
                 </div>
               </div>
@@ -50,7 +50,7 @@
               <div class="card text-center">
                 <div class="card-body">
                   <i class="bi bi-check-circle"></i>
-                  <h6 class="mt-2">Salles Non Réservées</h6>
+                  <h6 class="mt-2">{{ $t("roomManagement.notReservedRooms") }}</h6>
                   <p class="display-6">{{ store.roomNoReserved.length }}</p>
                 </div>
               </div>
@@ -62,12 +62,12 @@
     </div>
   </div>
 </template>
-  
-  <script setup>
+
+<script setup>
 import { storeRoom } from "@/stores/storeRoom";
 import { computed, onMounted } from "vue";
 import { RouterLink, useRoute, useRouter } from "vue-router";
-import AddRoom from "./RoomModal.vue";
+import AddRoom from "./RoomAdd.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -81,8 +81,8 @@ onMounted(() => {
   store.loadingData();
 });
 </script>
-  
-  <style scoped>
+
+<style scoped>
 .card:hover {
   transform: translateY(-5px);
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
@@ -133,4 +133,3 @@ onMounted(() => {
   }
 }
 </style>
-  

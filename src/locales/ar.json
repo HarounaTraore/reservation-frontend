@@ -142,5 +142,74 @@
         "successTitle": "تعديل الحجز",
         "errorMessage": "خطأ في الحجز",
         "errorTitle": "تعديل الحجز"
+    },
+    "roomList": {
+        "title": "قائمة الغرف",
+        "addRoom": "إضافة غرفة جديدة",
+        "columns": {
+            "id": "#",
+            "name": "الاسم",
+            "capacity": "السعة",
+            "status": "الحالة",
+            "actions": "الإجراءات"
+        },
+        "status": {
+            "reserved": "محجوزة",
+            "available": "متاحة"
+        },
+        "noRooms": "لم يتم تسجيل أي غرفة",
+        "actionsButtons": {
+            "view": "عرض",
+            "edit": "تعديل",
+            "delete": "حذف"
+        },
+        "deleteConfirmation": "هل أنت متأكد أنك تريد الحذف؟",
+        "deleteSuccess": {
+            "message": "تم حذف الغرفة بنجاح",
+            "title": "تم الحذف"
+        },
+        "deleteError": {
+            "message": "هذه الغرفة مرتبطة بحجوزات",
+            "title": "خطأ في الحذف"
+        }
+    },
+    "roomManagement": {
+        "title": "إدارة الغرف",
+        "addRoom": "إضافة غرفة جديدة",
+        "allRooms": "جميع الغرف",
+        "reservedRooms": "الغرف المحجوزة",
+        "notReservedRooms": "الغرف غير المحجوزة",
+        "roomCount": "عدد الغرف",
+        "addRoomButton": "إضافة غرفة جديدة"
+    },
+    "roomAdd": {
+        "title": "إضافة غرفة",
+        "name": "اسم الغرفة",
+        "namePlaceholder": "أدخل اسم الغرفة",
+        "capacity": "السعة",
+        "capacityPlaceholder": "أدخل السعة",
+        "status": "الحالة",
+        "chooseStatus": "اختر الحالة",
+        "reserved": "محجوزة",
+        "notReserved": "غير محجوزة",
+        "equipment": "المعدات",
+        "equipmentPlaceholder": "أدرج المعدات",
+        "close": "إغلاق",
+        "save": "حفظ"
+    },
+    "roomEdit": {
+        "title": "تعديل القاعة",
+        "name": "الاسم",
+        "namePlaceholder": "أدخل اسم القاعة",
+        "capacity": "السعة",
+        "capacityPlaceholder": "أدخل سعة القاعة",
+        "status": "الحالة",
+        "chooseStatus": "اختر حالة",
+        "reserved": "محجوزة",
+        "notReserved": "غير محجوزة",
+        "equipment": "المعدات",
+        "equipmentPlaceholder": "أدخل المعدات المتاحة",
+        "close": "إغلاق",
+        "save": "حفظ"
     }
 }

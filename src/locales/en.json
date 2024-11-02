@@ -155,5 +155,73 @@
         "endTime": "End Time",
         "reservationDate": "Reservation Date",
         "modalClose": "Close"
-    }
+    },
+    "roomList": {
+        "addRoom": "New Room",
+        "noRooms": "No room registered",
+        "table": {
+            "id": "#",
+            "name": "Name",
+            "capacity": "Capacity",
+            "status": "Status",
+            "actions": "Actions"
+        },
+        "statusReserved": "Reserved",
+        "statusAvailable": "Available",
+        "deleteConfirm": "Are you sure you want to delete this room?",
+        "deleteSuccess": "Room deleted successfully",
+        "deleteError": "Unable to delete the room; it is associated with reservations.",
+        "deleteErrorTitle": "Deletion Error"
+    },
+    "roomManagement": {
+        "title": "Room Management",
+        "addRoom": "Add New Room",
+        "allRooms": "All Rooms",
+        "reservedRooms": "Reserved Rooms",
+        "notReservedRooms": "Not Reserved Rooms",
+        "roomCount": "Number of Rooms",
+        "addRoomButton": "Add New Room"
+    },
+    "roomAdd": {
+        "modal": {
+            "title": "Add Room",
+            "name": "Room Name",
+            "namePlaceholder": "Enter the room name",
+            "capacity": "Capacity",
+            "capacityPlaceholder": "Enter capacity",
+            "status": "Status",
+            "chooseStatus": "Choose status",
+            "reserved": "Reserved",
+            "notReserved": "Not Reserved",
+            "equipment": "Equipment",
+            "equipmentPlaceholder": "Enter equipment",
+            "close": "Close",
+            "save": "Save"
+        },
+        "success": {
+            "create": "Room Created Successfully",
+            "title": "Creation"
+        },
+        "error": {
+            "create": "Error during creation",
+            "title": "Room Creation"
+        }
+    },
+    
+        "roomEdit": {
+          "title": "Edit Room",
+          "name": "Name",
+          "namePlaceholder": "Enter room name",
+          "capacity": "Capacity",
+          "capacityPlaceholder": "Enter room capacity",
+          "status": "Status",
+          "chooseStatus": "Choose a status",
+          "reserved": "Reserved",
+          "notReserved": "Not Reserved",
+          "equipment": "Equipment",
+          "equipmentPlaceholder": "Enter available equipment",
+          "close": "Close",
+          "save": "Save"
+        }
+            
 }
