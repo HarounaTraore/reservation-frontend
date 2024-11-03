@@ -17,7 +17,7 @@
             type="button"
             class="btn-close"
             data-bs-dismiss="modal"
-            @click="router.push({ name: 'list-room' })"
+            @click="router.push({ name: 'room' })"
             aria-label="Close"
           ></button>
         </div>
@@ -65,27 +65,6 @@
                   </div>
 
                   <div class="col-12">
-                    <div class="input-group">
-                      <label for="statut" class="input-group-text">{{
-                        $t("roomEdit.status")
-                      }}</label>
-                      <select
-                        class="form-select bg-opacity-50"
-                        v-model="room.status"
-                        id="statut"
-                        :disabled="isDisabled"
-                      >
-                        <option value="" disabled selected>
-                          {{ $t("roomEdit.chooseStatus") }}
-                        </option>
-                        <option value="Réservée">
-                          {{ $t("roomEdit.reserved") }}
-                        </option>
-                        <option value="Non Réservée">
-                          {{ $t("roomEdit.notReserved") }}
-                        </option>
-                      </select>
-                    </div>
                   </div>
                 </div>
 
@@ -114,7 +93,7 @@
             type="button"
             class="btn btn-secondary"
             data-bs-dismiss="modal"
-            @click="router.push({ name: 'list-room' })"
+            @click="router.push({ name: 'room' })"
           >
             {{ $t("roomEdit.close") }}
           </button>
@@ -166,8 +145,7 @@ const updateRoom = async () => {
     store.room.name = "";
     store.room.capacity = "";
     store.room.equipment = "";
-    store.room.status = "";
-    router.push({ name: 'list-room' })
+    router.push({ name: 'room' })
   } catch (error) {
     await storeGlobaly.MessageModalDenied(
       "Erreur lors de la modification",

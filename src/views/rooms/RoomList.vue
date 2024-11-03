@@ -17,7 +17,6 @@
         <th scope="col" class="text-center">{{ $t("roomList.table.id") }}</th>
         <th scope="col" class="text-center">{{ $t("roomList.table.name") }}</th>
         <th scope="col" class="text-center responsive-hide">{{ $t("roomList.table.capacity") }}</th>
-        <th scope="col" class="text-center responsive-hide">{{ $t("roomList.table.status") }}</th>
         <th scope="col" class="text-center">{{ $t("roomList.table.actions") }}</th>
       </tr>
     </thead>
@@ -31,12 +30,7 @@
         <td class="text-center">{{ room?.id }}</td>
         <td class="text-center">{{ room.name }}</td>
         <td class="text-center responsive-hide">{{ room.capacity }}</td>
-        <td
-          class="text-center fw-bold responsive-hide"
-          :class="room.status === $t('roomList.statusReserved') ? 'text-danger' : 'text-success'"
-        >
-          {{ room.status }}
-        </td>
+
         <td class="text-center">
           <button
             class="btn-sm btn btn-outline-primary ms-2"

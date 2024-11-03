@@ -8,7 +8,6 @@ export const storeRoom = defineStore("room", () => {
   const room = ref({
     name: "",
     capacity: "",
-    status: "",
     equipment: "",
   });
   const rooms = ref([]);
@@ -39,7 +38,6 @@ export const storeRoom = defineStore("room", () => {
           name: room.value.name,
           capacity: room.value.capacity,
           equipment: room.value.equipment,
-          status: room.value.status,
         },
         { headers: { Authorization: `Bearer ${savedUserActif.token}` } }
       );
@@ -60,7 +58,6 @@ export const storeRoom = defineStore("room", () => {
           name: room.value.name,
           capacity: room.value.capacity,
           equipment: room.value.equipment,
-          status: room.value.status,
         },
         { headers: { Authorization: `Bearer ${savedUserActif.token}` } }
       );
@@ -79,7 +76,6 @@ export const storeRoom = defineStore("room", () => {
       room.value.name = result.data.result.name;
       room.value.capacity = result.data.result.capacity;
       room.value.equipment = result.data.result.equipment;
-      room.value.status = result.data.result.status;
       room.value.userId = result.data.result.userId;
 
       await loadingData();

@@ -1,7 +1,7 @@
 <template>
   <RoomModal
     is-disabled="true"
-    action-close="router.push({ name: 'list-room' })"
+    action-close="router.push({ name: 'room' })"
   />
 </template>
 

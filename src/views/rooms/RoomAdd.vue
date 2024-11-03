@@ -10,15 +10,17 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title fw-bold w-100 text-center">
+          <h5 v-if="!isDisabled" class="modal-title fw-bold w-100 text-center">
             {{ $t("roomAdd.title") }}
+          </h5> <h5 v-else class="modal-title fw-bold w-100 text-center">
+            Affichage d'une Salle
           </h5>
           <button
             type="button"
             class="btn-close"
             data-bs-dismiss="modal"
             aria-label="Close"
-            @click="router.push({ name: 'list-room' })"
+            @click="router.push({ name: 'room' })"
           ></button>
         </div>
         <div class="modal-body">
@@ -65,27 +67,6 @@
                   </div>
 
                   <div class="col-12">
-                    <div class="input-group">
-                      <label for="statut" class="input-group-text">{{
-                        $t("roomAdd.status")
-                      }}</label>
-                      <select
-                        class="form-select bg-opacity-50"
-                        v-model="room.status"
-                        id="statut"
-                        :disabled="isDisabled"
-                      >
-                        <option value="" disabled selected>
-                          {{ $t("roomAdd.chooseStatus") }}
-                        </option>
-                        <option value="Réservée">
-                          {{ $t("roomAdd.reserved") }}
-                        </option>
-                        <option value="Non Réservée">
-                          {{ $t("roomAdd.notReserved") }}
-                        </option>
-                      </select>
-                    </div>
                   </div>
                 </div>
 
@@ -115,7 +96,7 @@
             class="btn btn-secondary"
             :style="isDisabled ? 'width: 100%' : ''"
             data-bs-dismiss="modal"
-            @click="actionClose, router.push({ name: 'list-room' })"
+            @click="actionClose, router.push({ name: 'room' })"
           >
             {{ $t("roomAdd.close") }}
           </button>
@@ -158,7 +139,7 @@ const createNewRoom = async () => {
     store.room.capacity = "";
     store.room.equipment = "";
     store.room.status = "";
-    router.push({ name: 'list-room' })
+    router.push({ name: 'room' })
   } catch (error) {
     await storeGlobaly.MessageModalDenied(
       "Erreur lors de la creation",

@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Login from "@/views/Login.vue";
 import Home from "@/views/Home.vue";
-import RoomManagement from "@/views/rooms/RoomManagement.vue";
 import AddRoom from "@/views/rooms/RoomAdd.vue";
 import NotFound from "@/views/NotFound.vue";
 import RoomList from "@/views/rooms/RoomList.vue";
@@ -53,7 +52,7 @@ const router = createRouter({
         {
           path: "/room",
           name: "room",
-          component: RoomManagement,
+          component: RoomList,
         },
         {
           path: "/room/add",
@@ -64,11 +63,6 @@ const router = createRouter({
           path: "/dashboard",
           name: "dashboard",
           component: DashBorrd,
-        },
-        {
-          path: "/room/list",
-          name: "list-room",
-          component: RoomList,
         },
         {
           path: "/room/show",
