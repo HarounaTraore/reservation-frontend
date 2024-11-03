@@ -2,21 +2,31 @@
   <div class="container mt-3 ms-2 w-auto d-flex justify-content-end mb-2">
     <button
       class="btn btn-primary me-3 fw-bold"
-      @click="router.push({ name: 'add-reservation' })"
+      @click="store.resetData(), router.push({ name: 'add-reservation' })"
     >
       <i class="fa fa-plus me-1"></i>
-      {{ $t("reservationList.newReservation") }}
+      {{ t("reservationList.newReservation") }}
     </button>
   </div>
   <table class="table table-striped table-bordered m-auto">
     <thead>
       <tr>
         <th scope="col" class="text-center">#</th>
-        <th scope="col" class="text-center text-truncate">{{ $t("reservationList.startDate") }}</th>
-        <th scope="col" class="text-center text-truncate">{{ $t("reservationList.endDate") }}</th>
-        <th scope="col" class="responsive-hide text-truncate">{{ $t("reservationList.room") }}</th>
-        <th scope="col" class="responsive-hide text-truncate">{{ $t("reservationList.client") }}</th>
-        <th scope="col" class="text-center">{{ $t("reservationList.actions") }}</th>
+        <th scope="col" class="text-center text-truncate">
+          {{ t("reservationList.startDate") }}
+        </th>
+        <th scope="col" class="text-center text-truncate">
+          {{ t("reservationList.endDate") }}
+        </th>
+        <th scope="col" class="responsive-hide text-truncate">
+          {{ t("reservationList.room") }}
+        </th>
+        <th scope="col" class="responsive-hide text-truncate">
+          {{ t("reservationList.client") }}
+        </th>
+        <th scope="col" class="text-center">
+          {{ t("reservationList.actions") }}
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -33,8 +43,8 @@
         <td class="text-center">{{ reservation?.id }}</td>
         <td class="text-center">{{ formatDateTime(reservation.dateStart) }}</td>
         <td class="text-center">{{ formatDateTime(reservation.dateEnd) }}</td>
-        <td class="responsive-hide" >{{reservation.room.name }}</td>
-        <td class="responsive-hide" >{{reservation.customer.name }}</td>
+        <td class="responsive-hide">{{ reservation.room.name }}</td>
+        <td class="responsive-hide">{{ reservation.customer.name }}</td>
         <td class="text-center">
           <button
             class="btn-sm btn btn-outline-primary ms-2"
@@ -72,6 +82,8 @@ import { globalyStore } from "@/stores/storeGlobaly";
 import { onMounted } from "vue";
 import { useDateTimeFormatter } from "./useDateForatter";
 import { useRouter } from "vue-router";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 
 const { formatDateTime } = useDateTimeFormatter();
 const store = storeReservation();
@@ -89,19 +101,19 @@ onMounted(async () => {
 
 const destroyReservation = async (id) => {
   try {
-    if (confirm($t("reservationList.confirmDelete"))) {
+    if (confirm(t("reservationList.confirmDelete"))) {
       await store.deleteReservation(id);
       await storeGlobaly.MessageModalSuccess(
-        $t("reservationList.deleteSuccess"),
-        $t("reservationList.deleteTitle")
+        t("reservationList.deleteSuccess"),
+        t("reservationList.deleteTitle")
       );
     }
   } catch (error) {
     await storeGlobaly.MessageModalDenied(
-      $t("reservationList.deleteError"),
-      $t("reservationList.deleteTitle")
+      t("reservationList.deleteError"),
+      t("reservationList.deleteTitle")
     );
-    console.log(error.message);
+    console.log(error);
   }
 };
 </script>

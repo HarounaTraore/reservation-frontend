@@ -108,6 +108,7 @@
     "reservationAdd": {
         "title": "Ajouter Une Réservation",
         "client": "Client",
+        "canceled": "Annulée",
         "selectClient": "Sélectionner le Client",
         "room": "Salle",
         "selectRoom": "Sélectionner la Salle",
@@ -120,13 +121,15 @@
         "successTitle": "Ajout de Réservation",
         "errorMessage": "Erreur de Réservation",
         "errorTitle": "Ajout de Réservation",
-        "modal": {
-            "close": "Fermer",
-            "save": "Enregistrer"
-        }
+        "status": "Statut",
+        "selectStatus": "Sélectionnez un statut",
+        "confirmed": "Confirmée",
+        "pending": "En attente",
+        "close": "Fermer",
+        "save": "Enregistrer"
     },
     "reservationEdit": {
-        "modalTitle": "Modifier la Réservation",
+        "title": "Modifier la Réservation",
         "selectClient": "Sélectionner le Client",
         "selectRoom": "Sélectionner la salle",
         "dateStart": "Date Début",
@@ -144,7 +147,7 @@
         "errorTitle": "Modification De Réservation"
     },
     "reservationShow": {
-        "modalTitle": "Détails de la Réservation",
+        "title": "Détails de la Réservation",
         "id": "ID",
         "createdBy": "Créer par",
         "room": "Salle",
@@ -154,7 +157,7 @@
         "endDate": "Date Fin",
         "endTime": "Heure Fin",
         "reservationDate": "Date de Réservation",
-        "modalClose": "Fermer"
+        "close": "Fermer"
     },
     "roomList": {
         "addRoom": "Nouvelle Salle",

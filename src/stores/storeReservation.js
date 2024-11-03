@@ -11,7 +11,7 @@ export const storeReservation = defineStore("reservation", () => {
     dateStart: "",
     dateEnd: "",
     userName: "",
-
+    status: "",
     roomId: null,
     customerId: null,
     timeStart: "",
@@ -26,8 +26,7 @@ export const storeReservation = defineStore("reservation", () => {
         headers: { Authorization: `Bearer ${savedUserActif.token}` },
       });
       const result = data.data.result;
-      reservations.value = [
-        ...result];
+      reservations.value = [...result];
     } catch (error) {
       throw error;
     }
@@ -35,7 +34,7 @@ export const storeReservation = defineStore("reservation", () => {
 
   const addReservation = async () => {
     try {
-      await axios.post(
+      const resp = await axios.post(
         "http://127.0.0.1:3000/api/reservation",
         {
           dateReservation: new Date(Date.now()).toISOString(),
@@ -48,10 +47,12 @@ export const storeReservation = defineStore("reservation", () => {
           userId: reservation.value.userId,
           roomId: reservation.value.roomId,
           customerId: reservation.value.customerId,
+          status: reservation.value.status,
         },
         { headers: { Authorization: `Bearer ${savedUserActif.token}` } }
       );
       await loadingData();
+      return resp.data.response;
     } catch (error) {
       throw error;
     }
@@ -72,6 +73,7 @@ export const storeReservation = defineStore("reservation", () => {
           userId: reservation.value.userId,
           roomId: reservation.value.roomId,
           customerId: reservation.value.customerId,
+          status: reservation.value.status,
         },
         { headers: { Authorization: `Bearer ${savedUserActif.token}` } }
       );
@@ -91,17 +93,26 @@ export const storeReservation = defineStore("reservation", () => {
       );
 
       reservation.value.id = result.data.result.id;
-      reservation.value.dateStart = formatDateTime(result.data.result.dateStart);
-      reservation.value.dateReservation = formatDateTime(result.data.result.dateReservation);
-      reservation.value.timeStart = formatDateTime(result.data.result.dateStart, "HH:mm");
+      reservation.value.status = result.data.result.status;
+
+      reservation.value.dateStart = formatDateTime(
+        result.data.result.dateStart
+      );
+      reservation.value.dateReservation = formatDateTime(
+        result.data.result.dateReservation
+      );
+      reservation.value.timeStart = formatDateTime(
+        result.data.result.dateStart,
+        "HH:mm"
+      );
       reservation.value.dateEnd = formatDateTime(result.data.result.dateEnd);
-      reservation.value.timeEnd = formatDateTime(result.data.result.dateEnd, "HH:mm");
+      reservation.value.timeEnd = formatDateTime(
+        result.data.result.dateEnd,
+        "HH:mm"
+      );
       reservation.value.userName = result.data.result.user.name;
       reservation.value.roomId = result.data.result.room.name;
       reservation.value.customerId = result.data.result.customer.name;
-      console.log("CUSTOMER ID",reservation.customerId);
-      
-      console.log("RESERVATION:", reservation.value);
 
       await loadingData();
       return result;
@@ -125,6 +136,16 @@ export const storeReservation = defineStore("reservation", () => {
     }
   };
 
+  const resetData = async () => {
+    reservation.value.dateStart = "";
+    reservation.value.dateEnd = "";
+    reservation.value.userName = "";
+    reservation.value.status = "";
+    reservation.value.roomId = "";
+    reservation.value.customerId = "";
+    reservation.value.timeStart = "";
+    reservation.value.timeEnd = "";
+  };
   return {
     reservation,
     reservations,
@@ -133,5 +154,6 @@ export const storeReservation = defineStore("reservation", () => {
     updateReservation,
     findReservation,
     deleteReservation,
+    resetData
   };
 });
