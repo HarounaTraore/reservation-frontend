@@ -1,11 +1,15 @@
 <template>
-  <div class="container cont-parent d-flex justify-content-center m-auto align-items-center">
-    <div class="card p-4 shadow w-100" style="max-width: 600px;">
-      <h4 class="text-center mb-4">{{ t("reservationEdit.title") }}</h4>
+  <div
+    class="container cont-parent d-flex justify-content-center m-auto align-items-center"
+  >
+    <div class="card p-4 shadow w-100" style="max-width: 600px">
+      <h4 class="text-center mb-4">{{ t("reservationAdd.title") }}</h4>
       <form @submit.prevent="addReservation">
         <!-- Sélection du client -->
         <div class="mb-3">
-          <label for="client" class="form-label">{{ t("reservationAdd.client") }}</label>
+          <label for="client" class="form-label">{{
+            t("reservationAdd.client")
+          }}</label>
           <select
             v-model="store.reservation.customerId"
             id="client"
@@ -22,23 +26,28 @@
           </select>
         </div>
 
-        <!-- Statut et Salle sur la même ligne -->
         <div class="row mb-3">
           <div class="col-md-6">
-            <label for="status" class="form-label">{{ t("reservationAdd.status") }}</label>
+            <label for="status" class="form-label">{{
+              t("reservationAdd.status")
+            }}</label>
             <select
               v-model="store.reservation.status"
               id="status"
               class="form-select bg-opacity-50"
               required
             >
-              <option value="CONFIRMED">{{ t("reservationAdd.confirmed") }}</option>
+              <option value="CONFIRMED">
+                {{ t("reservationAdd.confirmed") }}
+              </option>
               <option value="PENDING">{{ t("reservationAdd.pending") }}</option>
             </select>
           </div>
 
           <div class="col-md-6">
-            <label for="room" class="form-label">{{ t("reservationAdd.room") }}</label>
+            <label for="room" class="form-label">{{
+              t("reservationAdd.room")
+            }}</label>
             <select
               v-model="store.reservation.roomId"
               id="room"
@@ -56,10 +65,11 @@
           </div>
         </div>
 
-        <!-- Date et Heure de début sur la même ligne -->
         <div class="row mb-3">
           <div class="col-md-6">
-            <label for="startDate" class="form-label">{{ t("reservationAdd.startDate") }}</label>
+            <label for="startDate" class="form-label">{{
+              t("reservationAdd.startDate")
+            }}</label>
             <input
               type="date"
               v-model="store.reservation.dateStart"
@@ -69,7 +79,9 @@
             />
           </div>
           <div class="col-md-6">
-            <label for="startTime" class="form-label">{{ t("reservationAdd.startTime") }}</label>
+            <label for="startTime" class="form-label">{{
+              t("reservationAdd.startTime")
+            }}</label>
             <input
               type="time"
               v-model="store.reservation.timeStart"
@@ -80,10 +92,11 @@
           </div>
         </div>
 
-        <!-- Date et Heure de fin sur la même ligne -->
         <div class="row mb-3">
           <div class="col-md-6">
-            <label for="endDate" class="form-label">{{ t("reservationAdd.endDate") }}</label>
+            <label for="endDate" class="form-label">{{
+              t("reservationAdd.endDate")
+            }}</label>
             <input
               type="date"
               v-model="store.reservation.dateEnd"
@@ -93,7 +106,9 @@
             />
           </div>
           <div class="col-md-6">
-            <label for="endTime" class="form-label">{{ t("reservationAdd.endTime") }}</label>
+            <label for="endTime" class="form-label">{{
+              t("reservationAdd.endTime")
+            }}</label>
             <input
               type="time"
               v-model="store.reservation.timeEnd"
@@ -104,7 +119,6 @@
           </div>
         </div>
 
-        <!-- Bouton d'envoi -->
         <button type="submit" class="btn btn-primary w-100">
           {{ t("reservationAdd.save") }}
         </button>
@@ -141,7 +155,7 @@ const addReservation = async () => {
       t("reservationAdd.successMessage"),
       t("reservationAdd.successTitle")
     );
-    router.push({name: 'list-reservation'})
+    router.push({ name: "list-reservation" });
   } catch (error) {
     await storeGlobaly.MessageModalDenied(
       t("reservationAdd.errorMessage"),

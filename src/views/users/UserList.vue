@@ -13,8 +13,12 @@
       <tr>
         <th scope="col" class="text-center">{{ $t("userList.id") }}</th>
         <th scope="col" class="text-center">{{ $t("userList.name") }}</th>
-        <th scope="col" class="text-center responsive-hide">{{ $t("userList.address") }}</th>
-        <th scope="col" class="text-center responsive-hide">{{ $t("userList.phone") }}</th>
+        <th scope="col" class="text-center responsive-hide">
+          {{ $t("userList.address") }}
+        </th>
+        <th scope="col" class="text-center responsive-hide">
+          {{ $t("userList.phone") }}
+        </th>
         <th scope="col" class="text-center">{{ $t("userList.actions") }}</th>
       </tr>
     </thead>
@@ -68,7 +72,8 @@ import router from "@/router";
 import { globalyStore } from "@/stores/storeGlobaly";
 import { storeUser } from "@/stores/storeUser";
 import { onMounted } from "vue";
-
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 const store = storeUser();
 const storeGlobaly = globalyStore();
 onMounted(async () => {
@@ -77,16 +82,16 @@ onMounted(async () => {
 
 const destroyUser = async (id) => {
   try {
-    if (confirm($t("userList.deleteConfirm"))) {
+    if (confirm(t("userList.deleteConfirm"))) {
       await store.deleteUser(id);
       await storeGlobaly.MessageModalSuccess(
-        $t("userList.deleteSuccess"),
+        t("userList.deleteSuccess"),
         "Suppression"
       );
     }
   } catch (error) {
     await storeGlobaly.MessageModalDenied(
-      $t("userList.deleteError"),
+      t("userList.deleteError"),
       "Suppression Client"
     );
     console.log(error.message);
