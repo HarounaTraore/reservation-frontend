@@ -1,11 +1,11 @@
 <script setup>
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import BtnSideBar from "../components/Button.vue";
 import { storeAuth } from "../stores/storeAuth.js";
 import router from "@/router";
 import { useRoute } from "vue-router";
-
+import { storeUser } from "../stores/storeUser";
 const route = useRoute();
 const routeActif = computed(() => route.path);
 const store = storeAuth();
@@ -27,6 +27,8 @@ const toggleNavbar = () => {
 const savedUserActif = computed(() =>
   JSON.parse(localStorage.getItem("userActif"))
 );
+const savedUserActifData = savedUserActif.value;
+const id = Number(savedUserActifData.id);
 
 const activeButton = ref("");
 function setActiveButton(button) {
@@ -46,8 +48,9 @@ function setActiveButton(button) {
       <div class="nav-buttons d-none d-md-flex align-items-center">
         <BtnSideBar
           btn-active="mx-3"
-          icon="fas fa-home"
+          icon="fa-solid fa-gauge-high"
           :title="t('home.navbar.dashboard')"
+          :hover-title="t('home.navbar.dashboard')"
           :hiden-title="isNavbarCollapsed"
           :class="{ active: activeButton === 'dashboard' }"
           @click="
@@ -61,6 +64,7 @@ function setActiveButton(button) {
           btn-active="mx-3"
           icon="fas fa-building"
           :title="t('home.navbar.rooms')"
+          :hover-title="t('home.navbar.rooms')"
           :hiden-title="isNavbarCollapsed"
           :class="{ active: activeButton === 'room' }"
           @click="
@@ -74,6 +78,7 @@ function setActiveButton(button) {
           btn-active="mx-3"
           icon="fas fa-users"
           :title="t('home.navbar.clients')"
+          :hover-title="t('home.navbar.clients')"
           :hiden-title="isNavbarCollapsed"
           :class="{ active: activeButton === 'customer' }"
           @click="
@@ -86,6 +91,7 @@ function setActiveButton(button) {
         <BtnSideBar
           btn-active="mx-3"
           icon="fas fa-calendar-check"
+          :hover-title="t('home.navbar.reservations')"
           :title="t('home.navbar.reservations')"
           :hiden-title="isNavbarCollapsed"
           :class="{ active: activeButton === 'reservation' }"
@@ -97,7 +103,9 @@ function setActiveButton(button) {
           "
         />
         <BtnSideBar
+          v-if="savedUserActifData.role === 'Admin'"
           btn-active="mx-3"
+          :hover-title="t('home.navbar.users')"
           icon="fas fa-user-cog"
           :title="t('home.navbar.users')"
           :hiden-title="isNavbarCollapsed"
@@ -111,22 +119,57 @@ function setActiveButton(button) {
         />
       </div>
 
-      <div class="d-flex align-items-center">
-        <img
-          src="../../public/user-profil.svg"
-          alt="User Profile"
-          class="rounded-circle me-2"
-          width="30"
-        />
-        <span class="fw-bold user-name d-none d-md-inline">{{ store.userActif?.name }}</span>
+      <div class="d-flex p-0 m-0 align-items-center">
+        <div class="btn-group profil">
+          <img
+            class="rounded-circle me-2 dropdown-toggle"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            src="../../public/user-profil.svg"
+            alt="User Profile"
+            width="30"
+          />
+          <ul class="dropdown-menu">
+            <li>
+              <button
+                class="dropdown-item"
+                @click="router.push({ name: 'edit-current-user' })"
+              >
+                <i class="fas fa-edit"></i>
+                Profil
+              </button>
+            </li>
+            <li>
+              <button class="dropdown-item" @click="logOut">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Deconnexion
+              </button>
+            </li>
+            <li>
+              <button
+                class="dropdown-item"
+                @click="router.push({ name: 'edit-current-user-pwd' })"
+              >
+                <i class="fa-solid fa-lock"></i>
+                Mot de passe
+              </button>
+            </li>
+          </ul>
+        </div>
+        <span class="fw-bold user-name d-none d-md-inline">{{
+          savedUserActifData.name
+        }}</span>
         <button class="btn" @click="logOut">
           <i class="fa-solid fa-right-from-bracket"></i>
         </button>
       </div>
     </nav>
-    
+
     <!-- Mobile navigation -->
-    <div v-if="isNavbarCollapsed" class="nav-buttons-mobile bg-white p-3 d-md-none">
+    <div
+      v-if="isNavbarCollapsed"
+      class="nav-buttons-mobile bg-white p-3 d-md-none"
+    >
       <BtnSideBar
         btn-active="my-2"
         icon="fas fa-home"
@@ -139,7 +182,6 @@ function setActiveButton(button) {
           }
         "
       />
-      <!-- Repeat for other buttons, just like above -->
     </div>
 
     <div class="body-content">
@@ -160,7 +202,9 @@ function setActiveButton(button) {
   height: 60px;
   z-index: 100;
 }
-
+.profil:hover {
+  cursor: pointer;
+}
 .btn-toggle-navbar {
   background: transparent;
   border: none;

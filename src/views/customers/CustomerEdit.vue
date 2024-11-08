@@ -151,7 +151,7 @@ const editCustomer = async () => {
       "Ce numéro de telephone est déja associer à un client",
       "Modification Client"
     );
-    console.log(error.message);
+    router.push({ name: "customer" });
   }
 };
 

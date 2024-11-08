@@ -1,29 +1,38 @@
 <script setup>
-
 defineProps({
   icon: String,
-  title:{
+  title: {
     type: String,
-    required: true
+    required: true,
   },
   btnActive: String,
   action: String,
   hidenTitle: String,
   color: String,
-  textColor: String
-
-})
+  textColor: String,
+  hoverTitle: String,
+  vIf: String
+});
 </script>
 
 
   <template>
   <button
-    class="btn btn-light w-100 text-center p-0 m-0 d-flex align-items-center"
-    :class="btnActive" :onclick="action"
-    :style="`color: ${color} ;` "
+    class="btn btn-light w-100 text-center p-1 m-0 d-flex align-items-center"
+    :title="hoverTitle"
+    :class="btnActive"
+    :onclick="action"
+    :style="`color: ${color} ;`"
+    :v-if="vIf"
   >
-  <i class=" fs-5" :style="`color: ${color} ; margin: ${!hidenTitle ? 'auto' : 0};` "  :class=" icon "></i>
-    <span class=" ms-1" :style="`color: ${textColor} ;` " v-if="hidenTitle">{{ title }}</span>
+    <i
+      class="fs-5"
+      :style="`color: ${color} ; margin: ${!hidenTitle ? 'auto' : 0};`"
+      :class="icon"
+    ></i>
+    <span class="ms-1" :style="`color: ${textColor} ;`" v-if="hidenTitle">{{
+      title
+    }}</span>
   </button>
 
   <!-- <button class="btn btn-light w-100 text-start d-flex align-items-center mt-2">

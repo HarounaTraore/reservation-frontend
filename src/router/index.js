@@ -20,6 +20,8 @@ import UserAdd from "@/views/users/UserAdd.vue";
 import UserEdit from "@/views/users/UserEdit.vue";
 import UserShow from "@/views/users/UserShow.vue";
 import ForgotPwd from "@/views/ForgotPwd.vue";
+import EditCurrentUser from "@/views/users/EditCurrentUser.vue";
+import EditPwdCurrentUser from "@/views/users/EditPwdCurrentUser.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -108,6 +110,16 @@ const router = createRouter({
           path: "/user/edit/:id",
           name: "edit-user",
           component: UserEdit,
+        },
+        {
+          path: "/user/current-user",
+          name: "edit-current-user",
+          component: EditCurrentUser,
+        },
+        {
+          path: "/user/current-user/password",
+          name: "edit-current-user-pwd",
+          component: EditPwdCurrentUser,
         },
         {
           path: "/user/show",

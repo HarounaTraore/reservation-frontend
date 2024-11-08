@@ -24,6 +24,7 @@
         <th scope="col" class="responsive-hide text-truncate">
           {{ t("reservationList.client") }}
         </th>
+        <th scope="col" class="responsive-hide text-truncate">Statut</th>
         <th scope="col" class="text-center">
           {{ t("reservationList.actions") }}
         </th>
@@ -35,16 +36,38 @@
           {{ $t("reservationList.noReservation") }}
         </td>
       </tr>
-      <tr
-        v-else
-        v-for="(reservation, index) in store.reservations"
-        :key="index"
-      >
+      <tr v-else v-for="(reservation, index) in sortedReservation" :key="index">
         <td class="text-center">{{ reservation?.id }}</td>
         <td class="text-center">{{ formatDateTime(reservation.dateStart) }}</td>
         <td class="text-center">{{ formatDateTime(reservation.dateEnd) }}</td>
         <td class="responsive-hide">{{ reservation.room.name }}</td>
         <td class="responsive-hide">{{ reservation.customer.name }}</td>
+        <td class="responsive-hide">
+          <select
+            v-model="reservation.status"
+            :disabled="
+              reservation.status === 'CONFIRMED' ||
+              new Date(reservation.dateEnd) < new Date()
+            "
+            @click="store.updateStatus(reservation.id, reservation.status)"
+            :style="
+              reservation.status == 'CONFIRMED'
+                ? 'color: #008000'
+                : reservation.status == 'CANCELED'
+                ? 'color: #ff0000'
+                : ''
+            "
+            id="status"
+            class="form-select bg-opacity-50"
+            required
+          >
+            <option value="CONFIRMED">
+              {{ t("reservationAdd.confirmed") }}
+            </option>
+            <option value="PENDING">{{ t("reservationAdd.pending") }}</option>
+            <option value="CANCELED">{{ t("reservationAdd.canceled") }}</option>
+          </select>
+        </td>
         <td class="text-center">
           <button
             class="btn-sm btn btn-outline-primary ms-2"
@@ -63,6 +86,7 @@
           </button>
           <button
             @click="destroyReservation(reservation.id)"
+
             class="btn-sm btn btn-outline-danger ms-2"
           >
             <i class="fa fa-trash"></i>
@@ -79,7 +103,7 @@
 import MessageModal from "@/components/MessageModal.vue";
 import { storeReservation } from "@/stores/storeReservation";
 import { globalyStore } from "@/stores/storeGlobaly";
-import { onMounted } from "vue";
+import { computed, onMounted } from "vue";
 import { useDateTimeFormatter } from "./useDateForatter";
 import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
@@ -98,7 +122,9 @@ const editReservation = async (id) => {
 onMounted(async () => {
   await store.loadingData();
 });
-
+const sortedReservation = computed(() => {
+  return [...store.reservations].sort((a, b) => b.id - a.id);
+});
 const destroyReservation = async (id) => {
   try {
     if (confirm(t("reservationList.confirmDelete"))) {

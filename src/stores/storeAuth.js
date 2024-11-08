@@ -16,6 +16,7 @@ export const storeAuth = defineStore("login", () => {
     id: savedUserActif?.id,
     name: savedUserActif?.name,
     status: savedUserActif?.status,
+    role: savedUserActif?.role,
   });
 
   const login = async () => {
@@ -51,12 +52,15 @@ export const storeAuth = defineStore("login", () => {
   };
   const resetPwd = async () => {
     try {
-      await axios.post("http://127.0.0.1:3000/api/reset-password", {
-        email: user.value.email,
-        conde: user.value.codeOtp,
-        newPassword: user.value.newPassword,
-      });
-      return true;
+      const result = await axios.post(
+        "http://127.0.0.1:3000/api/reset-password",
+        {
+          email: user.value.email,
+          code: user.value.codeOtp,
+          newPassword: user.value.newPassword,
+        }
+      );
+      return result;
     } catch (error) {
       throw error;
     }

@@ -28,6 +28,7 @@ export const storeUser = defineStore("user", () => {
       throw error;
     }
   };
+
   const addUser = async () => {
     console.log("ADED user");
 
@@ -90,6 +91,40 @@ export const storeUser = defineStore("user", () => {
       throw error;
     }
   };
+  const updateCurrentUser = async (name, email, address, phone) => {
+    try {
+      const result = await axios.put(
+        "http://127.0.0.1:3000/api/user-current",
+        {
+          name,
+          email,
+          address,
+          phone,
+        },
+        { headers: { Authorization: `Bearer ${savedUserActif.token}` } }
+      );
+      await loadingData();
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  };
+  const updatePwdCurrentUser = async (oldPassword, newPassword) => {
+    try {
+      const result = await axios.put(
+        "http://127.0.0.1:3000/api/user-password",
+        {
+          oldPassword,
+          newPassword,
+        },
+        { headers: { Authorization: `Bearer ${savedUserActif.token}` } }
+      );
+      await loadingData();
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  };
   const deleteUser = async (id) => {
     try {
       const result = await axios.delete(
@@ -124,5 +159,7 @@ export const storeUser = defineStore("user", () => {
     findUser,
     resetDataUser,
     updateUser,
+    updateCurrentUser,
+    updatePwdCurrentUser
   };
 });

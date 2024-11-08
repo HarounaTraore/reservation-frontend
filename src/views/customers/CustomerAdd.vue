@@ -26,7 +26,9 @@
             <div class="d-flex flex-column align-items-center">
               <div class="w-100">
                 <div class="input-group flex-nowrap">
-                  <label for="name" class="input-group-text">{{ $t("addCustomer.form.nameLabel") }}</label>
+                  <label for="name" class="input-group-text">{{
+                    $t("addCustomer.form.nameLabel")
+                  }}</label>
                   <input
                     type="text"
                     id="name"
@@ -58,7 +60,9 @@
                 </div>
 
                 <div class="input-group flex-nowrap">
-                  <label for="phone" class="input-group-text">{{ $t("addCustomer.form.phoneLabel") }}</label>
+                  <label for="phone" class="input-group-text">{{
+                    $t("addCustomer.form.phoneLabel")
+                  }}</label>
                   <input
                     name="phone"
                     v-model="customer.phone"
@@ -121,7 +125,7 @@ onMounted(() => {
   modal.show();
 });
 
-const phoneError = ref('');
+const phoneError = ref("");
 
 const validatePhone = () => {
   const regex = /^[234]\d{7}$/;
@@ -131,8 +135,6 @@ const validatePhone = () => {
     phoneError.value = false;
   }
 };
-
-const id = Number(route.params.id); //FOR MODIFICATION
 
 const newCustomer = async () => {
   try {
@@ -147,10 +149,10 @@ const newCustomer = async () => {
     router.push({ name: "customer" });
   } catch (error) {
     await storeGlobaly.MessageModalDenied(
-      t("addCustomer.messages.error"),
+      "Ce numéro de telephone est déja associer à un client",
       t("addCustomer.messages.errorTitle")
     );
-    console.log(error.message);
+    router.push({ name: "customer" });
   }
 };
 

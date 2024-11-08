@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import axios from "axios";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useDateTimeFormatter } from "@/views/reservations/useDateForatter";
 
 export const storeReservation = defineStore("reservation", () => {
@@ -12,14 +12,31 @@ export const storeReservation = defineStore("reservation", () => {
     dateEnd: "",
     userName: "",
     status: "",
-    roomId: null,
-    customerId: null,
+    roomId: "",
+    roomName:"",
+    customerId: "",
+    customerName:"",
     timeStart: "",
     timeEnd: "",
   });
 
-  const reservations = ref([]);
+  const dateStart = computed(() =>
+    reservation.value.dateStart && reservation.value.timeStart
+      ? new Date(
+          `${reservation.value.dateStart}T${reservation.value.timeStart}`
+        ).toISOString()
+      : new Date().toISOString()
+  );
 
+  const dateEnd = computed(() =>
+    reservation.value.dateEnd && reservation.value.timeEnd
+      ? new Date(
+          `${reservation.value.dateEnd}T${reservation.value.timeEnd}`
+        ).toISOString()
+      : new Date().toISOString()
+  );
+  const reservations = ref([]);
+  const roomsNotReserved = ref([]);
   const loadingData = async () => {
     try {
       const data = await axios.get("http://127.0.0.1:3000/api/reservations", {
@@ -83,6 +100,35 @@ export const storeReservation = defineStore("reservation", () => {
     }
   };
 
+  const findRoomsNotReserved = async () => {
+    const data = await axios.get(
+      "http://127.0.0.1:3000/api/rooms/not-reserved",
+      {
+        params: { dateStart: dateStart.value, dateEnd: dateEnd.value },
+        headers: { Authorization: `Bearer ${savedUserActif.token}` },
+      }
+    );
+    const result = data.data.result;
+    roomsNotReserved.value = [...result];
+    console.log("ROOM NOT RESERVED", roomsNotReserved.value);
+
+    return result;
+  };
+  const updateStatus = async (id, status) => {
+    try {
+      await axios.put(
+        `http://127.0.0.1:3000/api/reservation-status/${id}`,
+        {
+          status: status,
+        },
+        { headers: { Authorization: `Bearer ${savedUserActif.token}` } }
+      );
+      await loadingData();
+    } catch (error) {
+      throw error;
+    }
+  };
+
   const findReservation = async (id) => {
     try {
       const result = await axios.get(
@@ -111,8 +157,10 @@ export const storeReservation = defineStore("reservation", () => {
         "HH:mm"
       );
       reservation.value.userName = result.data.result.user.name;
-      reservation.value.roomId = result.data.result.room.name;
-      reservation.value.customerId = result.data.result.customer.name;
+      reservation.value.roomName = result.data.result.room.name
+      reservation.value.roomId = result.data.result.roomId;
+      reservation.value.customerName = result.data.result.customer.name
+      reservation.value.customerId = result.data.result.customerId;
 
       await loadingData();
       return result;
@@ -146,14 +194,18 @@ export const storeReservation = defineStore("reservation", () => {
     reservation.value.timeStart = "";
     reservation.value.timeEnd = "";
   };
+
   return {
     reservation,
     reservations,
     loadingData,
     addReservation,
     updateReservation,
+    updateStatus,
     findReservation,
     deleteReservation,
-    resetData
+    resetData,
+    findRoomsNotReserved,
+    roomsNotReserved,
   };
 });

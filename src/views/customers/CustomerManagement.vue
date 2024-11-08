@@ -5,36 +5,42 @@
       @click="router.push({ name: 'add-customer' }, store.reserDataCustomer())"
     >
       <i class="fa fa-plus me-1"></i>
-      {{ $t('customerList.newCustomer') }}
+      {{ t("customerList.newCustomer") }}
     </button>
   </div>
   <table class="table table-striped table-bordered m-auto">
     <thead>
       <tr>
         <th scope="col" class="text-center">#</th>
-        <th scope="col" class="text-center">{{ $t('customerList.name') }}</th>
-        <th scope="col" class="text-center responsive-hide">{{ $t('customerList.address') }}</th>
-        <th scope="col" class="text-center responsive-hide">{{ $t('customerList.phone') }}</th>
-        <th scope="col" class="text-center">{{ $t('customerList.actions') }}</th>
+        <th scope="col" class="">{{ $t("customerList.name") }}</th>
+        <th scope="col" class="responsive-hide">
+          {{ t("customerList.address") }}
+        </th>
+        <th scope="col" class="text-center responsive-hide">
+          {{ t("customerList.phone") }}
+        </th>
+        <th scope="col" class="text-center">
+          {{ t("customerList.actions") }}
+        </th>
       </tr>
     </thead>
     <tbody>
       <tr v-if="store.customers.length === 0">
         <td colspan="4" class="text-danger text-center fw-bold">
-          {{ $t('customerList.noClient') }}
+          {{ $t("customerList.noClient") }}
         </td>
       </tr>
-      <tr v-else v-for="(customer, index) in store.customers" :key="index">
+      <tr v-else v-for="(customer, index) in sortedCustomers" :key="index">
         <td class="text-center">{{ customer?.id }}</td>
         <td>{{ customer.name }}</td>
         <td class="responsive-hide">{{ customer.address }}</td>
-        <td class="responsive-hide">{{ customer.phone }}</td>
+        <td class="responsive-hide text-center">{{ customer.phone }}</td>
         <td class="text-center">
           <button
             class="btn-sm btn btn-outline-primary ms-2"
             @click="
               store.findCustomer(customer.id),
-              router.push({ name: 'show-customer' })
+                router.push({ name: 'show-customer' })
             "
           >
             <i class="fas fa-eye"></i>
@@ -43,10 +49,10 @@
             class="btn-sm btn btn-outline-secondary ms-2"
             @click="
               store.findCustomer(customer.id),
-              router.push({
-                name: 'edit-customer',
-                params: { id: customer.id },
-              })
+                router.push({
+                  name: 'edit-customer',
+                  params: { id: customer.id },
+                })
             "
           >
             <i class="fas fa-edit"></i>
@@ -69,8 +75,10 @@
 import MessageModal from "@/components/MessageModal.vue";
 import { storeCustomer } from "@/stores/storeCustomer";
 import { globalyStore } from "@/stores/storeGlobaly";
-import { onMounted } from "vue";
+import { computed, onMounted } from "vue";
+import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
+const { t } = useI18n();
 const store = storeCustomer();
 const storeGlobaly = globalyStore();
 onMounted(async () => {
@@ -80,20 +88,23 @@ const router = useRouter();
 
 const destroyCustomer = async (id) => {
   try {
-    if (confirm($t('customerList.deleteConfirm')))
+    if (confirm(t("customerList.deleteConfirm")))
       await store.deleteCustomer(id);
     await storeGlobaly.MessageModalSuccess(
-      $t('customerList.deleteSuccess'),
-      $t('customerList.delete')
+      t("customerList.deleteSuccess"),
+      t("customerList.delete")
     );
   } catch (error) {
     await storeGlobaly.MessageModalDenied(
-      $t('customerList.deleteError'),
-      $t('customerList.delete')
+      t("customerList.deleteError"),
+      t("customerList.delete")
     );
     console.log(error.message);
   }
 };
+const sortedCustomers = computed(() => {
+  return [...store.customers].sort((a, b) => b.id - a.id);
+});
 </script>
 
 <style scoped>

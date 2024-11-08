@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import axios from "axios";
-import { computed, ref } from "vue";
+import { ref } from "vue";
 
 export const storeRoom = defineStore("room", () => {
   const savedUserActif = JSON.parse(localStorage.getItem("userActif"));
@@ -12,13 +12,7 @@ export const storeRoom = defineStore("room", () => {
   });
   const rooms = ref([]);
   const tableIterable = ref("");
-  const roomsReserved = computed(() => {
-    return rooms.value.filter((room) => room.status === "Réservée");
-  });
-  const roomNoReserved = computed(() => {
-    return rooms.value.filter((room) => room.status === "Non Réservée");
-  });
-
+  const roomsDispoReserved = ref([]);
   const loadingData = async () => {
     try {
       const data = await axios.get("http://127.0.0.1:3000/api/rooms", {
@@ -30,6 +24,7 @@ export const storeRoom = defineStore("room", () => {
       throw error;
     }
   };
+
   const addRoom = async () => {
     try {
       const result = await axios.post(
@@ -110,8 +105,6 @@ export const storeRoom = defineStore("room", () => {
   return {
     rooms,
     room,
-    roomsReserved,
-    roomNoReserved,
     loadingData,
     addRoom,
     findRoom,
@@ -119,5 +112,6 @@ export const storeRoom = defineStore("room", () => {
     reserDataRoom,
     updateRoom,
     deleteRoom,
+    roomsDispoReserved,
   };
 });

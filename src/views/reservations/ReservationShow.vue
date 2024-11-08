@@ -43,7 +43,7 @@
             <input
               type="text"
               disabled
-              v-model="reservation.roomId"
+              v-model="reservation.roomName"
               class="form-control bg-opacity-50"
               required
             />
@@ -53,7 +53,7 @@
             <input
               type="text"
               disabled
-              v-model="reservation.customerId"
+              v-model="reservation.customerName"
               class="form-control bg-opacity-50"
               required
             />
