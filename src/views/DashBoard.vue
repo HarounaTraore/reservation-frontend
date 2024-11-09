@@ -6,25 +6,38 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { storeReservation } from "@/stores/storeReservation";
 import frLocale from "@fullcalendar/core/locales/fr";
+import { useDateTimeFormatter } from "@/views/reservations/useDateForatter";
 import Swal from "sweetalert2";
 import router from "@/router";
-
+const { formatDateTime } = useDateTimeFormatter();
 const store = storeReservation();
 const calendarOptions = ref({
   plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
   initialView: window.innerWidth < 768 ? "timeGridDay" : "timeGridWeek",
   locale: frLocale,
+  timeZone: "local",
   weekends: true,
   height: "auto",
   events: [],
   dateClick: (info) => handleDateClick(info),
   eventClick: (info) => handleEventClick(info),
   slotDuration: "01:00:00",
+  slotMinTime: "08:00:00",
+  slotMaxTime: "23:59:00",
+  allDaySlot: false,
   headerToolbar: {
-    left: "prev,next today",
+    left: `listReservationsButton,prev,next today`,
     center: "title",
-    right: "dayGridMonth,timeGridWeek,timeGridDay"
-  }
+    right: "dayGridMonth,timeGridWeek,timeGridDay",
+  },
+  customButtons: {
+    listReservationsButton: {
+      text: "Liste",
+      click: () => {
+        router.push({ name: "list-reservation" });
+      },
+    },
+  },
 });
 
 const loadReservations = async () => {
@@ -32,32 +45,41 @@ const loadReservations = async () => {
   calendarOptions.value.events = store.reservations.map((reservation) => ({
     start: reservation.dateStart,
     end: reservation.dateEnd,
-    title: "Réservation",
+    title: `${reservation.customer.name}`,
+    extendedProps: {
+      room: reservation.room.name,
+    },
   }));
 };
 
 onMounted(loadReservations);
 
-// const handleDateClick = (info) => {
-//   Swal.fire({
-//     title: "Vous avez cliqué sur une date!",
-//     text: `Date sélectionnée : ${info.dateStr}`,
-//     icon: "info",
-//     confirmButtonText: "Ok",
-//   });
-// };
+const handleDateClick = (info) => {
+  let dateAt = info.dateStr;
+  dateAt = new Date(dateAt);
+  store.reservation.dateStart = formatDateTime(dateAt);
+  store.reservation.timeStart = formatDateTime(dateAt, "HH:mm");
+
+  if (dateAt) {
+    router.push({ name: "add-reservation" });
+  }
+};
 
 const handleEventClick = (info) => {
+  const roomName = info.event.extendedProps.room;
   const timeOptions = { hour: "2-digit", minute: "2-digit" };
   Swal.fire({
-    title: "Détails de l'événement",
-    text: `Événement de ${info.event.start.toLocaleDateString()} ${info.event.start.toLocaleTimeString(
+    title: "Détails de la Réservation",
+    html: `Date Début: ${info.event.start.toLocaleDateString()} à ${info.event.start.toLocaleTimeString(
       [],
       timeOptions
-    )} à ${info.event.end.toLocaleDateString()} ${info.event.end.toLocaleTimeString(
+    )} <br>
+    Date Fin: ${info.event.end.toLocaleDateString()} à ${info.event.end.toLocaleTimeString(
       [],
       timeOptions
-    )}`,
+    )}<br><br>
+    Salle: <strong>${roomName}</strong>
+      <br> Resérvée par : <strong>${info.event.title}</strong>`,
     icon: "info",
     confirmButtonText: "Ok",
   });
@@ -67,13 +89,7 @@ const handleEventClick = (info) => {
 <template>
   <div class="container">
     <div class="d-flex justify-content-between align-items-center my-3">
-      <h3 class="text-center mb-0">Tableau de bord</h3>
-      <button
-        class="btn btn-primary fw-bold"
-        @click="router.push({ name: 'list-reservation' })"
-      >
-        Liste des réservations
-      </button>
+      <!-- <h3 class="text-center mb-0">Tableau de bord</h3> -->
     </div>
     <div class="calendar-container mt-3">
       <FullCalendar :options="calendarOptions" />

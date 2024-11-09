@@ -13,9 +13,9 @@ export const storeReservation = defineStore("reservation", () => {
     userName: "",
     status: "",
     roomId: "",
-    roomName:"",
+    roomName: "",
     customerId: "",
-    customerName:"",
+    customerName: "",
     timeStart: "",
     timeEnd: "",
   });
@@ -110,7 +110,6 @@ export const storeReservation = defineStore("reservation", () => {
     );
     const result = data.data.result;
     roomsNotReserved.value = [...result];
-    console.log("ROOM NOT RESERVED", roomsNotReserved.value);
 
     return result;
   };
@@ -157,9 +156,9 @@ export const storeReservation = defineStore("reservation", () => {
         "HH:mm"
       );
       reservation.value.userName = result.data.result.user.name;
-      reservation.value.roomName = result.data.result.room.name
+      reservation.value.roomName = result.data.result.room.name;
       reservation.value.roomId = result.data.result.roomId;
-      reservation.value.customerName = result.data.result.customer.name
+      reservation.value.customerName = result.data.result.customer.name;
       reservation.value.customerId = result.data.result.customerId;
 
       await loadingData();
