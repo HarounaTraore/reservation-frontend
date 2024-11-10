@@ -79,6 +79,10 @@
             <i class="fas fa-eye"></i>
           </button>
           <button
+          :disabled="
+              reservation.status === 'CONFIRMED' ||
+              new Date(reservation.dateEnd) < new Date()
+            "
             class="btn-sm btn btn-outline-secondary ms-2"
             @click="editReservation(reservation.id)"
           >

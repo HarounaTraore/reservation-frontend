@@ -3,7 +3,7 @@
     class="container cont-parent d-flex justify-content-center m-auto align-items-center"
   >
     <div class="card p-4 shadow w-100" style="max-width: 600px">
-      <h4 class="text-center mb-4 fw-bold">{{ $t("userAdd.title") }}</h4>
+      <h4 class="text-center mb-4 fw-bold">{{ $t("userEdit.title") }}</h4>
       <form @submit.prevent="editUser">
         <!-- Nom -->
         <div class="mb-3">
