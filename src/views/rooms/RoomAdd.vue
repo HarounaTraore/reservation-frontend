@@ -12,7 +12,8 @@
         <div class="modal-header">
           <h5 v-if="!isDisabled" class="modal-title fw-bold w-100 text-center">
             {{ $t("roomAdd.title") }}
-          </h5> <h5 v-else class="modal-title fw-bold w-100 text-center">
+          </h5>
+          <h5 v-else class="modal-title fw-bold w-100 text-center">
             Affichage d'une Salle
           </h5>
           <button
@@ -27,19 +28,24 @@
           <form>
             <div class="d-flex flex-column align-items-center">
               <div class="w-100">
-                <div class="input-group flex-nowrap">
-                  <label for="name" class="input-group-text">{{
-                    $t("roomAdd.name")
-                  }}</label>
-                  <input
-                    type="text"
-                    :disabled="isDisabled"
-                    id="name"
-                    v-model="room.name"
-                    class="form-control bg-opacity-50"
-                    :placeholder="$t('roomAdd.namePlaceholder')"
-                    aria-label="name"
-                  />
+                <div>
+                  <div class="input-group flex-nowrap">
+                    <label for="name" class="input-group-text">{{
+                      $t("roomAdd.name")
+                    }}</label>
+                    <input
+                      type="text"
+                      :disabled="isDisabled"
+                      id="name"
+                      v-model="room.name"
+                      class="form-control bg-opacity-50"
+                      :placeholder="$t('roomAdd.namePlaceholder')"
+                      aria-label="name"
+                    />
+                  </div>
+                  <span class="errorInput" v-if="allErrors?.name">
+                    {{ allErrors?.name }}
+                  </span>
                 </div>
 
                 <div class="row">
@@ -47,41 +53,48 @@
                     class="col-12"
                     :class="isDisabled ? 'd-flex justify-content-between' : ''"
                   >
-                    <div
-                      class="input-group"
-                      :class="isDisabled ? 'col-6' : 'col-12'"
-                    >
-                      <label for="capacity" class="input-group-text">
-                        {{ $t("roomAdd.capacity") }}
-                      </label>
-                      <input
-                        type="number"
-                        :disabled="isDisabled"
-                        v-model="room.capacity"
-                        id="capacity"
-                        class="form-control bg-opacity-50"
-                        :placeholder="$t('roomAdd.capacityPlaceholder')"
-                        aria-label="Capacité de la salle"
-                      />
+                    <div class="">
+                      <div
+                        class="input-group"
+                        :class="isDisabled ? 'col-6' : 'col-12'"
+                      >
+                        <label for="capacity" class="input-group-text">
+                          {{ $t("roomAdd.capacity") }}
+                        </label>
+                        <input
+                          type="number"
+                          :disabled="isDisabled"
+                          v-model="room.capacity"
+                          id="capacity"
+                          class="form-control bg-opacity-50"
+                          :placeholder="$t('roomAdd.capacityPlaceholder')"
+                          aria-label="Capacité de la salle"
+                        />
+                      </div>
+                      <span class="errorInput" v-if="allErrors?.capacity">
+                        {{ allErrors?.capacity }}
+                      </span>
                     </div>
-                  </div>
-
-                  <div class="col-12">
                   </div>
                 </div>
 
-                <div class="input-group flex-nowrap">
-                  <label for="equipment" class="input-group-text">{{
-                    $t("roomAdd.equipment")
-                  }}</label>
-                  <textarea
-                    :disabled="isDisabled"
-                    name="equipment"
-                    v-model="room.equipment"
-                    class="form-control bg-opacity-50"
-                    id="equipment"
-                    :placeholder="$t('roomAdd.equipmentPlaceholder')"
-                  ></textarea>
+                <div class="">
+                  <div class="input-group flex-nowrap">
+                    <label for="equipment" class="input-group-text">{{
+                      $t("roomAdd.equipment")
+                    }}</label>
+                    <textarea
+                      :disabled="isDisabled"
+                      name="equipment"
+                      v-model="room.equipment"
+                      class="form-control bg-opacity-50"
+                      id="equipment"
+                      :placeholder="$t('roomAdd.equipmentPlaceholder')"
+                    ></textarea>
+                  </div>
+                  <span class="errorInput" v-if="allErrors?.equipment">
+                    {{ allErrors?.equipment }}
+                  </span>
                 </div>
               </div>
             </div>
@@ -121,12 +134,15 @@ import SuccessModal from "@/components/MessageModal.vue";
 import { useI18n } from "vue-i18n";
 import { globalyStore } from "@/stores/storeGlobaly";
 import router from "@/router";
+import { ref } from "vue";
 const { t } = useI18n();
 
 const storeGlobaly = globalyStore();
 
 const store = storeRoom();
 const room = store.room;
+const errors = ref([]);
+const allErrors = ref();
 
 const createNewRoom = async () => {
   try {
@@ -139,14 +155,16 @@ const createNewRoom = async () => {
     store.room.capacity = "";
     store.room.equipment = "";
     store.room.status = "";
-    router.push({ name: 'room' })
+    router.push({ name: "room" });
   } catch (error) {
-    await storeGlobaly.MessageModalDenied(
-      "Erreur lors de la creation",
-      "Création Salle"
-    );
-    console.log(error.message);
-  }
+    const err = error.response.data.errors;
+
+    errors.value = [...err];
+    allErrors.value = errors.value.reduce((acc, error) => {
+      acc[error.path] = error.msg;
+      return acc;
+    }, {});
+     }
 };
 
 defineProps({
@@ -165,5 +183,12 @@ defineProps({
 }
 .input-group {
   margin-top: 25px;
+}
+.errorInput {
+  color: red;
+  font-size: 11px;
+  margin-left: 15px;
+  margin-top: 0px;
+  padding-top: 0;
 }
 </style>

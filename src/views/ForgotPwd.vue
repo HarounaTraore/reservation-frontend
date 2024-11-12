@@ -3,7 +3,7 @@
     class="container cont-parent d-flex justify-content-center m-auto align-items-center"
   >
     <div class="card p-4 shadow w-100" style="max-width: 400px">
-      <h4 class="text-center mb-4">{{ t('forgotPwd.title') }}</h4>
+      <h4 class="text-center mb-4">{{ t("forgotPwd.title") }}</h4>
       <form v-if="!reset" @submit.prevent="forget">
         <div class="mb-3">
           <label for="email" class="form-label">{{
@@ -17,9 +17,14 @@
             :placeholder="t('forgotPwd.emailPlaceholder')"
             required
           />
+          <span class="errorInput" v-if="errors?.error">
+            {{ errors?.error }}
+          </span>
         </div>
 
-        <button type="submit" class="btn btn-primary w-100">{{ t('forgotPwd.sendButton') }}</button>
+        <button type="submit" class="btn btn-primary w-100">
+          {{ t("forgotPwd.sendButton") }}
+        </button>
       </form>
 
       <form v-else @submit.prevent="resetPwd">
@@ -38,7 +43,9 @@
         </div>
 
         <div class="mb-3">
-          <label for="otp" class="form-label">{{ t('forgotPwd.otpLabel') }}</label>
+          <label for="otp" class="form-label">{{
+            t("forgotPwd.otpLabel")
+          }}</label>
           <input
             type="text"
             id="otp"
@@ -47,19 +54,29 @@
             :placeholder="t('forgotPwd.otpPlaceholder')"
             required
           />
+
         </div>
-        <div class="mb-3">
-          <label for="newPassword" class="form-label">{{ t('forgotPwd.newPasswordLabel') }}</label>
+        <div class="mb-3 pwd-container password-container">
+          <label for="newPassword" class="form-label">{{
+            t("forgotPwd.newPasswordLabel")
+          }}</label>
           <input
-            type="password"
+            :type="isPasswordVisible ? 'text' : 'password'"
             id="newPassword"
             v-model="storeLogin.user.newPassword"
-            class="form-control"
+            class="form-control pwd-container"
             :placeholder="t('forgotPwd.newPasswordPlaceholder')"
             required
           />
+          <span class="toggle-password" @click="togglePasswordVisibility">
+            <i
+              :class="isPasswordVisible ? 'fas fa-eye-slash' : 'fas fa-eye'"
+            ></i>
+          </span>
         </div>
-        <button type="submit" class="btn btn-primary w-100">{{ t('forgotPwd.sendButton') }}</button>
+        <button type="submit" class="btn btn-primary w-100">
+          {{ t("forgotPwd.sendButton") }}
+        </button>
       </form>
     </div>
   </div>
@@ -78,24 +95,27 @@ import { ref } from "vue";
 const { t } = useI18n();
 const storeLogin = storeAuth();
 const storeGlobaly = globalyStore();
+
+const errors = ref([]);
+const isPasswordVisible = ref(false);
+
+const togglePasswordVisibility = () => {
+  isPasswordVisible.value = !isPasswordVisible.value;
+};
 const reset = ref(false);
 const forget = async () => {
   try {
     const result = await storeLogin.forgotPwd();
-    console.log("FORGOT", result);
 
     if (result) {
       await storeGlobaly.MessageModalSuccess(
-        t('forgotPwd.forgotSuccessMessage'),
-        t('forgotPwd.emailSendTitle')
+        t("forgotPwd.forgotSuccessMessage"),
+        t("forgotPwd.emailSendTitle")
       );
       reset.value = true;
     }
   } catch (error) {
-    await storeGlobaly.MessageModalDenied(
-      t('forgotPwd.emailNotAssociated'),
-      t('forgotPwd.resetTitle')
-    );
+    errors.value = error.response.data;
   }
 };
 const resetPwd = async () => {
@@ -103,15 +123,16 @@ const resetPwd = async () => {
     const result = await storeLogin.resetPwd();
     if (result) {
       await storeGlobaly.MessageModalSuccess(
-        t('forgotPwd.passwordResetSuccess'),
-        t('forgotPwd.resetTitle')
+        t("forgotPwd.passwordResetSuccess"),
+        t("forgotPwd.resetTitle")
       );
       router.push({ name: "login" });
     }
   } catch (error) {
+    errors.value = error.response.data.error;
     await storeGlobaly.MessageModalDenied(
-      t('forgotPwd.resetErrorMessage'),
-      t('forgotPwd.resetTitle')
+      t(errors.value),
+      t("forgotPwd.resetTitle")
     );
   }
 };
@@ -120,5 +141,23 @@ const resetPwd = async () => {
 <style scoped>
 .cont-parent {
   height: 90vh;
+}
+.errorInput {
+  color: red;
+  font-size: 11px;
+  margin-left: 15px;
+  margin-top: 0px;
+  padding-top: 0;
+}
+.pwd-container {
+  position: relative;
+}
+
+
+.toggle-password {
+  position: absolute;
+  top: 38px;
+  right: 15px;
+  cursor: pointer;
 }
 </style>

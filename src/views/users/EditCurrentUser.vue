@@ -17,6 +17,9 @@
             aria-label="Nom de l'utilisateur"
             required
           />
+          <span class="errorInput" v-if="allErrors?.name">
+            {{ allErrors?.name }}
+          </span>
         </div>
 
         <!-- Email -->
@@ -33,6 +36,9 @@
             aria-label="Email de l'utilisateur"
             required
           />
+          <span class="errorInput" v-if="allErrors?.email">
+            {{ allErrors?.email }}
+          </span>
         </div>
 
         <!-- Adresse -->
@@ -49,6 +55,9 @@
             aria-label="Adresse de l'utilisateur"
             required
           />
+          <span class="errorInput" v-if="allErrors?.address">
+            {{ allErrors?.address }}
+          </span>
         </div>
 
         <!-- Téléphone -->
@@ -66,7 +75,10 @@
             aria-label="Téléphone de l'utilisateur"
             required
           />
-          <p v-if="phoneError" class="text-danger">{{ phoneError }}</p>
+          <p v-if="phoneError" class="errorInput">{{ phoneError }}</p>
+          <span class="errorInput" v-if="allErrors?.phone">
+            {{ allErrors?.phone }}
+          </span>
         </div>
 
         <!-- Boutons d'envoi et d'annulation -->
@@ -89,38 +101,37 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { ref, watch } from "vue";
+
 import { storeUser } from "@/stores/storeUser";
 import { globalyStore } from "@/stores/storeGlobaly";
 import MessageModal from "@/components/MessageModal.vue";
 import { useI18n } from "vue-i18n";
+import { useRouter } from "vue-router";
 
 const { t } = useI18n();
 const router = useRouter();
 const store = storeUser();
-const user = ref({
-  name: store.user.name,
-  email: store.user.email,
-  address: store.user.address,
-  phone: store.user.phone,
-});
+const user = store.user;
+
+const errors = ref([]);
+const allErrors = ref();
 
 const phoneError = ref(false);
 
 const validatePhone = () => {
   const regex = /^[234]\d{7}$/;
-  phoneError.value = !regex.test(user.value.phone)
+  phoneError.value = !regex.test(user.phone)
     ? "Le numéro de téléphone doit comporter 8 chiffres et commencer par 2, 3 ou 4."
     : false;
 };
 const editUser = async () => {
   try {
     await store.updateCurrentUser(
-      user.value.name,
-      user.value.email,
-      user.value.address,
-      user.value.phone
+      user.name,
+      user.email,
+      user.address,
+      user.phone
     );
     globalyStore().MessageModalSuccess(
       t("userEdit.successMessage"),
@@ -128,10 +139,11 @@ const editUser = async () => {
     );
     router.push({ name: "dash" });
   } catch (error) {
-    globalyStore().MessageModalDenied(
-      t("userEdit.errorMessage"),
-      "Modification utilisateur"
-    );
+    errors.value = error.response.data.errors;
+    allErrors.value = errors.value.reduce((acc, error) => {
+      acc[error.path] = error.msg;
+      return acc;
+    }, {});
   }
 };
 
@@ -144,5 +156,12 @@ const cancel = () => {
 .container {
   max-width: 600px;
   margin: auto;
+}
+.errorInput {
+  color: red;
+  font-size: 11px;
+  margin-left: 15px;
+  margin-top: 0px;
+  padding-top: 0;
 }
 </style>

@@ -17,6 +17,9 @@
             aria-label="Nom de l'utilisateur"
             required
           />
+          <span class="errorInput" v-if="allErrors?.name">
+            {{ allErrors?.name }}
+          </span>
         </div>
 
         <!-- Email -->
@@ -33,6 +36,9 @@
             aria-label="Email de l'utilisateur"
             required
           />
+          <span class="errorInput" v-if="allErrors?.email">
+            {{ allErrors?.email }}
+          </span>
         </div>
 
         <!-- Adresse -->
@@ -49,6 +55,9 @@
             aria-label="Adresse de l'utilisateur"
             required
           />
+          <span class="errorInput" v-if="allErrors?.address">
+            {{ allErrors?.address }}
+          </span>
         </div>
 
         <!-- Téléphone -->
@@ -67,15 +76,18 @@
             required
           />
           <p v-if="phoneError" class="text-danger">{{ phoneError }}</p>
+          <span class="errorInput" v-if="allErrors?.phone">
+            {{ allErrors?.phone }}
+          </span>
         </div>
 
         <!-- Mot de passe -->
-        <div class="mb-3">
+        <div class="mb-3 position-relative">
           <label for="password" class="form-label">{{
             $t("userAdd.password")
           }}</label>
           <input
-            type="password"
+            :type="isPasswordVisible ? 'text' : 'password'"
             v-model="user.password"
             id="password"
             class="form-control bg-opacity-50"
@@ -83,6 +95,18 @@
             aria-label="Mot de passe"
             required
           />
+          <span class="errorInput" v-if="allErrors?.password">
+            {{ allErrors?.password }}
+          </span>
+          <span
+            class="toggle-password"
+            style="position: absolute; top: 38px; right: 15px; cursor: pointer"
+            @click="togglePasswordVisibility"
+          >
+            <i
+              :class="isPasswordVisible ? 'fas fa-eye-slash' : 'fas fa-eye'"
+            ></i>
+          </span>
         </div>
 
         <div class="mb-3">
@@ -131,10 +155,18 @@ const router = useRouter();
 const store = storeUser();
 const user = store.user;
 const phoneError = ref(false);
+const errors = ref([]);
+const allErrors = ref();
+
+const isPasswordVisible = ref(false);
+
+const togglePasswordVisibility = () => {
+  isPasswordVisible.value = !isPasswordVisible.value;
+};
 
 const validatePhone = () => {
   const regex = /^[234]\d{7}$/;
-  phoneError.value = !regex.test(user.value.phone)
+  phoneError.value = !regex.test(user.phone)
     ? "Le numéro de téléphone doit comporter 8 chiffres et commencer par 2, 3 ou 4."
     : false;
 };
@@ -148,11 +180,11 @@ const editUser = async () => {
     );
     router.push({ name: "user" });
   } catch (error) {
-    globalyStore().MessageModalDenied(
-      t("userEdit.errorMessage"),
-      "Modification utilisateur"
-    );
-    console.error(error.message);
+    errors.value = error.response.data.errors;
+    allErrors.value = errors.value.reduce((acc, error) => {
+      acc[error.path] = error.msg;
+      return acc;
+    }, {});
   }
 };
 
@@ -165,5 +197,12 @@ const cancel = () => {
 .container {
   max-width: 600px;
   margin: auto;
+}
+.errorInput {
+  color: red;
+  font-size: 11px;
+  margin-left: 15px;
+  margin-top: -10px;
+  padding-top: 0;
 }
 </style>

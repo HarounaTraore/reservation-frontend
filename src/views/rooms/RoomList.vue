@@ -16,7 +16,7 @@
       <tr>
         <th scope="col" class="text-center">{{ $t("roomList.table.id") }}</th>
         <th scope="col" class="">{{ $t("roomList.table.name") }}</th>
-        <th scope="col" class=" responsive-hide">
+        <th scope="col" class="responsive-hide">
           {{ $t("roomList.table.capacity") }}
         </th>
         <th scope="col" class="text-center">
@@ -33,7 +33,7 @@
       <tr v-else v-for="(room, index) in sortedRooms" :key="index">
         <td class="text-center">{{ room?.id }}</td>
         <td class="">{{ room.name }}</td>
-        <td class=" responsive-hide">{{ room.capacity }}</td>
+        <td class="responsive-hide">{{ room.capacity }}</td>
 
         <td class="text-center">
           <button
@@ -44,10 +44,9 @@
           </button>
           <button
             class="btn-sm btn btn-outline-secondary ms-2"
-            @click="
-              store.findRoom(room.id),
-                router.push({ name: 'edit-room', params: { id: room.id } })
-            "
+            @click="store.findRoom(room.id)"
+            data-bs-toggle="modal"
+            data-bs-target="#ModalEdit"
           >
             <i class="fas fa-edit"></i>
           </button>
@@ -64,12 +63,14 @@
   </table>
   <RoomModal />
   <MessageModal valid="OK" />
+  <RoomEdit />
 </template>
 
 <script setup>
 import MessageModal from "@/components/MessageModal.vue";
 import { globalyStore } from "@/stores/storeGlobaly";
 import { storeRoom } from "@/stores/storeRoom";
+import RoomEdit from "./RoomEdit.vue";
 import { computed, onMounted } from "vue";
 import RoomModal from "./RoomAdd.vue";
 import { useRouter } from "vue-router";
@@ -106,9 +107,9 @@ const deleteRoom = async (id) => {
     }
   }
 };
-const sortedRooms = computed(()=>{
-  return [...store.rooms].sort((a,b)=> b.id - a.id)
-})
+const sortedRooms = computed(() => {
+  return [...store.rooms].sort((a, b) => b.id - a.id);
+});
 </script>
 
 <style scoped>

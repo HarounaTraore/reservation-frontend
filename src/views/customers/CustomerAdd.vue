@@ -5,6 +5,7 @@
     id="exampleModal"
     tabindex="-1"
     aria-labelledby="exampleModalLabel"
+    data-bs-backdrop="static"
     aria-hidden="true"
   >
     <div class="modal-dialog">
@@ -25,21 +26,26 @@
           <div class="modal-body">
             <div class="d-flex flex-column align-items-center">
               <div class="w-100">
-                <div class="input-group flex-nowrap">
-                  <label for="name" class="input-group-text">{{
-                    $t("addCustomer.form.nameLabel")
-                  }}</label>
-                  <input
-                    type="text"
-                    id="name"
-                    v-model="customer.name"
-                    class="form-control bg-opacity-50"
-                    :placeholder="$t('addCustomer.form.namePlaceholder')"
-                    aria-label="name"
-                    required
-                  />
+                <div>
+                  <div class="input-group flex-nowrap">
+                    <label for="name" class="input-group-text">{{
+                      $t("addCustomer.form.nameLabel")
+                    }}</label>
+                    <input
+                      type="text"
+                      id="name"
+                      v-model="customer.name"
+                      class="form-control bg-opacity-50"
+                      :placeholder="$t('addCustomer.form.namePlaceholder')"
+                      aria-label="name"
+                      required
+                    />
+  
+                  </div>
+                  <span class="errorInput" v-if="allErrors?.name">
+                    {{ allErrors?.name }}
+                  </span>
                 </div>
-
                 <div class="row">
                   <div class="col-12">
                     <div class="input-group">
@@ -56,6 +62,9 @@
                         required
                       />
                     </div>
+                    <span class="errorInput" v-if="allErrors?.address">
+                    {{ allErrors?.address }}
+                  </span>
                   </div>
                 </div>
 
@@ -73,7 +82,10 @@
                     required
                   />
                 </div>
-                <p v-if="phoneError" class="text-danger fs-6">
+                <span class="errorInput" v-if="allErrors?.phone">
+                    {{ allErrors?.phone }}
+                  </span>
+                <p v-if="phoneError" class="errorInput">
                   {{ $t("addCustomer.form.phoneError") }}
                 </p>
               </div>
@@ -90,7 +102,6 @@
             </button>
             <button
               type="submit"
-              data-bs-dismiss="modal"
               :disabled="phoneError"
               class="btn btn-primary"
             >
@@ -119,6 +130,8 @@ const storeGlobaly = globalyStore();
 const route = useRoute();
 const store = storeCustomer();
 const customer = store.customer;
+const errors = ref([]);
+const allErrors = ref();
 
 onMounted(() => {
   const modal = new Modal(document.getElementById("exampleModal"));
@@ -148,11 +161,17 @@ const newCustomer = async () => {
     store.customer.phone = "";
     router.push({ name: "customer" });
   } catch (error) {
-    await storeGlobaly.MessageModalDenied(
-      "Ce numéro de telephone est déja associer à un client",
-      t("addCustomer.messages.errorTitle")
-    );
-    router.push({ name: "customer" });
+    const err = error.response.data.errors;
+    errors.value = [...err];
+    allErrors.value = errors.value.reduce((acc, error) => {
+      acc[error.path] = error.msg;
+      return acc;
+    }, {});
+    // await storeGlobaly.MessageModalDenied(
+    //   allErrors,
+    //   t("addCustomer.messages.errorTitle")
+    // );
+    // router.push({ name: "customer" });
   }
 };
 
@@ -172,5 +191,12 @@ defineProps({
 }
 .input-group {
   margin-top: 25px;
+}
+.errorInput {
+  color: red;
+  font-size: 11px;
+  margin-left: 15px;
+  margin-top: 0px;
+  padding-top: 0;
 }
 </style>

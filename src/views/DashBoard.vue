@@ -13,7 +13,7 @@ const { formatDateTime } = useDateTimeFormatter();
 const store = storeReservation();
 const calendarOptions = ref({
   plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
-  initialView: window.innerWidth < 768 ? "timeGridDay" : "timeGridWeek",
+  initialView: window.innerWidth < 768 ? "timeGridDay" : "dayGridMonth",
   locale: frLocale,
   timeZone: "local",
   weekends: true,

@@ -6,6 +6,7 @@ export const storeRoom = defineStore("room", () => {
   const savedUserActif = JSON.parse(localStorage.getItem("userActif"));
 
   const room = ref({
+    id: null,
     name: "",
     capacity: "",
     equipment: "",
@@ -45,10 +46,11 @@ export const storeRoom = defineStore("room", () => {
     }
   };
 
-  const updateRoom = async (id) => {
+  const updateRoom = async () => {
     try {
-      await axios.put(
-        `http://127.0.0.1:3000/api/room/${id}`,
+      
+    const result =  await axios.put(
+        `http://127.0.0.1:3000/api/room/${room.value.id}`,
         {
           name: room.value.name,
           capacity: room.value.capacity,
@@ -57,6 +59,7 @@ export const storeRoom = defineStore("room", () => {
         { headers: { Authorization: `Bearer ${savedUserActif.token}` } }
       );
       await loadingData();
+      return result
     } catch (error) {
       throw error;
     }

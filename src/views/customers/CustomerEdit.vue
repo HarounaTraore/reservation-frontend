@@ -4,6 +4,7 @@
     v-if="showModal"
     class="modal fade"
     id="exampleModal"
+    data-bs-backdrop="static"
     tabindex="-1"
     aria-labelledby="exampleModalLabel"
     aria-hidden="true"
@@ -11,7 +12,9 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title fw-bold w-100 text-center">{{ $t("customerEdit.title") }}</h5>
+          <h5 class="modal-title fw-bold w-100 text-center">
+            {{ $t("customerEdit.title") }}
+          </h5>
           <button
             type="button"
             class="btn-close"
@@ -24,17 +27,24 @@
           <div class="modal-body">
             <div class="d-flex flex-column align-items-center">
               <div class="w-100">
-                <div class="input-group flex-nowrap">
-                  <label for="name" class="input-group-text">{{ $t("customerEdit.name") }}</label>
-                  <input
-                    type="text"
-                    id="name"
-                    v-model="customer.name"
-                    class="form-control bg-opacity-50"
-                    :placeholder="$t('customerEdit.enterClientName')"
-                    aria-label="name"
-                    required
-                  />
+                <div>
+                  <div class="input-group flex-nowrap">
+                    <label for="name" class="input-group-text">{{
+                      $t("customerEdit.name")
+                    }}</label>
+                    <input
+                      type="text"
+                      id="name"
+                      v-model="customer.name"
+                      class="form-control bg-opacity-50"
+                      :placeholder="$t('customerEdit.enterClientName')"
+                      aria-label="name"
+                      required
+                    />
+                  </div>
+                  <span class="errorInput" v-if="allErrors?.name">
+                    {{ allErrors?.name }}
+                  </span>
                 </div>
 
                 <div class="row">
@@ -53,11 +63,16 @@
                         required
                       />
                     </div>
+                    <span class="errorInput" v-if="allErrors?.address">
+                      {{ allErrors?.address }}
+                    </span>
                   </div>
                 </div>
 
                 <div class="input-group flex-nowrap">
-                  <label for="phone" class="input-group-text">{{ $t("customerEdit.phone") }}</label>
+                  <label for="phone" class="input-group-text">{{
+                    $t("customerEdit.phone")
+                  }}</label>
                   <input
                     name="phone"
                     v-model="customer.phone"
@@ -68,9 +83,12 @@
                     required
                   />
                 </div>
-                <p v-if="phoneError" class="text-danger fs-6">
+                <p v-if="phoneError" class="errorInput">
                   {{ $t("customerEdit.phoneError") }}
                 </p>
+                <span class="errorInput" v-if="allErrors?.phone">
+                  {{ allErrors?.phone }}
+                </span>
               </div>
             </div>
           </div>
@@ -87,7 +105,6 @@
               type="submit"
               :disabled="phoneError"
               class="btn btn-primary"
-              data-bs-dismiss="modal"
             >
               {{ $t("customerEdit.save") }}
             </button>
@@ -120,6 +137,8 @@ onMounted(() => {
   const modal = new Modal(document.getElementById("exampleModal"));
   modal.show();
 });
+const errors = ref([]);
+const allErrors = ref();
 
 const phoneError = ref(false);
 
@@ -147,11 +166,12 @@ const editCustomer = async () => {
     store.customer.phone = "";
     router.push({ name: "customer" });
   } catch (error) {
-    await storeGlobaly.MessageModalDenied(
-      "Ce numéro de telephone est déja associer à un client",
-      "Modification Client"
-    );
-    router.push({ name: "customer" });
+    const err = error.response.data.errors;
+    errors.value = [...err];
+    allErrors.value = errors.value.reduce((acc, error) => {
+      acc[error.path] = error.msg;
+      return acc;
+    }, {});
   }
 };
 
@@ -171,5 +191,12 @@ defineProps({
 }
 .input-group {
   margin-top: 25px;
+}
+.errorInput {
+  color: red;
+  font-size: 11px;
+  margin-left: 15px;
+  margin-top: 0px;
+  padding-top: 0;
 }
 </style>

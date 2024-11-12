@@ -18,23 +18,34 @@
             required
           />
         </div>
-        <div class="mb-3">
+        <div class="mb-3 pwd-container">
           <label for="password" class="form-label">{{
             t("login.passwordLabel")
           }}</label>
           <input
-            type="password"
+            :type="isPasswordVisible ? 'text' : 'password'"
             id="password"
             v-model="storeLogin.user.password"
             class="form-control"
             :placeholder="t('login.passwordPlaceholder')"
             required
           />
+          <span
+            class="toggle-password"
+            style="position: absolute; top: 38px; right: 15px; cursor: pointer"
+            @click="togglePasswordVisibility"
+          >
+            <i
+              :class="isPasswordVisible ? 'fas fa-eye-slash' : 'fas fa-eye'"
+            ></i>
+          </span>
         </div>
         <div class="d-flex justify-content-between align-items-center mb-3">
-          <router-link :to="{name: 'forgot-pwd'}" class="text-decoration-none">{{
-            t("login.forgotPassword")
-          }}</router-link>
+          <router-link
+            :to="{ name: 'forgot-pwd' }"
+            class="text-decoration-none"
+            >{{ t("login.forgotPassword") }}</router-link
+          >
         </div>
         <button type="submit" class="btn btn-primary w-100">
           {{ t("login.signInBtn") }}
@@ -53,10 +64,17 @@ import SuccessModal from "@/components/MessageModal.vue";
 import { storeAuth } from "@/stores/storeAuth";
 import router from "@/router";
 import { globalyStore } from "@/stores/storeGlobaly";
+import { ref } from "vue";
 
 const { t } = useI18n();
 const storeLogin = storeAuth();
 const storeGlobaly = globalyStore();
+
+const isPasswordVisible = ref(false);
+
+const togglePasswordVisibility = () => {
+  isPasswordVisible.value = !isPasswordVisible.value;
+};
 const login = async () => {
   try {
     await storeLogin.login();
@@ -64,7 +82,8 @@ const login = async () => {
 
     router.push({ name: "dash" });
   } catch (error) {
-    await storeGlobaly.MessageModalDenied("Erreur de connexion", "Connexion");
+    const msgErr = error.response.data;
+    await storeGlobaly.MessageModalDenied(msgErr.error, "Connexion");
   }
 };
 </script>
@@ -72,5 +91,8 @@ const login = async () => {
 <style scoped>
 .cont-parent {
   height: 90vh;
+}
+.pwd-container {
+  position: relative;
 }
 </style>

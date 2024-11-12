@@ -51,7 +51,6 @@
               t("reservationAdd.room")
             }}</label>
             <select
-            
               v-model="store.reservation.roomId"
               id="room"
               class="form-select bg-opacity-50"
@@ -110,6 +109,7 @@
               class="form-control bg-opacity-50"
               required
             />
+            <span v-if="errorDate" class="errorInput">{{ errorDate }}</span>
           </div>
           <div class="col-md-6">
             <label for="endTime" class="form-label">{{
@@ -122,11 +122,18 @@
               class="form-control bg-opacity-50"
               required
             />
+            <span v-if="errorTiming" class="errorInput">
+              {{ errorTiming }}
+            </span>
           </div>
         </div>
 
         <!-- Bouton d'envoi -->
-        <button type="submit" class="btn btn-primary w-100">
+        <button
+          type="submit"
+          :disabled="errorDate || errorTiming"
+          class="btn btn-primary w-100"
+        >
           {{ t("reservationAdd.save") }}
         </button>
       </form>
@@ -142,7 +149,7 @@ import { useI18n } from "vue-i18n";
 import SuccessModal from "@/components/MessageModal.vue";
 import { storeReservation } from "@/stores/storeReservation";
 import { globalyStore } from "@/stores/storeGlobaly";
-import { onMounted, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { storeRoom } from "@/stores/storeRoom";
 import { storeCustomer } from "@/stores/storeCustomer";
 import router from "@/router";
@@ -157,6 +164,32 @@ onMounted(async () => {
 const { t } = useI18n();
 const storeGlobaly = globalyStore();
 const store = storeReservation();
+
+const errorDate = ref(null);
+const errorTiming = ref(null);
+
+watch(
+  () => [
+    store.reservation.dateStart,
+    store.reservation.dateEnd,
+    store.reservation.timeStart,
+    store.reservation.timeEnd,
+  ],
+  ([dateStart, dateEnd, timeStart, timeEnd]) => {
+    if (dateStart > dateEnd) {
+      errorDate.value =
+        "La date de fin doit être postérieure à la date de début";
+      errorTiming.value = null;
+    } else if (dateStart === dateEnd && timeStart > timeEnd) {
+      errorDate.value = null;
+      errorTiming.value =
+        "L'heure de fin doit être postérieure à l'heure de début";
+    } else {
+      errorDate.value = null;
+      errorTiming.value = null;
+    }
+  }
+);
 
 watch(
   () => [
@@ -194,5 +227,12 @@ const editReservation = async () => {
 <style scoped>
 .input-group {
   flex-direction: column;
+}
+.errorInput {
+  color: red;
+  font-size: 11px;
+  margin-left: 0px;
+  margin-top: 0px;
+  padding-top: 0;
 }
 </style>

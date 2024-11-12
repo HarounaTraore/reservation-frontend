@@ -7,7 +7,7 @@ import router from "@/router";
 import { useRoute } from "vue-router";
 import { storeUser } from "../stores/storeUser";
 const route = useRoute();
-const routeActif = computed(() => route.path);
+
 const store = storeAuth();
 const { t } = useI18n();
 const isNavbarCollapsed = ref(false);
@@ -185,9 +185,6 @@ function setActiveButton(button) {
     </div>
 
     <div class="body-content">
-      <div class="container">
-        <h5 class="mb-0 fw-bold">{{ routeActif }}</h5>
-      </div>
       <RouterView />
     </div>
   </div>
