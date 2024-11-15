@@ -1,7 +1,10 @@
 <template>
-  <div class="container mt-3 ms-2 w-auto d-flex justify-content-end mb-2">
+   <div class="container-fluid">
+    <h1 class="text-center fs-4 fw-bold mb-0">Liste des Clients</h1>
+  </div>
+  <div class="container-fluid mt-3 p-0 w-auto d-flex justify-content-end mb-2">
     <button
-      class="btn btn-primary me-3 fw-bold"
+      class="btn btn-primary  fw-bold"
       @click="router.push({ name: 'add-customer' }, store.reserDataCustomer())"
     >
       <i class="fa fa-plus me-1"></i>

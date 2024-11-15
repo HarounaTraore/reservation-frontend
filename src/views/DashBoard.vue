@@ -22,8 +22,8 @@ const calendarOptions = ref({
   dateClick: (info) => handleDateClick(info),
   eventClick: (info) => handleEventClick(info),
   slotDuration: "01:00:00",
-  slotMinTime: "08:00:00",
-  slotMaxTime: "23:59:00",
+  // slotMinTime: "00:00:00",
+  // slotMaxTime: "23:59:00",
   allDaySlot: false,
   headerToolbar: {
     left: `listReservationsButton,prev,next today`,

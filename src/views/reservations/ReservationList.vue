@@ -1,7 +1,10 @@
 <template>
-  <div class="container mt-3 ms-2 w-auto d-flex justify-content-end mb-2">
+  <div class="container-fluid">
+    <h1 class="text-center fs-4 fw-bold mb-0">Liste des Réservations</h1>
+  </div>
+  <div class="container-fluid mt-3 p-0 d-flex justify-content-end mb-2">
     <button
-      class="btn btn-primary me-3 fw-bold"
+      class="btn btn-primary fw-bold"
       @click="store.resetData(), router.push({ name: 'add-reservation' })"
     >
       <i class="fa fa-plus me-1"></i>
@@ -45,10 +48,7 @@
         <td class="responsive-hide">
           <select
             v-model="reservation.status"
-            :disabled="
-              reservation.status === 'CONFIRMED' ||
-              new Date(reservation.dateEnd) < new Date()
-            "
+            :disabled="new Date(reservation.dateEnd) < new Date()"
             @click="store.updateStatus(reservation.id, reservation.status)"
             :style="
               reservation.status == 'CONFIRMED'
@@ -79,7 +79,7 @@
             <i class="fas fa-eye"></i>
           </button>
           <button
-          :disabled="
+            :disabled="
               reservation.status === 'CONFIRMED' ||
               new Date(reservation.dateEnd) < new Date()
             "
@@ -89,8 +89,11 @@
             <i class="fas fa-edit"></i>
           </button>
           <button
+          v-if="
+              !(reservation.status === 'CONFIRMED' ||
+              new Date(reservation.dateEnd) < new Date())
+            "
             @click="destroyReservation(reservation.id)"
-
             class="btn-sm btn btn-outline-danger ms-2"
           >
             <i class="fa fa-trash"></i>

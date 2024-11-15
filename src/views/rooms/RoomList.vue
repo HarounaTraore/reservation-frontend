@@ -1,4 +1,7 @@
 <template>
+   <div class="container-fluid">
+    <h1 class="text-center fs-4 fw-bold mb-0">Liste des Salles</h1>
+  </div>
   <div class="added w-100 d-flex justify-content-end mb-3">
     <button
       class="btn btn-primary fw-bold"

@@ -101,7 +101,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 
 import { storeUser } from "@/stores/storeUser";
 import { globalyStore } from "@/stores/storeGlobaly";
@@ -112,7 +112,19 @@ import { useRouter } from "vue-router";
 const { t } = useI18n();
 const router = useRouter();
 const store = storeUser();
-const user = store.user;
+
+const currentUser = computed(() =>
+  JSON.parse(localStorage.getItem("userActif"))
+);
+const currentUserData = currentUser.value;
+
+const user = ref({
+
+  email: currentUserData.email,
+  name: currentUserData.name,
+  address: currentUserData.address,
+  phone: currentUserData.phone,
+});
 
 const errors = ref([]);
 const allErrors = ref();
@@ -128,22 +140,26 @@ const validatePhone = () => {
 const editUser = async () => {
   try {
     await store.updateCurrentUser(
-      user.name,
-      user.email,
-      user.address,
-      user.phone
+      user.value.name,
+      user.value.email,
+      user.value.address,
+      user.value.phone
     );
+
     globalyStore().MessageModalSuccess(
       t("userEdit.successMessage"),
       "Modification"
     );
-    router.push({ name: "dash" });
+    router.push({ name: "login" });
+    localStorage.removeItem("userActif")
   } catch (error) {
     errors.value = error.response.data.errors;
-    allErrors.value = errors.value.reduce((acc, error) => {
-      acc[error.path] = error.msg;
-      return acc;
-    }, {});
+    if (errors.value) {
+      allErrors.value = errors.value.reduce((acc, error) => {
+        acc[error.path] = error.msg;
+        return acc;
+      }, {});
+    }
   }
 };
 
