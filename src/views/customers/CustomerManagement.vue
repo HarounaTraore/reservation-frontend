@@ -102,7 +102,7 @@ const destroyCustomer = async (id) => {
       t("customerList.deleteError"),
       t("customerList.delete")
     );
-    console.log(error.message);
+    
   }
 };
 const sortedCustomers = computed(() => {

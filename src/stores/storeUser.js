@@ -3,7 +3,10 @@ import axios from "axios";
 import { computed, ref } from "vue";
 
 export const storeUser = defineStore("user", () => {
-  const savedUserActif = JSON.parse(localStorage.getItem("userActif"));
+  const savedUserActif = computed(() =>
+    JSON.parse(localStorage.getItem("userActif"))
+  );
+  
 
   const user = ref({
     id: null,
@@ -20,7 +23,7 @@ export const storeUser = defineStore("user", () => {
   const loadingData = async () => {
     try {
       const data = await axios.get("http://127.0.0.1:3000/api/users", {
-        headers: { Authorization: `Bearer ${savedUserActif.token}` },
+        headers: { Authorization: `Bearer ${savedUserActif.value.token}` },
       });
       const result = data.data.result;
       users.value = [...result];
@@ -30,7 +33,6 @@ export const storeUser = defineStore("user", () => {
   };
 
   const addUser = async () => {
-    console.log("ADED user");
 
     try {
       const result = await axios.post(
@@ -43,9 +45,9 @@ export const storeUser = defineStore("user", () => {
           password: user.value.password,
           role: user.value.role,
         },
-        { headers: { Authorization: `Bearer ${savedUserActif.token}` } }
+        { headers: { Authorization: `Bearer ${savedUserActif.value.token}` } }
       );
-      console.log(result);
+      
       await loadingData();
       return;
     } catch (error) {
@@ -55,7 +57,7 @@ export const storeUser = defineStore("user", () => {
   const findUser = async (id) => {
     try {
       const result = await axios.get(`http://127.0.0.1:3000/api/user/${id}`, {
-        headers: { Authorization: `Bearer ${savedUserActif.token}` },
+        headers: { Authorization: `Bearer ${savedUserActif.value.token}` },
       });
       user.value.name = result.data.result.name;
       user.value.email = result.data.result.email;
@@ -84,7 +86,7 @@ export const storeUser = defineStore("user", () => {
           status: !!user.value.status,
           role: user.value.role,
         },
-        { headers: { Authorization: `Bearer ${savedUserActif.token}` } }
+        { headers: { Authorization: `Bearer ${savedUserActif.value.token}` } }
       );
       await loadingData();
     } catch (error) {
@@ -92,6 +94,8 @@ export const storeUser = defineStore("user", () => {
     }
   };
   const updateCurrentUser = async (name, email, address, phone) => {
+    console.log(savedUserActif.value.token);
+
     try {
       const result = await axios.put(
         "http://127.0.0.1:3000/api/user-current",
@@ -101,9 +105,9 @@ export const storeUser = defineStore("user", () => {
           address,
           phone,
         },
-        { headers: { Authorization: `Bearer ${savedUserActif.token}` } }
+        { headers: { Authorization: `Bearer ${savedUserActif.value.token}` } }
       );
-      await loadingData();
+      // await loadingData();
       return result;
     } catch (error) {
       throw error;
@@ -117,9 +121,9 @@ export const storeUser = defineStore("user", () => {
           oldPassword,
           newPassword,
         },
-        { headers: { Authorization: `Bearer ${savedUserActif.token}` } }
+        { headers: { Authorization: `Bearer ${savedUserActif.value.token}` } }
       );
-      await loadingData();
+      // await loadingData();
       return result;
     } catch (error) {
       throw error;
@@ -130,7 +134,7 @@ export const storeUser = defineStore("user", () => {
       const result = await axios.delete(
         `http://127.0.0.1:3000/api/user/${id}`,
         {
-          headers: { Authorization: `Bearer ${savedUserActif.token}` },
+          headers: { Authorization: `Bearer ${savedUserActif.value.token}` },
         }
       );
       await loadingData();
@@ -160,6 +164,7 @@ export const storeUser = defineStore("user", () => {
     resetDataUser,
     updateUser,
     updateCurrentUser,
-    updatePwdCurrentUser
+    updatePwdCurrentUser,
+    savedUserActif,
   };
 });

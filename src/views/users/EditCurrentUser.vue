@@ -119,7 +119,6 @@ const currentUser = computed(() =>
 const currentUserData = currentUser.value;
 
 const user = ref({
-
   email: currentUserData.email,
   name: currentUserData.name,
   address: currentUserData.address,
@@ -151,7 +150,8 @@ const editUser = async () => {
       "Modification"
     );
     router.push({ name: "login" });
-    localStorage.removeItem("userActif")
+    localStorage.removeItem("userActif");
+    
   } catch (error) {
     errors.value = error.response.data.errors;
     if (errors.value) {
