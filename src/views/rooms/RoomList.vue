@@ -1,5 +1,5 @@
 <template>
-   <div class="container-fluid">
+  <div class="container-fluid">
     <h1 class="text-center fs-4 fw-bold mb-0">Liste des Salles</h1>
   </div>
   <div class="added w-100 d-flex justify-content-end mb-3">
@@ -47,9 +47,10 @@
           </button>
           <button
             class="btn-sm btn btn-outline-secondary ms-2"
-            @click="store.findRoom(room.id)"
-            data-bs-toggle="modal"
-            data-bs-target="#ModalEdit"
+            @click="
+              store.findRoom(room.id),
+                router.push({ name: 'edit-room', params: { id: room.id } })
+            "
           >
             <i class="fas fa-edit"></i>
           </button>
@@ -66,7 +67,7 @@
   </table>
   <RoomModal />
   <MessageModal valid="OK" />
-  <RoomEdit />
+  <!-- <RoomEdit /> -->
 </template>
 
 <script setup>

@@ -164,6 +164,9 @@ const editCustomer = async () => {
     store.customer.name = "";
     store.customer.address = "";
     store.customer.phone = "";
+    const modalElement = document.getElementById("exampleModal");
+    const modalInstance = Modal.getInstance(modalElement); 
+    modalInstance.hide();
     router.push({ name: "customer" });
   } catch (error) {
     const err = error.response.data.errors;

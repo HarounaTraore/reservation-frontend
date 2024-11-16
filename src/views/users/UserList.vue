@@ -86,7 +86,7 @@ onMounted(async () => {
 
 const destroyUser = async (id) => {
   try {
-    if (confirm(t("userList.deleteConfirm"))) {
+    if (confirm("Êtes-vous sûr de vouloir supprimer cet utilisateur ?")) {
       await store.deleteUser(id);
       await storeGlobaly.MessageModalSuccess(
         t("userList.deleteSuccess"),
@@ -94,9 +94,8 @@ const destroyUser = async (id) => {
       );
     }
   } catch (error) {
-    await storeGlobaly.MessageModalDenied(
-      t("userList.deleteError"),
-      "Suppression Client"
+    await storeGlobaly.MessageModalDenied("Erreur de suppression",
+      "Suppression Utilisateur"
     );
     console.log(error.message);
   }

@@ -3,6 +3,7 @@
   <div
     class="modal fade"
     id="ModalEdit"
+    data-bs-backdrop="static"
     tabindex="-1"
     aria-labelledby="ModalEditLabel"
     aria-hidden="true"
@@ -116,7 +117,6 @@
           <button
             v-if="!isDisabled"
             type="button"
-            
             @click="updateRoom"
             class="btn btn-primary"
           >
@@ -132,10 +132,12 @@
 <script setup>
 import { storeRoom } from "@/stores/storeRoom";
 import SuccessModal from "@/components/MessageModal.vue";
+import { Modal } from "bootstrap/dist/js/bootstrap.bundle.min";
+
 import { useI18n } from "vue-i18n";
 import { globalyStore } from "@/stores/storeGlobaly";
 import router from "@/router";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 const { t } = useI18n();
 
 const storeGlobaly = globalyStore();
@@ -144,10 +146,13 @@ const store = storeRoom();
 const room = store.room;
 const errors = ref([]);
 const allErrors = ref();
-
+onMounted(() => {
+  const modal = new Modal(document.getElementById("ModalEdit"));
+  modal.show();
+});
 const updateRoom = async () => {
   try {
-   await store.updateRoom();
+    await store.updateRoom();
     await storeGlobaly.MessageModalSuccess(
       "Salle Créée Avec Succès",
       "Création"
@@ -157,6 +162,9 @@ const updateRoom = async () => {
     store.room.equipment = "";
     store.room.status = "";
     router.push({ name: "room" });
+    const modalElement = document.getElementById("ModalEdit");
+    const modalInstance = Modal.getInstance(modalElement);
+    modalInstance.hide();
   } catch (error) {
     const err = error.response.data.errors;
     errors.value = [...err];
@@ -164,7 +172,7 @@ const updateRoom = async () => {
       acc[error.path] = error.msg;
       return acc;
     }, {});
-     }
+  }
 };
 
 defineProps({

@@ -40,7 +40,6 @@
                       aria-label="name"
                       required
                     />
-  
                   </div>
                   <span class="errorInput" v-if="allErrors?.name">
                     {{ allErrors?.name }}
@@ -63,8 +62,8 @@
                       />
                     </div>
                     <span class="errorInput" v-if="allErrors?.address">
-                    {{ allErrors?.address }}
-                  </span>
+                      {{ allErrors?.address }}
+                    </span>
                   </div>
                 </div>
 
@@ -83,8 +82,8 @@
                   />
                 </div>
                 <span class="errorInput" v-if="allErrors?.phone">
-                    {{ allErrors?.phone }}
-                  </span>
+                  {{ allErrors?.phone }}
+                </span>
                 <p v-if="phoneError" class="errorInput">
                   {{ $t("addCustomer.form.phoneError") }}
                 </p>
@@ -159,7 +158,11 @@ const newCustomer = async () => {
     store.customer.name = "";
     store.customer.address = "";
     store.customer.phone = "";
+
     router.push({ name: "customer" });
+    const modalElement = document.getElementById("exampleModal");
+    const modalInstance = Modal.getInstance(modalElement);
+    modalInstance.hide();
   } catch (error) {
     const err = error.response.data.errors;
     errors.value = [...err];

@@ -136,6 +136,7 @@ export const storeReservation = defineStore("reservation", () => {
           headers: { Authorization: `Bearer ${savedUserActif.token}` },
         }
       );
+console.log(result.data.result);
 
       reservation.value.id = result.data.result.id;
       reservation.value.status = result.data.result.status;
@@ -155,7 +156,7 @@ export const storeReservation = defineStore("reservation", () => {
         result.data.result.dateEnd,
         "HH:mm"
       );
-      reservation.value.userName = result.data.result.user.name;
+      reservation.value.userName = result.data.result?.user?.name;
       reservation.value.roomName = result.data.result.room.name;
       reservation.value.roomId = result.data.result.roomId;
       reservation.value.customerName = result.data.result.customer.name;

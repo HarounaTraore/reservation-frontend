@@ -4,6 +4,7 @@
     class="modal fade"
     id="exampleModal"
     tabindex="-1"
+    data-bs-backdrop="static"
     aria-labelledby="exampleModalLabel"
     aria-hidden="true"
   >
@@ -27,7 +28,9 @@
               <div class="w-100">
                 <div class="d-flex justify-content-between">
                   <div class="input-group flex-nowrap">
-                    <label for="id" class="input-group-text">{{ $t("customerShow.id") }}</label>
+                    <label for="id" class="input-group-text">{{
+                      $t("customerShow.id")
+                    }}</label>
                     <input
                       type="text"
                       id="id"
@@ -39,8 +42,13 @@
                       required
                     />
                   </div>
-                  <div v-if="customer.userId" class="input-group ms-4 flex-nowrap">
-                    <label for="user" class="input-group-text">{{ $t("customerShow.user") }}</label>
+                  <div
+                    v-if="customer.userId"
+                    class="input-group ms-4 flex-nowrap"
+                  >
+                    <label for="user" class="input-group-text">{{
+                      $t("customerShow.user")
+                    }}</label>
                     <input
                       type="text"
                       id="user"
@@ -55,7 +63,9 @@
                 </div>
 
                 <div class="input-group flex-nowrap">
-                  <label for="name" class="input-group-text">{{ $t("customerShow.name") }}</label>
+                  <label for="name" class="input-group-text">{{
+                    $t("customerShow.name")
+                  }}</label>
                   <input
                     type="text"
                     id="name"
@@ -71,7 +81,9 @@
                 <div class="row">
                   <div class="col-12">
                     <div class="input-group">
-                      <label for="address" class="input-group-text">{{ $t("customerShow.address") }}</label>
+                      <label for="address" class="input-group-text">{{
+                        $t("customerShow.address")
+                      }}</label>
                       <input
                         type="text"
                         disabled
@@ -87,7 +99,9 @@
                 </div>
 
                 <div class="input-group flex-nowrap">
-                  <label for="phone" class="input-group-text">{{ $t("customerShow.phone") }}</label>
+                  <label for="phone" class="input-group-text">{{
+                    $t("customerShow.phone")
+                  }}</label>
                   <input
                     name="phone"
                     disabled

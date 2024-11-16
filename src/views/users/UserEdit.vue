@@ -130,7 +130,7 @@
             class="btn btn-primary w-100 me-2"
             :disabled="phoneError"
           >
-            {{ $t("userAdd.submit") }}
+            Enregirstrer
           </button>
           <button type="button" class="btn btn-secondary w-100" @click="cancel">
             {{ $t("userAdd.cancel") }}

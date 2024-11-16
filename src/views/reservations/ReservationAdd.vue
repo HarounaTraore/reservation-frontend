@@ -127,7 +127,7 @@
           </div>
         </div>
         <button type="submit"
-        :disabled="errorDate" class="btn btn-primary w-100">
+        :disabled="errorDate || errorTiming" class="btn btn-primary w-100">
           {{ t("reservationAdd.save") }}
         </button>
       </form>
@@ -177,7 +177,7 @@ watch(
       errorDate.value =
         "La date de fin doit être postérieure à la date de début";
       errorTiming.value = null;
-    } else if (dateStart === dateEnd && timeStart >= timeEnd) {
+    } else if (dateStart === dateEnd && timeStart > timeEnd) {
       errorDate.value = null;
       errorTiming.value =
         "L'heure de fin doit être postérieure à l'heure de début";

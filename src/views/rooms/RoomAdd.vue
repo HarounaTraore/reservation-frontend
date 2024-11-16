@@ -3,6 +3,7 @@
   <div
     class="modal fade"
     id="exampleModal"
+    data-bs-backdrop="static"
     tabindex="-1"
     aria-labelledby="exampleModalLabel"
     aria-hidden="true"
@@ -146,7 +147,7 @@ const allErrors = ref();
 
 const createNewRoom = async () => {
   try {
-    const newRoom = await store.addRoom();
+    await store.addRoom();
     await storeGlobaly.MessageModalSuccess(
       "Salle Créée Avec Succès",
       "Création"
@@ -155,16 +156,20 @@ const createNewRoom = async () => {
     store.room.capacity = "";
     store.room.equipment = "";
     store.room.status = "";
-    router.push({ name: "room" });
+    allErrors.value =""
+    errors.value = ""
+    // router.push({ name: "room" });
   } catch (error) {
-    const err = error.response.data.errors;
+    if (error.response) {
+      const err = error.response.data.errors;
 
-    errors.value = [...err];
-    allErrors.value = errors.value.reduce((acc, error) => {
-      acc[error.path] = error.msg;
-      return acc;
-    }, {});
-     }
+      errors.value = [...err];
+      allErrors.value = errors.value.reduce((acc, error) => {
+        acc[error.path] = error.msg;
+        return acc;
+      }, {});
+    }
+  }
 };
 
 defineProps({

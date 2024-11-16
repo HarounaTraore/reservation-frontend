@@ -133,7 +133,7 @@ const phoneError = ref(false);
 
 const validatePhone = () => {
   const regex = /^[234]\d{7}$/;
-  phoneError.value = !regex.test(user.phone)
+  phoneError.value = !regex.test(user.value.phone)
     ? "Le numéro de téléphone doit comporter 8 chiffres et commencer par 2, 3 ou 4."
     : false;
 };
