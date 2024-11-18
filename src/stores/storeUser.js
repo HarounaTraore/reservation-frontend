@@ -6,7 +6,6 @@ export const storeUser = defineStore("user", () => {
   const savedUserActif = computed(() =>
     JSON.parse(localStorage.getItem("userActif"))
   );
-  
 
   const user = ref({
     id: null,
@@ -33,7 +32,6 @@ export const storeUser = defineStore("user", () => {
   };
 
   const addUser = async () => {
-
     try {
       const result = await axios.post(
         "http://127.0.0.1:3000/api/user",
@@ -47,7 +45,7 @@ export const storeUser = defineStore("user", () => {
         },
         { headers: { Authorization: `Bearer ${savedUserActif.value.token}` } }
       );
-      
+
       await loadingData();
       return;
     } catch (error) {
@@ -89,6 +87,23 @@ export const storeUser = defineStore("user", () => {
         { headers: { Authorization: `Bearer ${savedUserActif.value.token}` } }
       );
       await loadingData();
+    } catch (error) {
+      throw error;
+    }
+  };
+  const updateStatus = async (id, status) => {
+    try {
+      const statusBoolean = Boolean(status);
+      const result = await axios.put(
+        `http://127.0.0.1:3000/api/user-status/${id}`,
+        { status: statusBoolean },
+        {
+          headers: { Authorization: `Bearer ${savedUserActif.value.token}` },
+        }
+      );
+      console.log("data", result, "STATUT", statusBoolean);
+
+      user.value.status;
     } catch (error) {
       throw error;
     }
@@ -165,6 +180,7 @@ export const storeUser = defineStore("user", () => {
     updateUser,
     updateCurrentUser,
     updatePwdCurrentUser,
+    updateStatus,
     savedUserActif,
   };
 });

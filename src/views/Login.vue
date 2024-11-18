@@ -64,7 +64,12 @@ import SuccessModal from "@/components/MessageModal.vue";
 import { storeAuth } from "@/stores/storeAuth";
 import router from "@/router";
 import { globalyStore } from "@/stores/storeGlobaly";
-import { ref } from "vue";
+import { computed, ref } from "vue";
+
+const savedUserActif = computed(() =>
+  JSON.parse(localStorage.getItem("userActif"))
+);
+const savedUserActifData = savedUserActif.value;
 
 const { t } = useI18n();
 const storeLogin = storeAuth();
@@ -75,12 +80,21 @@ const isPasswordVisible = ref(false);
 const togglePasswordVisibility = () => {
   isPasswordVisible.value = !isPasswordVisible.value;
 };
+
 const login = async () => {
   try {
-    await storeLogin.login();
-    await storeGlobaly.MessageModalSuccess("Connexion réussie", "Connexion");
+    const { data } = await storeLogin.login();
 
-    router.push({ name: "dash" });
+    if (data.token.user.status === true) {
+      await storeGlobaly.MessageModalSuccess("Connexion réussie", "Connexion");
+      router.push({ name: "dash" });
+    } else {
+      await storeGlobaly.MessageModalDenied(
+        "Votre Compte à été bloqué",
+        "Connexion"
+      );
+      localStorage.removeItem("userActif");
+    }
   } catch (error) {
     const msgErr = error.response.data;
     await storeGlobaly.MessageModalDenied(msgErr.error, "Connexion");

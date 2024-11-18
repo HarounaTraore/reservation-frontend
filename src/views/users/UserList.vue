@@ -1,11 +1,10 @@
 <template>
-
-<div class="container-fluid">
+  <div class="container-fluid">
     <h1 class="text-center fs-4 fw-bold mb-0">Liste des Utilisateurs</h1>
   </div>
   <div class="container-fluid mt-3 p-0 w-auto d-flex justify-content-end mb-2">
     <button
-      class="btn btn-primary  fw-bold"
+      class="btn btn-primary fw-bold"
       @click="store.resetDataUser(), router.push({ name: 'add-user' })"
     >
       <i class="fa fa-plus me-1"></i>
@@ -23,6 +22,7 @@
         <th scope="col" class="text-center responsive-hide">
           {{ $t("userList.phone") }}
         </th>
+        <th scope="col" class="text-center responsive-hide">Statut</th>
         <th scope="col" class="text-center">{{ $t("userList.actions") }}</th>
       </tr>
     </thead>
@@ -37,6 +37,17 @@
         <td>{{ user.name }}</td>
         <td class="responsive-hide">{{ user.address }}</td>
         <td class="responsive-hide">{{ user.phone }}</td>
+        <td class="text-center">
+          <select
+          class="form-select bg-opacity-50"
+          :class="user.status ===false ? 'text-danger': 'text-success'"
+            v-model="user.status"
+            @click="store.updateStatus(user.id, user.status)"
+          >
+            <option :value="true" class="text-success">Actif</option>
+            <option :value="false" class="text-danger">Bloqué</option>
+          </select>
+        </td>
         <td class="text-center">
           <button
             class="btn-sm btn btn-outline-primary ms-2"
@@ -94,7 +105,8 @@ const destroyUser = async (id) => {
       );
     }
   } catch (error) {
-    await storeGlobaly.MessageModalDenied("Erreur de suppression",
+    await storeGlobaly.MessageModalDenied(
+      "Erreur de suppression",
       "Suppression Utilisateur"
     );
     console.log(error.message);
