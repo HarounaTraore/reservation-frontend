@@ -75,7 +75,7 @@
             aria-label="Téléphone de l'utilisateur"
             required
           />
-          <p v-if="phoneError" class="text-danger">{{ phoneError }}</p>
+          <p v-if="phoneError" class="errorInput pt-3">{{ phoneError }}</p>
           <span class="errorInput" v-if="allErrors?.phone">
             {{ allErrors?.phone }}
           </span>

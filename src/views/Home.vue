@@ -13,7 +13,7 @@ const { t } = useI18n();
 const isNavbarCollapsed = ref(false);
 
 const logOut = async () => {
-  const conf = confirm(t("logout.confirmMessage"));
+  const conf = confirm("Êtes vous sûr de vouloir vous deconnecter ?");
   if (conf) {
     localStorage.removeItem("userActif");
     router.push({ name: "login" });

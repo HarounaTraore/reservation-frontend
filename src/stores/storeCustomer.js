@@ -11,12 +11,14 @@ export const storeCustomer = defineStore("customer", () => {
     address: "",
     phone: "",
     userId: "",
+    userName: "",
   });
   const customers = ref([]);
 
-  const loadingData = async () => {
+  const loadingData = async (name = "") => {
     try {
       const data = await axios.get("http://127.0.0.1:3000/api/customers", {
+        params: { name },
         headers: { Authorization: `Bearer ${savedUserActif.token}` },
       });
       const result = data.data.result;
@@ -58,6 +60,7 @@ export const storeCustomer = defineStore("customer", () => {
       customer.value.phone = result.data.result.phone;
       customer.value.userId = result.data.result.userId;
       customer.value.name = result.data.result.name;
+      customer.value.userName = result.data.result.user.name;
 
       await loadingData();
       return result;

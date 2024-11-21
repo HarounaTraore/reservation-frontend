@@ -54,10 +54,10 @@
                     class="col-12"
                     :class="isDisabled ? 'd-flex justify-content-between' : ''"
                   >
-                    <div class="">
+                    <div class="col-12">
                       <div
                         class="input-group"
-                        :class="isDisabled ? 'col-6' : 'col-12'"
+                        :class="isDisabled ? 'col-12' : 'col-12'"
                       >
                         <label for="capacity" class="input-group-text">
                           {{ $t("roomAdd.capacity") }}

@@ -83,7 +83,7 @@
                     required
                   />
                 </div>
-                <p v-if="phoneError" class="errorInput">
+                <p v-if="phoneError" class="errorInput p-2">
                   {{ $t("customerEdit.phoneError") }}
                 </p>
                 <span class="errorInput" v-if="allErrors?.phone">

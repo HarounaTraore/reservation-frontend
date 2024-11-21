@@ -1,10 +1,20 @@
 <template>
-   <div class="container-fluid">
+  <div class="container-fluid">
     <h1 class="text-center fs-4 fw-bold mb-0">Liste des Clients</h1>
   </div>
-  <div class="container-fluid mt-3 p-0 w-auto d-flex justify-content-end mb-2">
+  <div
+    class="container-fluid mt-3 p-0 w-auto d-flex justify-content-between mb-2"
+  >
+    <div class="w-25">
+      <input
+        type="text"
+        class="form-control w bg-opacity-50 w-75"
+        v-model="nameCustomer"
+        placeholder="Recherche un client"
+      />
+    </div>
     <button
-      class="btn btn-primary  fw-bold"
+      class="btn btn-primary fw-bold"
       @click="router.push({ name: 'add-customer' }, store.reserDataCustomer())"
     >
       <i class="fa fa-plus me-1"></i>
@@ -78,31 +88,35 @@
 import MessageModal from "@/components/MessageModal.vue";
 import { storeCustomer } from "@/stores/storeCustomer";
 import { globalyStore } from "@/stores/storeGlobaly";
-import { computed, onMounted } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
 const { t } = useI18n();
 const store = storeCustomer();
 const storeGlobaly = globalyStore();
+const nameCustomer = ref("");
 onMounted(async () => {
-  await store.loadingData();
+  store.loadingData(nameCustomer.value);
+});
+watch(nameCustomer, async (newValue) => {
+  await store.loadingData(newValue);
 });
 const router = useRouter();
 
 const destroyCustomer = async (id) => {
   try {
-    if (confirm(t("customerList.deleteConfirm")))
+    if (confirm(t("customerList.deleteConfirm"))) {
       await store.deleteCustomer(id);
-    await storeGlobaly.MessageModalSuccess(
-      t("customerList.deleteSuccess"),
-      t("customerList.delete")
-    );
+      await storeGlobaly.MessageModalSuccess(
+        t("customerList.deleteSuccess"),
+        t("customerList.delete")
+      );
+    }
   } catch (error) {
     await storeGlobaly.MessageModalDenied(
       t("customerList.deleteError"),
       t("customerList.delete")
     );
-    
   }
 };
 const sortedCustomers = computed(() => {

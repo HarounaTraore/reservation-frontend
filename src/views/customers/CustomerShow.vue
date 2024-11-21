@@ -27,7 +27,7 @@
             <div class="d-flex flex-column align-items-center">
               <div class="w-100">
                 <div class="d-flex justify-content-between">
-                  <div class="input-group flex-nowrap">
+                  <div class="input-group w-50  flex-nowrap">
                     <label for="id" class="input-group-text">{{
                       $t("customerShow.id")
                     }}</label>
@@ -47,13 +47,13 @@
                     class="input-group ms-4 flex-nowrap"
                   >
                     <label for="user" class="input-group-text">{{
-                      $t("customerShow.user")
+                      $t("reservationShow.createdBy")
                     }}</label>
                     <input
                       type="text"
                       id="user"
                       disabled
-                      v-model="customer.userId"
+                      v-model="customer.userName"
                       class="form-control bg-opacity-50"
                       :placeholder="$t('customerShow.enterClientName')"
                       aria-label="name"
