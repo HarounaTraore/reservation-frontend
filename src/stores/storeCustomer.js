@@ -12,6 +12,7 @@ export const storeCustomer = defineStore("customer", () => {
     phone: "",
     userId: "",
     userName: "",
+    reservation: [],
   });
   const customers = ref([]);
 
@@ -58,9 +59,11 @@ export const storeCustomer = defineStore("customer", () => {
       customer.value.id = result.data.result.id;
       customer.value.address = result.data.result.address;
       customer.value.phone = result.data.result.phone;
-      customer.value.userId = result.data.result.userId;
+      customer.value.userId = result.data.result?.userId;
       customer.value.name = result.data.result.name;
-      customer.value.userName = result.data.result.user.name;
+      customer.value.userName = result.data.result?.user?.name;
+      customer.value.reservation = [...result.data.result.reservations];
+      console.log(result.data.result);
 
       await loadingData();
       return result;

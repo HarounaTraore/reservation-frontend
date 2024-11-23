@@ -32,7 +32,7 @@
           {{ $t("userList.noClient") }}
         </td>
       </tr>
-      <tr v-else v-for="(user, index) in store.users" :key="index">
+      <tr v-else v-for="(user, index) in store.users.sort((a,b) => b.id - a.id)" :key="index">
         <td class="text-center">{{ user?.id }}</td>
         <td>{{ user.name }}</td>
         <td class="responsive-hide">{{ user.address }}</td>

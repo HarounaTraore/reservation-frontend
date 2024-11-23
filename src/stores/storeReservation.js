@@ -35,6 +35,7 @@ export const storeReservation = defineStore("reservation", () => {
         ).toISOString()
       : new Date().toISOString()
   );
+  const capacity = ref("");
   const reservations = ref([]);
   const roomsNotReserved = ref([]);
   const loadingData = async () => {
@@ -101,10 +102,16 @@ export const storeReservation = defineStore("reservation", () => {
   };
 
   const findRoomsNotReserved = async () => {
+    console.log("La valeur de la capacity: ",(capacity.value));
+
     const data = await axios.get(
       "http://127.0.0.1:3000/api/rooms/not-reserved",
       {
-        params: { dateStart: dateStart.value, dateEnd: dateEnd.value },
+        params: {
+          dateStart: dateStart.value,
+          dateEnd: dateEnd.value,
+          capacity: capacity.value,
+        },
         headers: { Authorization: `Bearer ${savedUserActif.token}` },
       }
     );
@@ -136,7 +143,7 @@ export const storeReservation = defineStore("reservation", () => {
           headers: { Authorization: `Bearer ${savedUserActif.token}` },
         }
       );
-console.log(result.data.result);
+      console.log(result.data.result);
 
       reservation.value.id = result.data.result.id;
       reservation.value.status = result.data.result.status;
@@ -193,6 +200,7 @@ console.log(result.data.result);
     reservation.value.customerId = "";
     reservation.value.timeStart = "";
     reservation.value.timeEnd = "";
+    capacity.value = ""
   };
 
   return {
@@ -205,6 +213,7 @@ console.log(result.data.result);
     findReservation,
     deleteReservation,
     resetData,
+    capacity,
     findRoomsNotReserved,
     roomsNotReserved,
   };

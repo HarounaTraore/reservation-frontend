@@ -5,11 +5,9 @@ Ce projet frontend est destiné à gérer les réservations de salles pour des �
 
 ## Prérequis
 
-
-
 Avant d'installer et d'exécuter ce projet, assurez-vous d'avoir les éléments suivants :
 
-- **Node.js** (version 14 ou supérieure) : Pour exécuter les commandes Node.
+- **Node.js** (version 18 ou supérieure) : Pour exécuter les commandes Node.
 
 - **npm** (généralement installé avec Node.js) : Pour gérer les dépendances JavaScript.
 

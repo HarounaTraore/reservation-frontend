@@ -5,7 +5,7 @@
     <div class="card p-4 shadow w-100" style="max-width: 600px">
       <h4 class="text-center mb-4">{{ t("reservationEdit.title") }}</h4>
       <form @submit.prevent="editReservation">
-        <div class="mb-3">
+        <!-- <div class="mb-3">
           <label for="client" class="form-label">{{
             t("reservationAdd.client")
           }}</label>
@@ -23,8 +23,46 @@
               {{ customer.name }}
             </option>
           </select>
+        </div> -->
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label for="client" class="form-label">{{
+              t("reservationAdd.client")
+            }}</label>
+            <select
+              v-model="store.reservation.customerId"
+              id="client"
+              class="form-select bg-opacity-50"
+              required
+            >
+              <option
+                v-for="(customer, index) in storeCustomer().customers"
+                :key="index"
+                :value="customer.id"
+              >
+                {{ customer.name }}
+              </option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label for="capacity" class="form-label"
+              >Capacité (optionnelle)</label
+            >
+            <select
+              v-model="store.capacity"
+              id="capacity"
+              class="form-select bg-opacity-50"
+            >
+              <option value="" disabled>Choisir la capacité de la salle</option>
+              <option value="">Capacité Non Préciser</option>
+              <option :value="20">Inferieur à 50 Personnes</option>
+              <option :value="90">Inferieur à 100 Personnes</option>
+              <option :value="200">Inferieur à 300 Personnes</option>
+              <option :value="500">Inferieur à 500 Personnes</option>
+              <option :value="501">Plus que 500 Personnes</option>
+            </select>
+          </div>
         </div>
-
         <div class="row mb-3">
           <div class="col-md-6">
             <label for="status" class="form-label">{{
@@ -198,9 +236,15 @@ watch(
     store.reservation.timeStart,
     store.reservation.timeEnd,
     store.reservation.status,
+    store.capacity,
   ],
-  async ([dateStart, dateEnd, timeStart, timeEnd, status]) => {
-    if ((dateStart && dateEnd && timeStart && timeEnd) || status) {
+  async ([dateStart, dateEnd, timeStart, timeEnd, status, capacity]) => {
+    if (
+      (dateStart && dateEnd && timeStart && timeEnd) ||
+      status ||
+      capacity ||
+      capacity == ""
+    ) {
       await store.findRoomsNotReserved();
     }
   }
