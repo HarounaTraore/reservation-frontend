@@ -7,6 +7,7 @@ import interactionPlugin from "@fullcalendar/interaction";
 import { storeReservation } from "@/stores/storeReservation";
 import frLocale from "@fullcalendar/core/locales/fr";
 import { useDateTimeFormatter } from "@/views/reservations/useDateForatter";
+import StatisticReservation from "@/components/StatisticReservation.vue";
 import Swal from "sweetalert2";
 import router from "@/router";
 const { formatDateTime } = useDateTimeFormatter();
@@ -52,7 +53,13 @@ const loadReservations = async () => {
   }));
 };
 
-onMounted(loadReservations);
+onMounted(async()=>{
+
+   await loadReservations()
+  await store.fetchRoomStatistics();
+
+}
+);
 
 const handleDateClick = (info) => {
   let dateAt = info.dateStr;
@@ -84,6 +91,7 @@ const handleEventClick = (info) => {
     confirmButtonText: "Ok",
   });
 };
+
 </script>
 
 <template>
@@ -94,6 +102,7 @@ const handleEventClick = (info) => {
     <div class="calendar-container mt-3">
       <FullCalendar :options="calendarOptions" />
     </div>
+    <StatisticReservation />
   </div>
 </template>
 

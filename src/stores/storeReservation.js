@@ -6,6 +6,7 @@ import { useDateTimeFormatter } from "@/views/reservations/useDateForatter";
 export const storeReservation = defineStore("reservation", () => {
   const savedUserActif = JSON.parse(localStorage.getItem("userActif"));
   const { formatDateTime } = useDateTimeFormatter();
+  const roomStatistics = ref([]);
   const reservation = ref({
     dateReservation: "",
     dateStart: "",
@@ -102,7 +103,7 @@ export const storeReservation = defineStore("reservation", () => {
   };
 
   const findRoomsNotReserved = async () => {
-    console.log("La valeur de la capacity: ",(capacity.value));
+    console.log("La valeur de la capacity: ", capacity.value);
 
     const data = await axios.get(
       "http://127.0.0.1:3000/api/rooms/not-reserved",
@@ -175,7 +176,20 @@ export const storeReservation = defineStore("reservation", () => {
       throw error;
     }
   };
-
+  const fetchRoomStatistics = async () => {
+    try {
+      const { data } = await axios.get(
+        "http://127.0.0.1:3000/api/reservations/statistics",
+        {
+          headers: { Authorization: `Bearer ${savedUserActif.token}` },
+        }
+      );
+      roomStatistics.value = data.result;
+      return data
+    } catch (error) {
+      throw error;
+    }
+  };
   const deleteReservation = async (id) => {
     try {
       const result = await axios.delete(
@@ -200,7 +214,7 @@ export const storeReservation = defineStore("reservation", () => {
     reservation.value.customerId = "";
     reservation.value.timeStart = "";
     reservation.value.timeEnd = "";
-    capacity.value = ""
+    capacity.value = "";
   };
 
   return {
@@ -216,5 +230,7 @@ export const storeReservation = defineStore("reservation", () => {
     capacity,
     findRoomsNotReserved,
     roomsNotReserved,
+    fetchRoomStatistics,
+    roomStatistics,
   };
 });
