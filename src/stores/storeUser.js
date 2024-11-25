@@ -80,7 +80,7 @@ export const storeUser = defineStore("user", () => {
           email: user.value.email,
           address: user.value.address,
           phone: user.value.phone,
-          password: user.value.password,
+          // password: user.value.password,
           status: !!user.value.status,
           role: user.value.role,
         },

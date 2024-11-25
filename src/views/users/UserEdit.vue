@@ -82,7 +82,7 @@
         </div>
 
         <!-- Mot de passe -->
-        <div class="mb-3 position-relative">
+        <!-- <div class="mb-3 position-relative">
           <label for="password" class="form-label">{{
             $t("userAdd.password")
           }}</label>
@@ -107,7 +107,7 @@
               :class="isPasswordVisible ? 'fas fa-eye-slash' : 'fas fa-eye'"
             ></i>
           </span>
-        </div>
+        </div> -->
 
         <div class="mb-3">
           <label for="role" class="form-label">{{ $t("userAdd.role") }}</label>

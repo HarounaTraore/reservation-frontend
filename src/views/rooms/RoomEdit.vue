@@ -12,11 +12,9 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 v-if="!isDisabled" class="modal-title fw-bold w-100 text-center">
-            {{ $t("roomAdd.title") }}
+            {{ $t("roomEdit.title") }}
           </h5>
-          <h5 v-else class="modal-title fw-bold w-100 text-center">
-            Affichage d'une Salle
-          </h5>
+         
           <button
             type="button"
             class="btn-close"
