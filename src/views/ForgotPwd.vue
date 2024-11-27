@@ -54,7 +54,6 @@
             :placeholder="t('forgotPwd.otpPlaceholder')"
             required
           />
-
         </div>
         <div class="mb-3 pwd-container password-container">
           <label for="newPassword" class="form-label">{{
@@ -83,6 +82,13 @@
   <div class="div">
     <SuccessModal />
   </div>
+  <div>
+    <vue-loading
+      :active="isLoading"
+      :can-cancel="true"
+      @on-cancel="cancelLoading"
+    />
+  </div>
 </template>
 
 <script setup>
@@ -96,6 +102,7 @@ const { t } = useI18n();
 const storeLogin = storeAuth();
 const storeGlobaly = globalyStore();
 
+const isLoading = ref(false);
 const errors = ref([]);
 const isPasswordVisible = ref(false);
 
@@ -105,7 +112,9 @@ const togglePasswordVisibility = () => {
 const reset = ref(false);
 const forget = async () => {
   try {
+    isLoading.value = true;
     const result = await storeLogin.forgotPwd();
+    isLoading.value = false;
 
     if (result) {
       await storeGlobaly.MessageModalSuccess(
@@ -116,11 +125,15 @@ const forget = async () => {
     }
   } catch (error) {
     errors.value = error.response.data;
+    isLoading.value = false;
+
   }
 };
 const resetPwd = async () => {
   try {
+    isLoading.value = true;
     const result = await storeLogin.resetPwd();
+    isLoading.value = false;
     if (result) {
       await storeGlobaly.MessageModalSuccess(
         t("forgotPwd.passwordResetSuccess"),
@@ -134,6 +147,8 @@ const resetPwd = async () => {
       t(errors.value),
       t("forgotPwd.resetTitle")
     );
+    isLoading.value = false;
+
   }
 };
 </script>
@@ -152,7 +167,6 @@ const resetPwd = async () => {
 .pwd-container {
   position: relative;
 }
-
 
 .toggle-password {
   position: absolute;

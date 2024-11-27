@@ -56,6 +56,15 @@
   <div class="div">
     <SuccessModal />
   </div>
+  
+  <div>
+    <vue-loading
+      :active="isLoading"
+      :can-cancel="true"
+      @on-cancel="cancelLoading"
+      :height="175"
+    />
+  </div>
 </template>
 
 <script setup>
@@ -74,7 +83,7 @@ const savedUserActifData = savedUserActif.value;
 const { t } = useI18n();
 const storeLogin = storeAuth();
 const storeGlobaly = globalyStore();
-
+const isLoading = ref(false);
 const isPasswordVisible = ref(false);
 
 const togglePasswordVisibility = () => {
@@ -83,7 +92,9 @@ const togglePasswordVisibility = () => {
 
 const login = async () => {
   try {
+    isLoading.value = true;
     const { data } = await storeLogin.login();
+    isLoading.value = false;
 
     if (data.token.user.status === true) {
       await storeGlobaly.MessageModalSuccess("Connexion réussie", "Connexion");
@@ -98,6 +109,8 @@ const login = async () => {
   } catch (error) {
     const msgErr = error.response.data;
     await storeGlobaly.MessageModalDenied(msgErr.error, "Connexion");
+    isLoading.value = false;
+
   }
 };
 </script>

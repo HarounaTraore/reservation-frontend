@@ -112,6 +112,14 @@
     </div>
   </div>
   <SuccessModal valid="Ok" />
+
+  <div>
+    <vue-loading
+      :active="isLoading"
+      :can-cancel="true"
+      @on-cancel="cancelLoading"
+    />
+  </div>
 </template>
 
 <script setup>
@@ -131,10 +139,12 @@ const store = storeCustomer();
 const customer = store.customer;
 const errors = ref([]);
 const allErrors = ref();
-
+const isLoading = ref(false);
 onMounted(() => {
+  isLoading.value = true;
   const modal = new Modal(document.getElementById("exampleModal"));
   modal.show();
+  isLoading.value = false;
 });
 
 const phoneError = ref("");
@@ -150,7 +160,9 @@ const validatePhone = () => {
 
 const newCustomer = async () => {
   try {
+    isLoading.value = true;
     await store.addCustomer();
+    isLoading.value = false;
     await storeGlobaly.MessageModalSuccess(
       t("addCustomer.messages.success"),
       t("addCustomer.messages.creationTitle")
@@ -175,6 +187,8 @@ const newCustomer = async () => {
     //   t("addCustomer.messages.errorTitle")
     // );
     // router.push({ name: "customer" });
+    isLoading.value = false;
+
   }
 };
 

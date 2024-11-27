@@ -206,13 +206,21 @@
       </div>
     </div>
   </div>
+  
+  <div>
+    <vue-loading
+      :active="isLoading"
+      :can-cancel="true"
+      @on-cancel="cancelLoading"
+    />
+  </div>
 </template>
 
 <script setup>
 import SuccessModal from "@/components/MessageModal.vue";
 import { useI18n } from "vue-i18n";
 import { Modal } from "bootstrap/dist/js/bootstrap.bundle.min";
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import router from "@/router";
 import { storeCustomer } from "@/stores/storeCustomer";
 import { useDateTimeFormatter } from "@/views/reservations/useDateForatter.js";
@@ -221,10 +229,12 @@ const { formatDateTime } = useDateTimeFormatter();
 const { t } = useI18n();
 const store = storeCustomer();
 const customer = store.customer;
-
+const isLoading = ref(false);
 onMounted(() => {
+  isLoading.value = true;
   const modal = new Modal(document.getElementById("exampleModal"));
   modal.show();
+  isLoading.value = false;
 });
 </script>
     

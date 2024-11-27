@@ -114,6 +114,14 @@
     </div>
   </div>
   <SuccessModal valid="Ok" />
+  
+  <div>
+    <vue-loading
+      :active="isLoading"
+      :can-cancel="true"
+      @on-cancel="cancelLoading"
+    />
+  </div>
 </template>
 
   <script setup>
@@ -128,14 +136,17 @@ import { storeCustomer } from "@/stores/storeCustomer";
 const { t } = useI18n();
 
 const showModal = ref(true);
+const isLoading = ref(false);
 const storeGlobaly = globalyStore();
 const route = useRoute();
 const store = storeCustomer();
 const customer = store.customer;
 
 onMounted(() => {
+  isLoading.value = true;
   const modal = new Modal(document.getElementById("exampleModal"));
   modal.show();
+  isLoading.value = false;
 });
 const errors = ref([]);
 const allErrors = ref();
@@ -156,7 +167,9 @@ const id = Number(route.params.id);
 
 const editCustomer = async () => {
   try {
+    isLoading.value = true;
     await store.updateCustomer(id);
+    isLoading.value = false;
     await storeGlobaly.MessageModalSuccess(
       "Client Modifié Avec Succès",
       "Modification"
@@ -175,6 +188,8 @@ const editCustomer = async () => {
       acc[error.path] = error.msg;
       return acc;
     }, {});
+    isLoading.value = false;
+
   }
 };
 

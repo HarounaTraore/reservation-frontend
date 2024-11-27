@@ -82,6 +82,14 @@
   </table>
   <customerModal />
   <MessageModal valid=" OK" />
+  
+  <div>
+    <vue-loading
+      :active="isLoading"
+      :can-cancel="true"
+      @on-cancel="cancelLoading"
+    />
+  </div>
 </template>
 
 <script setup>
@@ -95,18 +103,25 @@ const { t } = useI18n();
 const store = storeCustomer();
 const storeGlobaly = globalyStore();
 const nameCustomer = ref("");
+const isLoading = ref(false);
 onMounted(async () => {
+  isLoading.value = true;
   store.loadingData(nameCustomer.value);
+  isLoading.value = false;
 });
 watch(nameCustomer, async (newValue) => {
+  isLoading.value = true;
   await store.loadingData(newValue);
+  isLoading.value = false;
 });
 const router = useRouter();
 
 const destroyCustomer = async (id) => {
   try {
     if (confirm(t("customerList.deleteConfirm"))) {
+      isLoading.value = true;
       await store.deleteCustomer(id);
+      isLoading.value = false;
       await storeGlobaly.MessageModalSuccess(
         t("customerList.deleteSuccess"),
         t("customerList.delete")
@@ -117,6 +132,8 @@ const destroyCustomer = async (id) => {
       t("customerList.deleteError"),
       t("customerList.delete")
     );
+    isLoading.value = false;
+
   }
 };
 const sortedCustomers = computed(() => {

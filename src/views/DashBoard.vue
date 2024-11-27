@@ -12,6 +12,9 @@ import Swal from "sweetalert2";
 import router from "@/router";
 const { formatDateTime } = useDateTimeFormatter();
 const store = storeReservation();
+
+    
+    const isLoading = ref(false);
 const calendarOptions = ref({
   plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
   initialView: window.innerWidth < 768 ? "timeGridDay" : "dayGridMonth",
@@ -54,9 +57,11 @@ const loadReservations = async () => {
 };
 
 onMounted(async()=>{
+  isLoading.value = true;
 
    await loadReservations()
   await store.fetchRoomStatistics();
+  isLoading.value = false;
 
 }
 );
@@ -103,6 +108,14 @@ const handleEventClick = (info) => {
       <FullCalendar :options="calendarOptions" />
     </div>
     <StatisticReservation />
+  </div>
+  
+  <div>
+    <vue-loading
+      :active="isLoading"
+      :can-cancel="true"
+      @on-cancel="cancelLoading"
+    />
   </div>
 </template>
 

@@ -5,7 +5,10 @@
   <div class="container-fluid mt-3 p-0 d-flex justify-content-end mb-2">
     <button
       class="btn btn-primary fw-bold"
-      @click="store.resetData(); router.push({ name: 'add-reservation' })"
+      @click="
+        store.resetData();
+        router.push({ name: 'add-reservation' });
+      "
     >
       <i class="fa fa-plus me-1"></i>
       {{ t("reservationList.newReservation") }}
@@ -39,11 +42,7 @@
           {{ t("reservationList.noReservation") }}
         </td>
       </tr>
-      <tr
-        v-else
-        v-for="(reservation, index) in sortedReservation"
-        :key="index"
-      >
+      <tr v-else v-for="(reservation, index) in sortedReservation" :key="index">
         <td class="text-center">{{ reservation?.id }}</td>
         <td class="text-center">{{ formatDateTime(reservation.dateStart) }}</td>
         <td class="text-center">{{ formatDateTime(reservation.dateEnd) }}</td>
@@ -76,14 +75,24 @@
             <i class="fas fa-eye"></i>
           </button>
           <button
-            :disabled="isPastReservation(reservation)"
+            v-if="
+              !isPastReservation(reservation) &&
+              reservation.status !== 'CONFIRMED'
+            "
+            :disabled="
+              isPastReservation(reservation) ||
+              reservation.status === 'CONFIRMED'
+            "
             class="btn-sm btn btn-outline-secondary ms-2"
             @click="editReservation(reservation.id)"
           >
             <i class="fas fa-edit"></i>
           </button>
           <button
-            v-if="!isPastReservation(reservation)"
+            v-if="
+              !isPastReservation(reservation) &&
+              reservation.status !== 'CONFIRMED'
+            "
             @click="destroyReservation(reservation.id)"
             class="btn-sm btn btn-outline-danger ms-2"
           >
