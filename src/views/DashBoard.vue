@@ -13,8 +13,7 @@ import router from "@/router";
 const { formatDateTime } = useDateTimeFormatter();
 const store = storeReservation();
 
-    
-    const isLoading = ref(false);
+const isLoading = ref(false);
 const calendarOptions = ref({
   plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
   initialView: window.innerWidth < 768 ? "timeGridDay" : "dayGridMonth",
@@ -56,15 +55,18 @@ const loadReservations = async () => {
   }));
 };
 
-onMounted(async()=>{
-  isLoading.value = true;
+onMounted(async () => {
+  try {
+    isLoading.value = true;
 
-   await loadReservations()
-  await store.fetchRoomStatistics();
-  isLoading.value = false;
-
-}
-);
+    await loadReservations();
+    await store.fetchRoomStatistics();
+    isLoading.value = false;
+  } catch (error) {
+    console.log(error);
+    isLoading.value = false;
+  }
+});
 
 const handleDateClick = (info) => {
   let dateAt = info.dateStr;
@@ -96,7 +98,6 @@ const handleEventClick = (info) => {
     confirmButtonText: "Ok",
   });
 };
-
 </script>
 
 <template>
@@ -109,7 +110,7 @@ const handleEventClick = (info) => {
     </div>
     <StatisticReservation />
   </div>
-  
+
   <div>
     <vue-loading
       :active="isLoading"

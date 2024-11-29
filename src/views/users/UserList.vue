@@ -39,6 +39,7 @@
         <td class="responsive-hide">{{ user.phone }}</td>
         <td class="text-center">
           <select
+          :disabled="authStore.userActif.id === user.id"
           class="form-select bg-opacity-50"
           :class="user.status ===false ? 'text-danger': 'text-success'"
             v-model="user.status"
@@ -68,6 +69,7 @@
             <i class="fas fa-edit"></i>
           </button>
           <button
+          :disabled="authStore.userActif.id === user.id"
             @click="destroyUser(user.id)"
             class="btn-sm btn btn-outline-danger ms-2"
           >
@@ -84,6 +86,7 @@
 <script setup>
 import MessageModal from "@/components/MessageModal.vue";
 import router from "@/router";
+import { storeAuth } from "@/stores/storeAuth";
 import { globalyStore } from "@/stores/storeGlobaly";
 import { storeUser } from "@/stores/storeUser";
 import { onMounted } from "vue";
@@ -94,7 +97,7 @@ const storeGlobaly = globalyStore();
 onMounted(async () => {
   await store.loadingData();
 });
-
+const authStore = storeAuth()
 const destroyUser = async (id) => {
   try {
     if (confirm("Êtes-vous sûr de vouloir supprimer cet utilisateur ?")) {
